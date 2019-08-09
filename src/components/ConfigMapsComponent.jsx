@@ -1,5 +1,5 @@
 import React from "react";
-import ConfigMap from "./ConfigMapComponent";
+import ConfigMapComponent from "./ConfigMapComponent";
 
 class ConfigMapsComponent extends React.Component {
     constructor(props) {
@@ -11,23 +11,21 @@ class ConfigMapsComponent extends React.Component {
         return (
             <>
                 {configMaps.map((configMap, i) => {
+                    console.log("configMap ", configMap)
                     return (
-                        <ConfigMap 
+                        <ConfigMapComponent 
                         key={configMap.id}
                         id={configMap.id}
                         componentId={configMap.componentId}
                         label={configMap.label}
                         name={configMap.name}
-                        env={[]}
+                        envs={configMap.envs}
                         title="Config Map"
-                        configMap={configMap}
                         changeFieldNameConfigMap={configMap.changeFieldNameConfigMap}
-                        deleteCopmponentHandler={configMap.deleteCopmponentHandler}
-                        panelButton={[{
-                            id: 0,
-                            name: 'Add Env',
-                            handler: configMap.addEnvToConfigMapHandler
-                        }]}/>
+                        addEnvToConfigMapHandler={configMap.addEnvToConfigMapHandler}
+                        deleteConfigMapComponent={configMap.deleteConfigMapComponent}
+                        deleteEnvConfigMapComponent={configMap.deleteEnvConfigMapComponent}
+                        />
                     );
                 })}
             </>

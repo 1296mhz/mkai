@@ -75,7 +75,7 @@ class StackComponent extends React.Component {
         this.deleteConfigMapComponent = this.deleteConfigMapComponent.bind(this);
         this.addEnvToConfigMapHandler = this.addEnvToConfigMapHandler.bind(this);
         this.changeFieldNameConfigMap = this.changeFieldNameConfigMap.bind(this);
-
+        this.deleteEnvConfigMapComponent = this.deleteEnvConfigMapComponent.bind(this);
         this.changeEnvConfigMap = this.changeEnvConfigMap.bind(this);
 
         this.deleteSecretComponent = this.deleteSecretComponent.bind(this);
@@ -100,6 +100,7 @@ class StackComponent extends React.Component {
     saveStateHandler() {
         console.log("save")
         console.log(this.state)
+
     }
 
     changeMainFieldHandler(e) {
@@ -142,13 +143,11 @@ class StackComponent extends React.Component {
                 title: "Config Map",
                 label: "Name",
                 name: "",
-                env: [],
+                envs: [],
                 changeFieldNameConfigMap: this.changeFieldNameConfigMap,
-                panelButton: [{
-                    id: 0,
-                    name: 'Add Env',
-                    handler: this.addEnvToConfigMapHandler
-                }],
+                addEnvToConfigMapHandler: this.addEnvToConfigMapHandler,
+                deleteConfigMapComponent: this.deleteConfigMapComponent,
+                deleteEnvConfigMapComponent: this.deleteEnvConfigMapComponent
             }]
         }));
     }
@@ -164,9 +163,9 @@ class StackComponent extends React.Component {
         console.log("Add env to configMap " + id);
         const d = new Date();
         const idEnv = d.getTime();
-        const configMapId = findIndex(this.state.configMaps, { 'id': id })
+        const configMapId = findIndex(this.state.configMaps, { 'id': id });
         let newState = Object.assign({}, this.state);
-        newState.configMaps[configMapId].env.push({ id: idEnv, key: "", value: "" });
+        newState.configMaps[configMapId].envs.push({ id: idEnv, key: "", value: "" });
         this.setState(newState)
     }
 
@@ -201,6 +200,14 @@ class StackComponent extends React.Component {
         this.setState({ 'configMaps': filter(this.state.configMaps, item => item.id !== id) });
     }
 
+    deleteEnvConfigMapComponent(componentId, envId) {
+        const configMapIndex = findIndex(this.state.configMaps, { 'id': componentId });
+        const envIndex = findIndex(this.state.configMaps[configMapIndex].env, { 'id': envId });
+        let newState = Object.assign({}, this.state);
+        newState.configMaps[configMapIndex].envs.splice(envIndex, 1);
+        this.setState(newState);
+    }
+
     addSecretHandler() {
         const d = new Date();
         const id = d.getTime();
@@ -213,11 +220,6 @@ class StackComponent extends React.Component {
                 label: "Name",
                 name: "My Secret Name",
                 env: [],
-                panelButton: [{
-                    id: 0,
-                    name: 'Add Env',
-                    handler: this.addEnvToSecret
-                }],
             }]
         }));
     }
@@ -299,11 +301,6 @@ class StackComponent extends React.Component {
                     value: ""
                 },
                 ports: [],
-                panelButton: [{
-                    id: 0,
-                    name: 'Add Ports',
-                    handler: this.addPortToEndPoint
-                }],
             }]
         }));
     }
