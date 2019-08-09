@@ -57,31 +57,33 @@ class EnvComponent extends React.Component {
 
         return (
             <>
-                <Grid item xs={3} className={classes.grid}>
-                    <TextField
-                        required
-                        id="env-key"
-                        label="Key"
-                        name={envKey}
-                        className={classes.textFieldKey}
-                        margin="dense"
-                    />
-                </Grid>
-                <Grid item xs={3} className={classes.grid}>
-                    <TextField
-                        required
-                        id="env-value"
-                        label="Value"
-                        name={envValue}
-                        className={classes.textFieldValue}
-                        margin="dense"
-                    />
-                </Grid>
+                <Grid container justify="flex-start" >
+                    <Grid item xs={3} className={classes.grid}>
+                        <TextField
+                            required
+                            id="env-key"
+                            label="Key"
+                            name={envKey}
+                            className={classes.textFieldKey}
+                            margin="dense"
+                        />
+                    </Grid>
+                    <Grid item xs={8} className={classes.grid}>
+                        <TextField
+                            required
+                            id="env-value"
+                            label="Value"
+                            name={envValue}
+                            className={classes.textFieldValue}
+                            margin="dense"
+                        />
+                    </Grid>
 
-                <Grid xs={1} item className={classes.gridDelete}>
-                    <IconButton onClick={() => deleteEnvConfigMapComponent(componentId, id)}>
-                        <Icon>remove_circle_outline</Icon>
-                    </IconButton>
+                    <Grid xs={1} item className={classes.gridDelete}>
+                        <IconButton onClick={() => deleteEnvConfigMapComponent(componentId, id)}>
+                            <Icon>remove_circle_outline</Icon>
+                        </IconButton>
+                    </Grid>
                 </Grid>
             </>
         );
