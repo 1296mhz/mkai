@@ -25,6 +25,7 @@ class ConfigMapsComponent extends React.Component {
                         addEnvToConfigMapHandler={configMap.addEnvToConfigMapHandler}
                         deleteConfigMapComponent={configMap.deleteConfigMapComponent}
                         deleteEnvConfigMapComponent={configMap.deleteEnvConfigMapComponent}
+                        changeEnvConfigMapHandler={configMap.changeEnvConfigMapHandler}
                         />
                     );
                 })}

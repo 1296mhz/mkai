@@ -53,7 +53,7 @@ class EnvComponent extends React.Component {
     }
 
     render() {
-        const { classes, componentId, id, envKey, envValue, parentComponentId, deleteEnvConfigMapComponent } = this.props;
+        const { classes, componentId, parentComponentId, id, envKey, envValue, deleteEnvConfigMapComponent, changeEnvConfigMapHandler } = this.props;
 
         return (
             <>
@@ -63,8 +63,10 @@ class EnvComponent extends React.Component {
                             required
                             id="env-key"
                             label="Key"
-                            name={envKey}
+                            name="key"
+                            value={envKey}
                             className={classes.textFieldKey}
+                            onChange={(e) => {changeEnvConfigMapHandler(e, componentId, id)}}
                             margin="dense"
                         />
                     </Grid>
@@ -73,8 +75,10 @@ class EnvComponent extends React.Component {
                             required
                             id="env-value"
                             label="Value"
-                            name={envValue}
+                            name="value"
+                            value={envValue}
                             className={classes.textFieldValue}
+                            onChange={(e) => {changeEnvConfigMapHandler(e, componentId, id)}}
                             margin="dense"
                         />
                     </Grid>

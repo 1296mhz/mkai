@@ -76,7 +76,7 @@ class StackComponent extends React.Component {
         this.addEnvToConfigMapHandler = this.addEnvToConfigMapHandler.bind(this);
         this.changeFieldNameConfigMap = this.changeFieldNameConfigMap.bind(this);
         this.deleteEnvConfigMapComponent = this.deleteEnvConfigMapComponent.bind(this);
-        this.changeEnvConfigMap = this.changeEnvConfigMap.bind(this);
+        this.changeEnvConfigMapHandler = this.changeEnvConfigMapHandler.bind(this);
 
         this.deleteSecretComponent = this.deleteSecretComponent.bind(this);
         this.changeFieldNameSecret = this.changeFieldNameSecret.bind(this);
@@ -147,7 +147,8 @@ class StackComponent extends React.Component {
                 changeFieldNameConfigMap: this.changeFieldNameConfigMap,
                 addEnvToConfigMapHandler: this.addEnvToConfigMapHandler,
                 deleteConfigMapComponent: this.deleteConfigMapComponent,
-                deleteEnvConfigMapComponent: this.deleteEnvConfigMapComponent
+                deleteEnvConfigMapComponent: this.deleteEnvConfigMapComponent,
+                changeEnvConfigMapHandler: this.changeEnvConfigMapHandler
             }]
         }));
     }
@@ -169,23 +170,25 @@ class StackComponent extends React.Component {
         this.setState(newState)
     }
 
-    changeEnvConfigMap(e, componentId, envId) {
+    changeEnvConfigMapHandler(e, componentId, envId) {
+        console.log(e.target.name)
         const configMapIndex = findIndex(this.state.configMaps, { 'id': componentId });
-        const envIndex = findIndex(this.state.configMaps[configMapIndex].env, { 'id': envId });
+        console.log("configMapIndex ", configMapIndex)
+        const envIndex = findIndex(this.state.configMaps[configMapIndex].envs, { 'id': envId });
         let newState = Object.assign({}, this.state);
         switch (e.target.name) {
             case 'delete':
-                newState.configMaps[configMapIndex].env.splice(envIndex, 1);
+                newState.configMaps[configMapIndex].secretIndex.splice(envIndex, 1);
                 break;
             case 'key':
-                newState.configMaps[configMapIndex].env[envIndex] = {
-                    ...this.state.configMaps[configMapIndex].env[envIndex],
+                newState.configMaps[configMapIndex].envs[envIndex] = {
+                    ...this.state.configMaps[configMapIndex].envs[envIndex],
                     key: e.target.value
                 }
                 break;
             case 'value':
-                newState.configMaps[configMapIndex].env[envIndex] = {
-                    ...this.state.configMaps[configMapIndex].env[envIndex],
+                newState.configMaps[configMapIndex].envs[envIndex] = {
+                    ...this.state.configMaps[configMapIndex].envs[envIndex],
                     value: e.target.value
                 }
                 break;

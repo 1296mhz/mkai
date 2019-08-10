@@ -7,7 +7,7 @@ class EnvsComponent extends React.Component {
     }
 
     render() {
-        const { componentId, deleteEnvConfigMapComponent, envs } = this.props;
+        const { componentId, parentComponentId, deleteEnvConfigMapComponent, changeEnvConfigMapHandler, envs } = this.props;
 
         return (
             <>
@@ -18,7 +18,9 @@ class EnvsComponent extends React.Component {
                         envKey={env.key}
                         envValue={env.value}
                         componentId={componentId}
+                        parentComponentId={parentComponentId}
                         deleteEnvConfigMapComponent={deleteEnvConfigMapComponent}
+                        changeEnvConfigMapHandler={changeEnvConfigMapHandler}
                     />
                 })}
             </>

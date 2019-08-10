@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
@@ -46,6 +45,7 @@ class ConfigMapComponent extends React.Component {
             deleteConfigMapComponent,
             addEnvToConfigMapHandler,
             deleteEnvConfigMapComponent,
+            changeEnvConfigMapHandler,
             envs,
             name,
             label } = this.props;
@@ -88,6 +88,7 @@ class ConfigMapComponent extends React.Component {
                 <EnvsComponent
                     envs={envs}
                     componentId={componentId}
+                    changeEnvConfigMapHandler={changeEnvConfigMapHandler}
                     deleteEnvConfigMapComponent={deleteEnvConfigMapComponent}
                 />
             </>
