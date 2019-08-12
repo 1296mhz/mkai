@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import ControlShelfComponent from './ControlShelfComponent';
 import BaseFieldsComponent from './BaseFieldsComponent';
 import ConfigMapsComponent from "./ConfigMapsComponent";
+import SecretsComponent from "./SecretsComponent";
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -62,7 +64,9 @@ class StackComponent extends React.Component {
             configMaps: [],
             secrets: [],
             endPoints: [],
-            microServices: []
+            microServices: [],
+            secretTypes: ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'],
+            envTypes: ['string', 'base64']
         };
         //Shelf handlers
         this.addConfigMapHandler = this.addConfigMapHandler.bind(this);
@@ -70,28 +74,25 @@ class StackComponent extends React.Component {
         this.addEndPointHandler = this.addEndPointHandler.bind(this);
         this.addMicroServiceHandler = this.addMicroServiceHandler.bind(this);
 
-
         this.changeMainFieldHandler = this.changeMainFieldHandler.bind(this);
-        this.deleteConfigMapComponent = this.deleteConfigMapComponent.bind(this);
-        this.addEnvToConfigMapHandler = this.addEnvToConfigMapHandler.bind(this);
-        this.changeFieldNameConfigMap = this.changeFieldNameConfigMap.bind(this);
-        this.deleteEnvConfigMapComponent = this.deleteEnvConfigMapComponent.bind(this);
+
+        this.deleteComponent = this.deleteComponent.bind(this);
+
+        this.addEnvToComponentHandler = this.addEnvToComponentHandler.bind(this);
+        this.changeFieldInComponent = this.changeFieldInComponent.bind(this);
+        this.deleteEnvComponent = this.deleteEnvComponent.bind(this);
+
         this.changeEnvConfigMapHandler = this.changeEnvConfigMapHandler.bind(this);
 
         this.deleteSecretComponent = this.deleteSecretComponent.bind(this);
-        this.changeFieldNameSecret = this.changeFieldNameSecret.bind(this);
-        this.addEnvToSecret = this.addEnvToSecret.bind(this);
+        this.changeFieldNameSecretHandler = this.changeFieldNameSecretHandler.bind(this);
+        this.addEnvToSecretHandler = this.addEnvToSecretHandler.bind(this);
         this.changeEnvSecret = this.changeEnvSecret.bind(this);
+        this.changeEnvSelectorHandler = this.changeEnvSelectorHandler.bind(this);
 
-        this.changeFieldNameEndPoint = this.changeFieldNameEndPoint.bind(this);
-        this.deleteEndPointComponent = this.deleteEndPointComponent.bind(this);
-        this.addPortToEndPoint = this.addPortToEndPoint.bind(this);
-        this.changePortEndPoint = this.changePortEndPoint.bind(this);
 
-        this.deleteMicroServiceHandler = this.deleteMicroServiceHandler.bind(this);
-        this.changeMaxSurgeHandler = this.changeMaxSurgeHandler.bind(this);
-        this.changeMaxUnavailableHandler = this.changeMaxUnavailableHandler.bind(this);
-        this.changeProbePathHandler = this.changeProbePathHandler.bind(this);
+
+
 
         this.saveStateHandler = this.saveStateHandler.bind(this);
 
@@ -106,28 +107,13 @@ class StackComponent extends React.Component {
     changeMainFieldHandler(e) {
         const name = e.target.name;
         const value = e.target.value;
+        console.log(name)
         let newState = Object.assign({}, this.state);
-        switch (name) {
-            case 'Namespace':
-                newState.mainFields = {
-                    ...this.state.mainFields,
-                    namespace: value
-                }
-                break;
-            case 'Hostname':
-                newState.mainFields = {
-                    ...this.state.mainFields,
-                    hostname: value
-                }
-                break;
-            case 'Branch':
-                newState.mainFields = {
-                    ...this.state.mainFields,
-                    branch: value
-                }
-                break;
-            default:
-                break;
+
+        newState.mainFields = {
+            ...this.state.mainFields,
+            [name]: value
+
         }
         this.setState(newState);
     }
@@ -144,29 +130,36 @@ class StackComponent extends React.Component {
                 label: "Name",
                 name: "",
                 envs: [],
+                collectionInState: "configMaps",
+                envTypes: this.state.envTypes,
+
                 changeFieldNameConfigMap: this.changeFieldNameConfigMap,
-                addEnvToConfigMapHandler: this.addEnvToConfigMapHandler,
-                deleteConfigMapComponent: this.deleteConfigMapComponent,
-                deleteEnvConfigMapComponent: this.deleteEnvConfigMapComponent,
+
+                changeSelectorHandler: this.changeSelectorHandler,
+
+                addEnvToComponentHandler: this.addEnvToComponentHandler,
+
+                deleteComponent: this.deleteComponent,
+                deleteEnvComponent: this.deleteEnvComponent,
                 changeEnvConfigMapHandler: this.changeEnvConfigMapHandler
             }]
         }));
     }
 
-    changeFieldNameConfigMap(e, componentId) {
-        const configMapId = findIndex(this.state.configMaps, { 'id': componentId })
+    changeFieldInComponent(e, componentId, collectionInState) {
+        const componentIndex = findIndex(this.state[collectionInState], { 'id': componentId })
         let newState = Object.assign({}, this.state);
-        newState.configMaps[configMapId].name = e.target.value
+        newState[collectionInState][componentIndex].name = e.target.value
         this.setState(newState)
     }
 
-    addEnvToConfigMapHandler(id) {
+    addEnvToComponentHandler(id, collectionInState) {
         console.log("Add env to configMap " + id);
         const d = new Date();
         const idEnv = d.getTime();
-        const configMapId = findIndex(this.state.configMaps, { 'id': id });
+        const configMapId = findIndex(this.state[collectionInState], { 'id': id });
         let newState = Object.assign({}, this.state);
-        newState.configMaps[configMapId].envs.push({ id: idEnv, key: "", value: "" });
+        newState[collectionInState][configMapId].envs.push({ id: idEnv, key: "", value: "", type: "", collectionInState: collectionInState });
         this.setState(newState)
     }
 
@@ -198,16 +191,16 @@ class StackComponent extends React.Component {
         this.setState(newState)
     }
 
-    deleteConfigMapComponent(id) {
-        console.log(id)
-        this.setState({ 'configMaps': filter(this.state.configMaps, item => item.id !== id) });
+    deleteComponent(id, collectionInState) {
+        this.setState({ [collectionInState]: filter(this.state[collectionInState], item => item.id !== id) });
     }
 
-    deleteEnvConfigMapComponent(componentId, envId) {
-        const configMapIndex = findIndex(this.state.configMaps, { 'id': componentId });
-        const envIndex = findIndex(this.state.configMaps[configMapIndex].env, { 'id': envId });
+    deleteEnvComponent(componentId, envId, collectionInState) {
+        console.log(componentId, envId, collectionInState)
+        const componentIndex = findIndex(this.state[collectionInState], { 'id': componentId });
+        const envIndex = findIndex(this.state[collectionInState][componentIndex].envs, { 'id': envId });
         let newState = Object.assign({}, this.state);
-        newState.configMaps[configMapIndex].envs.splice(envIndex, 1);
+        newState[collectionInState][componentIndex].envs.splice(envIndex, 1);
         this.setState(newState);
     }
 
@@ -215,14 +208,24 @@ class StackComponent extends React.Component {
         const d = new Date();
         const id = d.getTime();
         console.log("Secret id ", id - 1000000000000)
-        this.setState(previousState => ({
-            secrets: [...previousState.secrets, {
+        this.setState(state => ({
+            secrets: [...state.secrets, {
                 id: id,
                 componentId: id,
-                title: "Secrets",
+                title: "Secret",
                 label: "Name",
-                name: "My Secret Name",
-                env: [],
+                name: "",
+                secretType: "Opaque",
+                secretTypes: this.state.secretTypes,
+                envs: [],
+                collectionInState: "secrets",
+                envTypes: this.state.envTypes,
+                changeFieldNameSecretHandler: this.changeFieldNameSecretHandler,
+                addEnvToSecretHandler: this.addEnvToSecretHandler,
+                changeSelectorHandler: this.changeSelectorHandler,
+                deleteSecretComponent: this.deleteConfigMapComponent,
+                deleteEnvSecretComponent: this.deleteEnvConfigMapComponent,
+                changeEnvSecretHandler: this.changeEnvConfigMapHandler
             }]
         }));
     }
@@ -231,20 +234,28 @@ class StackComponent extends React.Component {
         this.setState({ 'secrets': filter(this.state.secrets, item => item.id !== id) });
     }
 
-    changeFieldNameSecret(e, componentId) {
+    changeFieldNameSecretHandler(e, componentId) {
         const secretId = findIndex(this.state.secrets, { 'id': componentId })
         let newState = Object.assign({}, this.state);
         newState.secrets[secretId].name = e.target.value
         this.setState(newState)
     }
 
-    addEnvToSecret(id) {
+    changeEnvSelectorHandler(e, componentId, collectionInState) {
+        const componentInCollectionIndex = findIndex(this.state[collectionInState], { 'id': componentId })
+
+        let newState = Object.assign({}, this.state);
+        newState[collectionInState][componentInCollectionIndex][e.target.name] = e.target.value
+        this.setState(newState)
+    }
+
+    addEnvToSecretHandler(id) {
         console.log("Add env to secret " + id);
         const d = new Date();
         const idEnv = d.getTime();
         const secretId = findIndex(this.state.secrets, { 'id': id })
         let newState = Object.assign({}, this.state);
-        newState.secrets[secretId].env.push({ id: idEnv, key: "", value: "", type: "Opaque", dataType: "data" });
+        newState.secrets[secretId].envs.push({ id: idEnv, key: "", value: "", dataType: "data", type: "" });
         this.setState(newState)
     }
 
@@ -433,21 +444,21 @@ class StackComponent extends React.Component {
                             [
                                 {
                                     id: this.state.mainFields.namespaceId,
-                                    name: "Namespace",
+                                    name: "namespace",
                                     label: this.state.mainFields.namespaceLabel,
                                     value: this.state.mainFields.namespace,
                                     handler: this.changeMainFieldHandler
                                 },
                                 {
                                     id: this.state.mainFields.hostnameId,
-                                    name: "Hostname",
+                                    name: "hostname",
                                     label: this.state.mainFields.hostnameLabel,
                                     value: this.state.mainFields.hostname,
                                     handler: this.changeMainFieldHandler
                                 },
                                 {
                                     id: this.state.mainFields.branchId,
-                                    name: "Branch",
+                                    name: "branch",
                                     label: this.state.mainFields.branchLabel,
                                     value: this.state.mainFields.branch,
                                     handler: this.changeMainFieldHandler

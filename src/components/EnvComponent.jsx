@@ -53,8 +53,19 @@ class EnvComponent extends React.Component {
     }
 
     render() {
-        const { classes, componentId, parentComponentId, id, envKey, envValue, deleteEnvConfigMapComponent, changeEnvConfigMapHandler } = this.props;
-
+        const {
+            classes,
+            componentId,
+            envId,
+            collectionInState,
+            envKey,
+            envValue,
+            envType,
+            changeSelectorHandler,
+            deleteEnvComponent,
+            changeEnvConfigMapHandler,
+            envTypes
+        } = this.props;
         return (
             <>
                 <Grid container justify="flex-start" >
@@ -66,11 +77,11 @@ class EnvComponent extends React.Component {
                             name="key"
                             value={envKey}
                             className={classes.textFieldKey}
-                            onChange={(e) => {changeEnvConfigMapHandler(e, componentId, id)}}
+                            onChange={(e) => { changeEnvConfigMapHandler(e, componentId, envId) }}
                             margin="dense"
                         />
                     </Grid>
-                    <Grid item xs={8} className={classes.grid}>
+                    <Grid item xs={7} className={classes.grid}>
                         <TextField
                             required
                             id="env-value"
@@ -78,13 +89,33 @@ class EnvComponent extends React.Component {
                             name="value"
                             value={envValue}
                             className={classes.textFieldValue}
-                            onChange={(e) => {changeEnvConfigMapHandler(e, componentId, id)}}
+                            onChange={(e) => { changeEnvConfigMapHandler(e, componentId, envId) }}
                             margin="dense"
                         />
                     </Grid>
 
+                    <Grid item xs={1} className={classes.grid}>
+                        <TextField
+                            id="standard-type"
+                            select
+                            label="Type"
+                            name="secretType"
+                            className={classes.textField}
+                            value={envType}
+                            onChange={(e) => { changeSelectorHandler(e, componentId, collectionInState) }}
+                            helperText="Please select type"
+                            margin="dense"
+                        >
+                            {envTypes.map((n, i) => {
+                                return (
+                                    <MenuItem key={i} value={n}>{n}</MenuItem>
+                                );
+                            })}
+                        </TextField>
+                    </Grid>
+
                     <Grid xs={1} item className={classes.gridDelete}>
-                        <IconButton onClick={() => deleteEnvConfigMapComponent(componentId, id)}>
+                        <IconButton onClick={() => deleteEnvComponent(componentId, envId, collectionInState)}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
                     </Grid>

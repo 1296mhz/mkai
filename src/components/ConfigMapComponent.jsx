@@ -41,11 +41,14 @@ class ConfigMapComponent extends React.Component {
             id,
             componentId,
             classes,
+            collectionInState,
+            envTypes,
             changeFieldNameConfigMap,
-            deleteConfigMapComponent,
-            addEnvToConfigMapHandler,
-            deleteEnvConfigMapComponent,
+            deleteComponent,
+            deleteEnvComponent,
+            addEnvToComponentHandler,
             changeEnvConfigMapHandler,
+            changeSelectorHandler,
             envs,
             name,
             label } = this.props;
@@ -61,12 +64,12 @@ class ConfigMapComponent extends React.Component {
                     </Grid>
                     <Grid item container xs justify="flex-end" className={classes.grid}>
                         <IconButton
-                            onClick={() => addEnvToConfigMapHandler(componentId)}
+                            onClick={() => addEnvToComponentHandler(componentId, collectionInState)}
                         >
                             <Icon>title</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => deleteConfigMapComponent(componentId)}
+                            onClick={() => deleteComponent(componentId, collectionInState)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -87,9 +90,14 @@ class ConfigMapComponent extends React.Component {
                 </Grid>
                 <EnvsComponent
                     envs={envs}
+                    envTypes={envTypes}
+                    handlers={{
+                        changeSelectorHandler: changeSelectorHandler,
+                        changeEnvConfigMapHandler: changeEnvConfigMapHandler,
+                        deleteEnvComponent: deleteEnvComponent,
+                        deleteComponent: deleteComponent
+                    }}
                     componentId={componentId}
-                    changeEnvConfigMapHandler={changeEnvConfigMapHandler}
-                    deleteEnvConfigMapComponent={deleteEnvConfigMapComponent}
                 />
             </>
         );
