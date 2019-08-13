@@ -9,15 +9,46 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ControlShelfComponent from './ControlShelfComponent';
 import BaseFieldsComponent from './BaseFieldsComponent';
-import ConfigMapsComponent from "./ConfigMapsComponent";
-import SecretsComponent from "./SecretsComponent";
-import { set } from "lodash";
-import styles from './StackComponentTheme';
+import { map, set } from "lodash";
+
+
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    buttonStyle: {
+        margin: theme.spacing(2)
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    paper: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
+        padding: theme.spacing(2),
+        width: '100%',
+        flexGrow: 1,
+        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+            marginTop: theme.spacing(6),
+            marginBottom: theme.spacing(6),
+            padding: theme.spacing(3),
+        },
+    },
+}
+);
 
 class StackComponent extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             mainFields: {
                 hostnameId: "1",
@@ -31,51 +62,28 @@ class StackComponent extends React.Component {
                 branch: ""
             },
             configMaps: {},
-            secrets: {},
-            endPoints: {},
-            microServices: {},
-            secretTypes: ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'],
-            envTypes: ['string', 'base64']
         };
-        //Shelf handlers
-        this.saveStateHandler = this.saveStateHandler.bind(this);
-
+        this.addComponentHadler = this.addComponentHadler.bind(this);
     }
 
-    saveStateHandler() {
-        console.log("save")
-        console.log(this.state)
-    }
-
-    changeFieldHandler(e, path, componentId) {
-        let newState = Object.assign({}, this.state);
-        newState.mainFields = {
-            ...this.state[path],
-            [e.target.name]: e.target.value
-        }
-        this.setState(newState);
-    }
-
-    addComponentHandler() {
+    addComponentHadler(){
         const d = new Date();
         const id = d.getTime();
-        console.log("New Component id: ", id - 1000000000000);
-
+        console.log("Add id " + id)
+        // let newState = Object.assign({}, this.state);
+        // newState.configMap[id] = {
+            // name: "залупа"
+        // }
+        console.log(this.state);
         this.setState({...this.state, configMaps: {
             ...this.state.configMaps,
             [id]: {
-                name: "",
+                name: "zalupa",
                 envs: {
-                },
-                deleteComponentHandler: this.deleteComponentHandler,
+                }
             },
         }});
-    }
-
-   
-
-    deleteComponent(id, collectionInState) {
-        this.setState({ [collectionInState]: filter(this.state[collectionInState], item => item.id !== id) });
+        console.log(this.state)
     }
 
     render() {
@@ -92,10 +100,7 @@ class StackComponent extends React.Component {
                         <Grid container item xs>
                             <ControlShelfComponent
                                 shelf={[
-                                    { id: 1, icon: 'no_encryption', command: 'configMap', handler: this.addHandler },
-                                    { id: 2, icon: 'enhanced_encryption', command: 'secret', handler: this.addHandler },
-                                    { id: 3, icon: 'swap_horiz', command: 'configMap', handler: this.addEndPointHandler },
-                                    { id: 4, icon: 'view_module',command: 'configMap', handler: this.addMicroServiceHandler }
+                                    { id: 1, icon: 'no_encryption', handler: this.addComponentHadler },
                                 ]}
                             />
                         </Grid>
@@ -125,9 +130,12 @@ class StackComponent extends React.Component {
                                 }
                             ]
                         } />
-                        <ConfigMapsComponent
-                            configMaps={this.state.configMaps}
-                        />
+                        {
+                            map(this.state.configMaps, (item, index)=>{
+                                console.log(index)
+                                console.log(item)
+                            })
+                        }
 
                     </Grid>
                     <Divider />
@@ -139,6 +147,7 @@ class StackComponent extends React.Component {
             </>
         )
     }
+
 }
 
 export default withStyles(styles)(StackComponent);

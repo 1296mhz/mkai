@@ -31,7 +31,7 @@ class BaseFields extends React.Component {
               label={field.label}
               className={classes.textField}
               value={field.value}
-              onChange={(e) => field.handler(e)}
+              onChange={(e) => field.handler(e, 'mainFields')}
               margin="dense"
             />
           </Grid>

@@ -33,7 +33,7 @@ class ControlShelfComponent extends React.Component {
             <div className={classes.grid}>
                 {shelf.map((item, i) =>
                 <React.Fragment key={item.id}>
-                    <IconButton onClick={() => item.handler()}>
+                    <IconButton onClick={() => item.handler(item.command)}>
                         <Icon>{item.icon}</Icon>
                     </IconButton>
                 </React.Fragment>
