@@ -98,11 +98,12 @@ class StackComponent extends React.Component {
                                             envs: {
                                             },
                                             collectionState: 'configMaps',
-                                            addEnvHandler: this.addComponentHandler,
+                                        },
+                                        handlers: {
+                                            addComponentHandler: this.addComponentHandler,
                                             changeTextFieldHandler: this.changeTextFieldHandler,
                                             deleteComponentHandler: this.deleteComponentHandler,
-                                        },
-                                        handler: this.addComponentHandler
+                                        }
                                     },
                                     { id: 2, icon: 'enhanced_encryption', command: 'secrets', handler: this.addComponentHandler },
                                     { id: 3, icon: 'swap_horiz', command: 'endPoints', handler: this.addComponentHandler },
@@ -126,10 +127,12 @@ class StackComponent extends React.Component {
                                     label={configMap.label}
                                     name={configMap.name}
                                     envs={configMap.envs}
-                                    env={configMap.env}
-                                    addEnvHandler={configMap.addEnvHandler}
-                                    changeTextFieldHandler={configMap.changeTextFieldHandler}
-                                    deleteComponentHandler={configMap.deleteComponentHandler}
+                                    handlers={{
+                                        addComponentHandler: this.addComponentHandler,
+                                        changeTextFieldHandler: this.changeTextFieldHandler,
+                                        deleteComponentHandler: this.deleteComponentHandler
+                                    }}
+                                
                                 />
                             })
                         }

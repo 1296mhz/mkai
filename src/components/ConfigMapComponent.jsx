@@ -48,9 +48,7 @@ class ConfigMapComponent extends React.Component {
             collectionState,
             componentId,
             classes,
-            changeTextFieldHandler,
-            deleteComponentHandler,
-            addEnvHandler,
+            handlers,
             envs,
             name,
             label } = this.props;
@@ -59,6 +57,7 @@ class ConfigMapComponent extends React.Component {
             envValue: "",
             envType: ""
         }
+
         return (
             <>
                 <Divider />
@@ -73,13 +72,13 @@ class ConfigMapComponent extends React.Component {
                             onClick={() => {
                                 const id = this.newId();
                                 const newEnv = Object.assign({}, env)
-                                addEnvHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
+                                handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
                             }}
                         >
                             <Icon>title</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => deleteComponentHandler(`${collectionState}.${componentId}`)}
+                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -94,7 +93,7 @@ class ConfigMapComponent extends React.Component {
                         value={name}
                         name={label}
                         className={classes.textField}
-                        onChange={(e) => changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
                         margin="dense"
                     />
                 </Grid>
@@ -106,13 +105,12 @@ class ConfigMapComponent extends React.Component {
                             envKey={env.envKey}
                             envValue={env.envValue}
                             envType={env.envType}
-                            changeTextFieldHandler={changeTextFieldHandler}
-                            deleteEnvHandler={deleteComponentHandler}
+                            changeTextFieldHandler={handlers.changeTextFieldHandler}
+                            deleteEnvHandler={handlers.deleteComponentHandler}
                             collectionState={collectionState}
                             componentId={componentId}
                         />
                     })
-
                 }
             </>
         );
