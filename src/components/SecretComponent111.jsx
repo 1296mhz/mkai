@@ -7,9 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
-import EnvComponent from "./EnvComponent";
-import { map } from "lodash";
 import MenuItem from '@material-ui/core/MenuItem';
+import EnvsComponent from "./EnvsComponent";
+
 const styles = theme => ({
     textField: {
         width: "100%"
@@ -29,36 +29,35 @@ const styles = theme => ({
     },
     grid: {
         padding: theme.spacing(1)
-    }
+    },
+    gridRow: {
+        padding: theme.spacing(1)
+    },
 });
 
 class SecretComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.newId = this.newId.bind(this);
     }
 
-    newId() {
-        const d = new Date();
-        const id = d.getTime();
-        return id
-    }
+
     render() {
         const {
-            collectionState,
+            envTypes,
             componentId,
             classes,
-            handlers,
+            changeFieldNameSecretHandler,
+            deleteConfigMapComponent,
+            addEnvToSecretHandler,
+            deleteEnvConfigMapComponent,
+            changeEnvConfigMapHandler,
+            changeSelectorTypeHandler,
             envs,
             name,
-            type,
-            label } = this.props;
-        const env = {
-            envKey: "",
-            envValue: "",
-            envType: ""
-        }
+            label
+        } = this.props;
         const types = ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'];
+        console.log(envs)
         return (
             <>
                 <Divider />
@@ -70,24 +69,20 @@ class SecretComponent extends React.Component {
                     </Grid>
                     <Grid item container xs justify="flex-end" className={classes.grid}>
                         <IconButton
-                            onClick={() => {
-                                const id = this.newId();
-                                const newEnv = Object.assign({}, env)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
-                            }}
+                            onClick={() => addEnvToSecretHandler(componentId)}
                         >
                             <Icon>title</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
+                            onClick={() => deleteConfigMapComponent(componentId)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
                     </Grid>
                 </Grid>
 
-                <Grid container justify="flex-start" className={classes.grid}>
-                    <Grid item xs={9} className={classes.grid}>
+                <Grid container justify="flex-start" >
+                    <Grid item xs={8} className={classes.grid}>
                         <TextField
                             required
                             id="standard-name"
@@ -95,19 +90,20 @@ class SecretComponent extends React.Component {
                             value={name}
                             name={label}
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
+                            onChange={(e) => changeFieldNameSecretHandler(e, componentId)}
                             margin="dense"
                         />
                     </Grid>
+
                     <Grid item xs={3} className={classes.grid}>
                         <TextField
                             id="standard-secretType"
                             select
                             label="Type"
                             className={classes.textField}
-                            value={type}
+                            value={this.props.type}
                             name="Type"
-                            onChange={(e) => { handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.type`) }}
+                            onChange={(e) => { changeSelectorTypeHandler(e, componentId) }}
                             helperText="Please select type"
                             margin="dense"
                         >
@@ -122,21 +118,16 @@ class SecretComponent extends React.Component {
                     </Grid>
 
                 </Grid>
-                {
-                    map(envs, (env, index) => {
-                        return <EnvComponent
-                            key={index}
-                            envId={index}
-                            envKey={env.envKey}
-                            envValue={env.envValue}
-                            envType={env.envType}
-                            changeTextFieldHandler={handlers.changeTextFieldHandler}
-                            deleteEnvHandler={handlers.deleteComponentHandler}
-                            collectionState={collectionState}
-                            componentId={componentId}
-                        />
-                    })
-                }
+
+                <EnvsComponent
+                    envs={envs}
+                    envTypes={envTypes}
+                    handlers={{
+                        changeEnvConfigMapHandler: changeEnvConfigMapHandler,
+                        deleteEnvConfigMapComponent: deleteEnvConfigMapComponent
+                    }}
+                    componentId={componentId}
+                />
             </>
         );
     }

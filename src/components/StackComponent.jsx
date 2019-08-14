@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ControlShelfComponent from './ControlShelfComponent';
 import BaseFieldsComponent from './BaseFieldsComponent';
-import ConfigMapComponent from "./ConfigMapComponent";
-
+import ConfigMapComponent from './ConfigMapComponent';
+import SecretComponent from './SecretComponent';
 import styles from './StackComponentTheme';
-import { set, unset, map } from "lodash";
+import { set, unset, map } from 'lodash';
 
 class StackComponent extends React.Component {
     constructor(props) {
@@ -38,7 +38,6 @@ class StackComponent extends React.Component {
             secrets: {},
             endPoints: {},
             microServices: {},
-            
         };
 
         this.addComponentHandler = this.addComponentHandler.bind(this);
@@ -105,7 +104,23 @@ class StackComponent extends React.Component {
                                             deleteComponentHandler: this.deleteComponentHandler,
                                         }
                                     },
-                                    { id: 2, icon: 'enhanced_encryption', command: 'secrets', handler: this.addComponentHandler },
+                                    { 
+                                        id: 2,
+                                        icon: 'enhanced_encryption',
+                                        command: 'secrets',
+                                        item: {
+                                            name: "",
+                                            type: "",
+                                            envs: {
+                                            },
+                                            collectionState: 'secrets',
+                                        },
+                                        handlers: {
+                                            addComponentHandler: this.addComponentHandler,
+                                            changeTextFieldHandler: this.changeTextFieldHandler,
+                                            deleteComponentHandler: this.deleteComponentHandler,
+                                        }
+                                    },
                                     { id: 3, icon: 'swap_horiz', command: 'endPoints', handler: this.addComponentHandler },
                                     { id: 4, icon: 'view_module', command: 'microServices', handler: this.addComponentHandler }
                                 ]}
@@ -118,7 +133,6 @@ class StackComponent extends React.Component {
                             collection="mainFields"
                             handlers={{ changeTextFieldHandler: this.changeTextFieldHandler }} />
                         {
-
                             map(this.state.configMaps, (configMap, index) => {
                                 return <ConfigMapComponent
                                     key={index}
@@ -132,11 +146,27 @@ class StackComponent extends React.Component {
                                         changeTextFieldHandler: this.changeTextFieldHandler,
                                         deleteComponentHandler: this.deleteComponentHandler
                                     }}
-                                
                                 />
                             })
                         }
-
+                        {
+                            map(this.state.secrets, (secret, index) => {
+                                return <SecretComponent
+                                    key={index}
+                                    componentId={index}
+                                    collectionState={secret.collectionState}
+                                    label={secret.label}
+                                    name={secret.name}
+                                    type={secret.type}
+                                    envs={secret.envs}
+                                    handlers={{
+                                        addComponentHandler: this.addComponentHandler,
+                                        changeTextFieldHandler: this.changeTextFieldHandler,
+                                        deleteComponentHandler: this.deleteComponentHandler
+                                    }}
+                                />
+                            })
+                        }
                     </Grid>
                     <Divider />
                     <Button onClick={this.saveStateHandler} color="primary" className={classes.buttonStyle}>
