@@ -57,8 +57,9 @@ class SecretComponent extends React.Component {
             name,
             label,
             secretTypes
-         } = this.props;
-         console.log(envs)
+        } = this.props;
+        const types = ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'];
+        console.log(envs)
         return (
             <>
                 <Divider />
@@ -108,18 +109,18 @@ class SecretComponent extends React.Component {
                             helperText="Please select type"
                             margin="dense"
                         >
-                            
+
                             {secretTypes.map((type, i) => {
                                 return (
                                     <MenuItem key={i} value={type}>{type}</MenuItem>
                                 );
                             })}
-                            
+
                         </TextField>
                     </Grid>
 
                 </Grid>
-                
+
                 <EnvsComponent
                     envs={envs}
                     envTypes={envTypes}

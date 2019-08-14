@@ -38,7 +38,7 @@ class StackComponent extends React.Component {
             secrets: {},
             endPoints: {},
             microServices: {},
-            secretTypes: ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'],
+            
         };
 
         this.addComponentHandler = this.addComponentHandler.bind(this);
