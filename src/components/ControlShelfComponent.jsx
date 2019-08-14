@@ -4,43 +4,55 @@ import Icon from '@material-ui/core/Icon';
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-    textField: {
-      width: "100%"
-    },
-    margin: {
-      margin: theme.spacing(1)
-      // margin: '8px 0',
-    },
-    padding: {
-      padding: theme.spacing(2)
-    },
-    iconButton: {
-      padding: 0
-    },
-    title: {
-      marginTop: theme.spacing(1)
-    },
-    grid: {
-      padding: theme.spacing(1)
-    }
-  });
-  
-class ControlShelfComponent extends React.Component {
-    render() {
-        const { classes, shelf } = this.props;
+  textField: {
+    width: "100%"
+  },
+  margin: {
+    margin: theme.spacing(1)
+    // margin: '8px 0',
+  },
+  padding: {
+    padding: theme.spacing(2)
+  },
+  iconButton: {
+    padding: 0
+  },
+  title: {
+    marginTop: theme.spacing(1)
+  },
+  grid: {
+    padding: theme.spacing(1)
+  }
+});
 
-        return (
-            <div className={classes.grid}>
-                {shelf.map((item, i) =>
-                <React.Fragment key={item.id}>
-                    <IconButton onClick={() => item.handler(item.command)}>
-                        <Icon>{item.icon}</Icon>
-                    </IconButton>
-                </React.Fragment>
-                )}
-            </div>
-        )
-    }
+class ControlShelfComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.newId = this.newId.bind(this);
+  }
+  newId() {
+    const d = new Date();
+    const id = d.getTime();
+    return id
+  }
+  render() {
+    const { classes, shelf } = this.props;
+
+    return (
+      <div className={classes.grid}>
+        {shelf.map((item, i) =>
+          <React.Fragment key={item.id}>
+            <IconButton onClick={() => {
+              const id = this.newId();
+              item.handler(`${item.command}.${id}`, item.item)
+            }}>
+              <Icon>{item.icon}</Icon>
+            </IconButton>
+          </React.Fragment>
+        )}
+      </div>
+    )
+  }
 }
 
 export default withStyles(styles)(ControlShelfComponent);

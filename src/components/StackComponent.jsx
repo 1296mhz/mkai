@@ -1,7 +1,5 @@
 import React from 'react';
-import { findIndex, filter } from "lodash";
 import { withStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
@@ -9,10 +7,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ControlShelfComponent from './ControlShelfComponent';
 import BaseFieldsComponent from './BaseFieldsComponent';
-import ConfigMapsComponent from "./ConfigMapsComponent";
-import SecretsComponent from "./SecretsComponent";
-import { set } from "lodash";
+import ConfigMapComponent from "./ConfigMapComponent";
+
 import styles from './StackComponentTheme';
+import { set, unset, map } from "lodash";
 
 class StackComponent extends React.Component {
     constructor(props) {
@@ -20,24 +18,34 @@ class StackComponent extends React.Component {
 
         this.state = {
             mainFields: {
-                hostnameId: "1",
-                hostnameLabel: "Hostname",
-                hostname: "",
-                namespaceId: "2",
-                namespaceLabel: "Namespace",
-                namespace: "",
-                branchId: "3",
-                branchLabel: "Branch",
-                branch: ""
+                1: {
+                    label: "Hostname",
+                    name: "namespace",
+                    value: ""
+                },
+                2: {
+                    label: "Namespace",
+                    name: "namespace",
+                    value: ""
+                },
+                3: {
+                    label: "Branch",
+                    name: "branch",
+                    value: ""
+                }
             },
             configMaps: {},
             secrets: {},
             endPoints: {},
             microServices: {},
             secretTypes: ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'],
-            envTypes: ['string', 'base64']
         };
+
+        this.addComponentHandler = this.addComponentHandler.bind(this);
+        this.deleteComponentHandler = this.deleteComponentHandler.bind(this);
+        this.changeTextFieldHandler = this.changeTextFieldHandler.bind(this);
         //Shelf handlers
+
         this.saveStateHandler = this.saveStateHandler.bind(this);
 
     }
@@ -47,35 +55,24 @@ class StackComponent extends React.Component {
         console.log(this.state)
     }
 
-    changeFieldHandler(e, path, componentId) {
+    changeTextFieldHandler(e, path) {
+        console.log(path, e.target.value);
         let newState = Object.assign({}, this.state);
-        newState.mainFields = {
-            ...this.state[path],
-            [e.target.name]: e.target.value
-        }
+        set(newState, `${path}`, e.target.value);
         this.setState(newState);
     }
 
-    addComponentHandler() {
-        const d = new Date();
-        const id = d.getTime();
-        console.log("New Component id: ", id - 1000000000000);
-
-        this.setState({...this.state, configMaps: {
-            ...this.state.configMaps,
-            [id]: {
-                name: "",
-                envs: {
-                },
-                deleteComponentHandler: this.deleteComponentHandler,
-            },
-        }});
+    addComponentHandler(path, value) {
+        let newState = Object.assign({}, this.state);
+        set(newState, path, value);
+        this.setState(newState);
     }
 
-   
-
-    deleteComponent(id, collectionInState) {
-        this.setState({ [collectionInState]: filter(this.state[collectionInState], item => item.id !== id) });
+    deleteComponentHandler(item) {
+        console.log("Delte component: " + item)
+        const newState = Object.assign({}, this.state);
+        unset(newState, item);
+        this.setState(newState);
     }
 
     render() {
@@ -92,42 +89,50 @@ class StackComponent extends React.Component {
                         <Grid container item xs>
                             <ControlShelfComponent
                                 shelf={[
-                                    { id: 1, icon: 'no_encryption', command: 'configMap', handler: this.addHandler },
-                                    { id: 2, icon: 'enhanced_encryption', command: 'secret', handler: this.addHandler },
-                                    { id: 3, icon: 'swap_horiz', command: 'configMap', handler: this.addEndPointHandler },
-                                    { id: 4, icon: 'view_module',command: 'configMap', handler: this.addMicroServiceHandler }
+                                    {
+                                        id: 1,
+                                        icon: 'no_encryption',
+                                        command: 'configMaps',
+                                        item: {
+                                            name: "",
+                                            envs: {
+                                            },
+                                            collectionState: 'configMaps',
+                                            addEnvHandler: this.addComponentHandler,
+                                            changeTextFieldHandler: this.changeTextFieldHandler,
+                                            deleteComponentHandler: this.deleteComponentHandler,
+                                        },
+                                        handler: this.addComponentHandler
+                                    },
+                                    { id: 2, icon: 'enhanced_encryption', command: 'secrets', handler: this.addComponentHandler },
+                                    { id: 3, icon: 'swap_horiz', command: 'endPoints', handler: this.addComponentHandler },
+                                    { id: 4, icon: 'view_module', command: 'microServices', handler: this.addComponentHandler }
                                 ]}
                             />
                         </Grid>
                         <Divider />
-                        <BaseFieldsComponent fields={
-                            [
-                                {
-                                    id: this.state.mainFields.namespaceId,
-                                    name: "namespace",
-                                    label: this.state.mainFields.namespaceLabel,
-                                    value: this.state.mainFields.namespace,
-                                    handler: this.changeFieldHandler
-                                },
-                                {
-                                    id: this.state.mainFields.hostnameId,
-                                    name: "hostname",
-                                    label: this.state.mainFields.hostnameLabel,
-                                    value: this.state.mainFields.hostname,
-                                    handler: this.changeFieldHandler
-                                },
-                                {
-                                    id: this.state.mainFields.branchId,
-                                    name: "branch",
-                                    label: this.state.mainFields.branchLabel,
-                                    value: this.state.mainFields.branch,
-                                    handler: this.changeFieldHandler
-                                }
-                            ]
-                        } />
-                        <ConfigMapsComponent
-                            configMaps={this.state.configMaps}
-                        />
+
+                        <BaseFieldsComponent
+                            fields={this.state.mainFields}
+                            collection="mainFields"
+                            handlers={{ changeTextFieldHandler: this.changeTextFieldHandler }} />
+                        {
+
+                            map(this.state.configMaps, (configMap, index) => {
+                                return <ConfigMapComponent
+                                    key={index}
+                                    componentId={index}
+                                    collectionState={configMap.collectionState}
+                                    label={configMap.label}
+                                    name={configMap.name}
+                                    envs={configMap.envs}
+                                    env={configMap.env}
+                                    addEnvHandler={configMap.addEnvHandler}
+                                    changeTextFieldHandler={configMap.changeTextFieldHandler}
+                                    deleteComponentHandler={configMap.deleteComponentHandler}
+                                />
+                            })
+                        }
 
                     </Grid>
                     <Divider />

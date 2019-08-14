@@ -2,6 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import { map } from "lodash";
 
 const styles = theme => ({
   textField: {
@@ -14,28 +15,24 @@ const styles = theme => ({
 
 class BaseFields extends React.Component {
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-
   render() {
-    const { classes, fields } = this.props;
+    const { classes, collection, handlers, fields } = this.props;
 
     return <Grid container>
-      {fields.map((field, i) => (
-          <Grid key={field.id} item xs={4} className={classes.grid} >
-            <TextField
-              required
-              id={field.id}
-              name={field.name}
-              label={field.label}
-              className={classes.textField}
-              value={field.value}
-              onChange={(e) => field.handler(e, 'mainFields')}
-              margin="dense"
-            />
-          </Grid>
-      ))}
+      {map(fields, (field, index) => {
+        return <Grid key={index} item xs={4} className={classes.grid} >
+          <TextField
+            required
+            id={index}
+            name={field.name}
+            label={field.label}
+            className={classes.textField}
+            value={field.value}
+            onChange={(e) => handlers.changeTextFieldHandler(e, `${collection}.${index}.value`)}
+            margin="dense"
+          />
+        </Grid>
+      })}
     </Grid>
   }
 }

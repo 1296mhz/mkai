@@ -7,7 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
-import EnvsComponent from "./EnvsComponent";
+import EnvComponent from "./EnvComponent";
+import { map } from "lodash";
 
 const styles = theme => ({
     textField: {
@@ -34,25 +35,30 @@ const styles = theme => ({
 class ConfigMapComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.newId = this.newId.bind(this);
     }
 
+    newId() {
+        const d = new Date();
+        const id = d.getTime();
+        return id
+    }
     render() {
         const {
-            id,
+            collectionState,
             componentId,
             classes,
-            collectionInState,
-            envTypes,
-            changeFieldNameConfigMap,
-            deleteComponent,
-            deleteEnvComponent,
-            addEnvToComponentHandler,
-            changeEnvConfigMapHandler,
-            changeSelectorHandler,
+            changeTextFieldHandler,
+            deleteComponentHandler,
+            addEnvHandler,
             envs,
             name,
             label } = this.props;
-
+        const env = {
+            envKey: "",
+            envValue: "",
+            envType: ""
+        }
         return (
             <>
                 <Divider />
@@ -64,12 +70,16 @@ class ConfigMapComponent extends React.Component {
                     </Grid>
                     <Grid item container xs justify="flex-end" className={classes.grid}>
                         <IconButton
-                            onClick={() => addEnvToComponentHandler(componentId, collectionInState)}
+                            onClick={() => {
+                                const id = this.newId();
+                                const newEnv = Object.assign({}, env)
+                                addEnvHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
+                            }}
                         >
                             <Icon>title</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => deleteComponent(componentId, collectionInState)}
+                            onClick={() => deleteComponentHandler(`${collectionState}.${componentId}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -84,21 +94,26 @@ class ConfigMapComponent extends React.Component {
                         value={name}
                         name={label}
                         className={classes.textField}
-                        onChange={(e) => changeFieldNameConfigMap(e, componentId)}
+                        onChange={(e) => changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
                         margin="dense"
                     />
                 </Grid>
-                <EnvsComponent
-                    envs={envs}
-                    envTypes={envTypes}
-                    handlers={{
-                        changeSelectorHandler: changeSelectorHandler,
-                        changeEnvConfigMapHandler: changeEnvConfigMapHandler,
-                        deleteEnvComponent: deleteEnvComponent,
-                        deleteComponent: deleteComponent
-                    }}
-                    componentId={componentId}
-                />
+                {
+                    map(envs, (env, index) => {
+                        return <EnvComponent
+                            key={index}
+                            envId={index}
+                            envKey={env.envKey}
+                            envValue={env.envValue}
+                            envType={env.envType}
+                            changeTextFieldHandler={changeTextFieldHandler}
+                            deleteEnvHandler={deleteComponentHandler}
+                            collectionState={collectionState}
+                            componentId={componentId}
+                        />
+                    })
+
+                }
             </>
         );
     }
