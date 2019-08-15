@@ -56,7 +56,7 @@ class EndPointComponent extends React.Component {
                                 handlers.addComponentHandler(`${collectionState}.${componentId}.ports.${id}`, newEnv);
                             }}
                         >
-                            <Icon>title</Icon>
+                            <Icon>usb</Icon>
                         </IconButton>
                         <IconButton
                             onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
