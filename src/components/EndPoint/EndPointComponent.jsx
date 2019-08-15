@@ -49,7 +49,7 @@ class EndPointComponent extends React.Component {
                         <Typography variant="h6" className={classes.title}>
                             <span className={classes.message}>
                                 <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
-                                {itemName}: {name}
+                                {itemName}: {name.charAt(0).toUpperCase()+name.substr(1)}
                             </span>
                         </Typography>
                     </Grid>

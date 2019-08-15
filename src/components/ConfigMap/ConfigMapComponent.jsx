@@ -47,7 +47,7 @@ class ConfigMapComponent extends React.Component {
                         <Typography variant="h6" className={classes.title}>
                             <span className={classes.message}>
                                 <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
-                                {itemName}: {name}
+                                {itemName}: {name.charAt(0).toUpperCase()+name.substr(1)}
                             </span>
                         </Typography>
                     </Grid>
@@ -59,7 +59,7 @@ class ConfigMapComponent extends React.Component {
                                 handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
                             }}
                         >
-                            <Icon>title</Icon>
+                            <Icon>nature_people</Icon>
                         </IconButton>
                         <IconButton
                             onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}

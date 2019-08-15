@@ -12,7 +12,7 @@ import { map } from 'lodash';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from './SecretComponentTheme';
 
-class SecretComponent extends React.Component {
+class ContainerComponent extends React.Component {
     constructor(props) {
         super(props);
         this.newId = this.newId.bind(this);
@@ -23,6 +23,7 @@ class SecretComponent extends React.Component {
         const id = d.getTime();
         return id
     }
+
     render() {
         const {
             collectionState,
@@ -35,12 +36,6 @@ class SecretComponent extends React.Component {
             itemName,
             icon,
             label } = this.props;
-        const env = {
-            envKey: "",
-            envValue: "",
-            envType: ""
-        }
-        const types = ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'];
         return (
             <>
                 <Divider />

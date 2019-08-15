@@ -157,6 +157,8 @@ class StackComponent extends React.Component {
                                             icon: 'icon/deploy.svg',
                                             deploymentName: "",
                                             strategy: "",
+                                            maxUnavailable: "1",
+                                            maxSurge: "1",
                                             services: {},
                                             ingresses: {},
                                             ports: {},
@@ -256,6 +258,8 @@ class StackComponent extends React.Component {
                                     imagePullSecrets={microService.imagePullSecrets}
                                     envs={microService.envs}
                                     itemName={microService.itemName}
+                                    maxSurge={microService.maxSurge}
+                                    maxUnavailable={microService.maxUnavailable}
                                     icon={microService.icon}
                                     handlers={{
                                         addComponentHandler: this.addComponentHandler,
