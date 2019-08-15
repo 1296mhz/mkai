@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import EnvComponent from './EnvComponent';
+import EnvComponent from '../Env/EnvComponent';
 import { map } from 'lodash';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from './SecretComponentTheme';
@@ -32,6 +32,8 @@ class SecretComponent extends React.Component {
             envs,
             name,
             type,
+            itemName,
+            icon,
             label } = this.props;
         const env = {
             envKey: "",
@@ -45,7 +47,10 @@ class SecretComponent extends React.Component {
                 <Grid item container xs={12} sm>
                     <Grid item xs>
                         <Typography variant="h6" className={classes.title}>
-                            Secret: {name}
+                            <span className={classes.message}>
+                                <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
+                                {itemName}: {name}
+                            </span>
                         </Typography>
                     </Grid>
                     <Grid item container xs justify="flex-end" className={classes.grid}>

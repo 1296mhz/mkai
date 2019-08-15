@@ -8,8 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import { map } from 'lodash';
-import PortComponent from './PortComponent';
-import styles from './ControlShelfComponentTheme';
+import PortComponent from '../Port/PortComponent';
+import styles from './EndPointComponentTheme';
 
 class EndPointComponent extends React.Component {
     constructor(props) {
@@ -30,7 +30,9 @@ class EndPointComponent extends React.Component {
             handlers,
             name,
             externalName,
-            ports
+            ports,
+            itemName,
+            icon
         } = this.props;
         const port = {
             name: '',
@@ -45,7 +47,10 @@ class EndPointComponent extends React.Component {
                 <Grid item container xs={12} sm>
                     <Grid item xs>
                         <Typography variant="h6" className={classes.title}>
-                            End Point: {name}
+                            <span className={classes.message}>
+                                <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
+                                {itemName}: {name}
+                            </span>
                         </Typography>
                     </Grid>
                     <Grid item container xs justify="flex-end" className={classes.grid}>
@@ -90,22 +95,22 @@ class EndPointComponent extends React.Component {
                         />
                     </Grid>
                     {
-                            map(ports, (port, index) => {
-                                return <PortComponent
-                                    key={index}
-                                    componentId={componentId}
-                                    portId={index}
-                                    collectionState={collectionState}
-                                    name={port.name}
-                                    port={port.port}
-                                    targetPort={port.targetPort}
-                                    protocol={port.protocol}
-                                    addComponentHandler={handlers.addComponentHandler}
-                                    changeTextFieldHandler={handlers.changeTextFieldHandler}
-                                    deleteComponentHandler={handlers.deleteComponentHandler}  
-                                />
-                            })
-                        }
+                        map(ports, (port, index) => {
+                            return <PortComponent
+                                key={index}
+                                componentId={componentId}
+                                portId={index}
+                                collectionState={collectionState}
+                                name={port.name}
+                                port={port.port}
+                                targetPort={port.targetPort}
+                                protocol={port.protocol}
+                                addComponentHandler={handlers.addComponentHandler}
+                                changeTextFieldHandler={handlers.changeTextFieldHandler}
+                                deleteComponentHandler={handlers.deleteComponentHandler}
+                            />
+                        })
+                    }
                 </Grid>
             </>
         );

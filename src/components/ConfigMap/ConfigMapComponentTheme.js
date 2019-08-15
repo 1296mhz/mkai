@@ -17,5 +17,13 @@ export default theme => ({
     },
     grid: {
         padding: theme.spacing(1)
+    },
+    message: {
+        display: 'flex',
+        alignItems: 'center',
+        margin: theme.spacing(1)
+    },
+    icon: {
+        marginRight: theme.spacing(1)
     }
 });

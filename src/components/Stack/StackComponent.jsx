@@ -5,11 +5,12 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ControlShelfComponent from './ControlShelfComponent';
-import BaseFieldsComponent from './BaseFieldsComponent';
-import ConfigMapComponent from './ConfigMapComponent';
-import SecretComponent from './SecretComponent';
-import EndPointComponent from './EndPointComponent';
+import ControlShelfComponent from '../ControlShelf/ControlShelfComponent';
+import BaseFieldsComponent from '../BaseFields/BaseFieldsComponent';
+import ConfigMapComponent from '../ConfigMap/ConfigMapComponent';
+import SecretComponent from '../Secret/SecretComponent';
+import EndPointComponent from '../EndPoint/EndPointComponent';
+import MicroServiceComponent from '../MicroService/MicroServiceComponent';
 import styles from './StackComponentTheme';
 import { set, unset, map } from 'lodash';
 
@@ -91,9 +92,11 @@ class StackComponent extends React.Component {
                                 shelf={[
                                     {
                                         id: 1,
-                                        icon: 'no_encryption',
+                                        icon: 'icon/cm.svg',
                                         command: 'configMaps',
                                         item: {
+                                            itemName: 'Config Map',
+                                            icon: 'icon/cm.svg',
                                             name: "",
                                             envs: {
                                             },
@@ -107,9 +110,11 @@ class StackComponent extends React.Component {
                                     },
                                     {
                                         id: 2,
-                                        icon: 'enhanced_encryption',
+                                        icon: 'icon/secret.svg',
                                         command: 'secrets',
                                         item: {
+                                            itemName: 'Secrets',
+                                            icon: 'icon/secret.svg',
                                             name: "",
                                             type: "",
                                             nameLabel: "",
@@ -125,9 +130,11 @@ class StackComponent extends React.Component {
                                     },
                                     {
                                         id: 3,
-                                        icon: 'swap_horiz',
+                                        icon: 'icon/ep.svg',
                                         command: 'endPoints',
                                         item: {
+                                            itemName: 'End Point',
+                                            icon: 'icon/ep.svg',
                                             name: "",
                                             type: "",
                                             externalName: "",
@@ -141,7 +148,30 @@ class StackComponent extends React.Component {
                                             deleteComponentHandler: this.deleteComponentHandler,
                                         }
                                     },
-                                    { id: 4, icon: 'view_module', command: 'microServices', handler: this.addComponentHandler }
+                                    {
+                                        id: 4,
+                                        icon: 'icon/deploy.svg',
+                                        command: 'microServices',
+                                        item: {
+                                            itemName: 'Micro Service',
+                                            icon: 'icon/deploy.svg',
+                                            deploymentName: "",
+                                            strategy: "",
+                                            services: {},
+                                            ingresses: {},
+                                            ports: {},
+                                            containers: {},
+                                            volumes: {},
+                                            imagePullSecrets: {},
+                                            envs: {},
+                                            collectionState: 'microServices',
+                                        },
+                                        handlers: {
+                                            addComponentHandler: this.addComponentHandler,
+                                            changeTextFieldHandler: this.changeTextFieldHandler,
+                                            deleteComponentHandler: this.deleteComponentHandler,
+                                        }
+                                    }
                                 ]}
                             />
                         </Grid>
@@ -160,6 +190,8 @@ class StackComponent extends React.Component {
                                     label={configMap.label}
                                     name={configMap.name}
                                     envs={configMap.envs}
+                                    itemName={configMap.itemName}
+                                    icon={configMap.icon}
                                     handlers={{
                                         addComponentHandler: this.addComponentHandler,
                                         changeTextFieldHandler: this.changeTextFieldHandler,
@@ -178,6 +210,8 @@ class StackComponent extends React.Component {
                                     name={secret.name}
                                     type={secret.type}
                                     envs={secret.envs}
+                                    itemName={secret.itemName}
+                                    icon={secret.icon}
                                     handlers={{
                                         addComponentHandler: this.addComponentHandler,
                                         changeTextFieldHandler: this.changeTextFieldHandler,
@@ -196,6 +230,33 @@ class StackComponent extends React.Component {
                                     name={endpoint.name}
                                     type={endpoint.type}
                                     ports={endpoint.ports}
+                                    itemName={endpoint.itemName}
+                                    icon={endpoint.icon}
+                                    handlers={{
+                                        addComponentHandler: this.addComponentHandler,
+                                        changeTextFieldHandler: this.changeTextFieldHandler,
+                                        deleteComponentHandler: this.deleteComponentHandler
+                                    }}
+                                />
+                            })
+                        }
+                                                {
+                            map(this.state.microServices, (microService, index) => {
+                                return <MicroServiceComponent
+                                    key={index}
+                                    componentId={index}
+                                    collectionState={microService.collectionState}
+                                    label={microService.label}
+                                    deploymentName={microService.deploymentName}
+                                    ports={microService.ports}
+                                    strategy={microService.strategy}
+                                    ingresses={microService.ingresses}
+                                    services={microService.services}
+                                    volumes={microService.volumes}
+                                    imagePullSecrets={microService.imagePullSecrets}
+                                    envs={microService.envs}
+                                    itemName={microService.itemName}
+                                    icon={microService.icon}
                                     handlers={{
                                         addComponentHandler: this.addComponentHandler,
                                         changeTextFieldHandler: this.changeTextFieldHandler,
