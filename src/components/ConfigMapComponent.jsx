@@ -1,36 +1,15 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon";
-import EnvComponent from "./EnvComponent";
-import { map } from "lodash";
-
-const styles = theme => ({
-    textField: {
-        width: "100%"
-    },
-    margin: {
-        margin: theme.spacing(1)
-        // margin: '8px 0',
-    },
-    padding: {
-        padding: theme.spacing(2)
-    },
-    iconButton: {
-        padding: 0
-    },
-    title: {
-        marginTop: theme.spacing(1)
-    },
-    grid: {
-        padding: theme.spacing(1)
-    }
-});
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
+import EnvComponent from './EnvComponent';
+import { map } from 'lodash';
+import styles from './ConfigMapComponentTheme';
 
 class ConfigMapComponent extends React.Component {
     constructor(props) {

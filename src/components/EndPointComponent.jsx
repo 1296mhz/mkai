@@ -8,30 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import { map } from 'lodash';
-import MenuItem from '@material-ui/core/MenuItem';
 import PortComponent from './PortComponent';
-
-const styles = theme => ({
-    textField: {
-        width: "100%"
-    },
-    margin: {
-        margin: theme.spacing(1)
-        // margin: '8px 0',
-    },
-    padding: {
-        padding: theme.spacing(2)
-    },
-    iconButton: {
-        padding: 0
-    },
-    title: {
-        marginTop: theme.spacing(1)
-    },
-    grid: {
-        padding: theme.spacing(1)
-    }
-});
+import styles from './ControlShelfComponentTheme';
 
 class EndPointComponent extends React.Component {
     constructor(props) {
@@ -128,10 +106,7 @@ class EndPointComponent extends React.Component {
                                 />
                             })
                         }
-                
-
                 </Grid>
-
             </>
         );
     }

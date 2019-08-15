@@ -1,17 +1,9 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import { map } from "lodash";
-
-const styles = theme => ({
-  textField: {
-    width: "100%"
-  },
-  grid: {
-    padding: theme.spacing(1)
-  },
-});
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import { map } from 'lodash';
+import styles from './BaseFieldsComponentTheme';
 
 class BaseFields extends React.Component {
 

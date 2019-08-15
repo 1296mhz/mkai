@@ -1,29 +1,8 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import { withStyles } from "@material-ui/core/styles";
-
-const styles = theme => ({
-  textField: {
-    width: "100%"
-  },
-  margin: {
-    margin: theme.spacing(1)
-    // margin: '8px 0',
-  },
-  padding: {
-    padding: theme.spacing(2)
-  },
-  iconButton: {
-    padding: 0
-  },
-  title: {
-    marginTop: theme.spacing(1)
-  },
-  grid: {
-    padding: theme.spacing(1)
-  }
-});
+import { withStyles } from '@material-ui/core/styles';
+import styles from './ControlShelfComponentTheme';
 
 class ControlShelfComponent extends React.Component {
   constructor(props) {
