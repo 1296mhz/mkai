@@ -9,6 +9,7 @@ import ControlShelfComponent from './ControlShelfComponent';
 import BaseFieldsComponent from './BaseFieldsComponent';
 import ConfigMapComponent from './ConfigMapComponent';
 import SecretComponent from './SecretComponent';
+import EndPointComponent from './EndPointComponent';
 import styles from './StackComponentTheme';
 import { set, unset, map } from 'lodash';
 
@@ -104,13 +105,14 @@ class StackComponent extends React.Component {
                                             deleteComponentHandler: this.deleteComponentHandler,
                                         }
                                     },
-                                    { 
+                                    {
                                         id: 2,
                                         icon: 'enhanced_encryption',
                                         command: 'secrets',
                                         item: {
                                             name: "",
                                             type: "",
+                                            nameLabel: "",
                                             envs: {
                                             },
                                             collectionState: 'secrets',
@@ -121,7 +123,24 @@ class StackComponent extends React.Component {
                                             deleteComponentHandler: this.deleteComponentHandler,
                                         }
                                     },
-                                    { id: 3, icon: 'swap_horiz', command: 'endPoints', handler: this.addComponentHandler },
+                                    {
+                                        id: 3,
+                                        icon: 'swap_horiz',
+                                        command: 'endPoints',
+                                        item: {
+                                            name: "",
+                                            type: "",
+                                            externalName: "",
+                                            ports: {
+                                            },
+                                            collectionState: 'endPoints',
+                                        },
+                                        handlers: {
+                                            addComponentHandler: this.addComponentHandler,
+                                            changeTextFieldHandler: this.changeTextFieldHandler,
+                                            deleteComponentHandler: this.deleteComponentHandler,
+                                        }
+                                    },
                                     { id: 4, icon: 'view_module', command: 'microServices', handler: this.addComponentHandler }
                                 ]}
                             />
@@ -159,6 +178,24 @@ class StackComponent extends React.Component {
                                     name={secret.name}
                                     type={secret.type}
                                     envs={secret.envs}
+                                    handlers={{
+                                        addComponentHandler: this.addComponentHandler,
+                                        changeTextFieldHandler: this.changeTextFieldHandler,
+                                        deleteComponentHandler: this.deleteComponentHandler
+                                    }}
+                                />
+                            })
+                        }
+                        {
+                            map(this.state.endPoints, (endpoint, index) => {
+                                return <EndPointComponent
+                                    key={index}
+                                    componentId={index}
+                                    collectionState={endpoint.collectionState}
+                                    label={endpoint.label}
+                                    name={endpoint.name}
+                                    type={endpoint.type}
+                                    ports={endpoint.ports}
                                     handlers={{
                                         addComponentHandler: this.addComponentHandler,
                                         changeTextFieldHandler: this.changeTextFieldHandler,
