@@ -10,7 +10,7 @@ import Icon from '@material-ui/core/Icon';
 import EnvComponent from '../Env/EnvComponent';
 import { map } from 'lodash';
 import MenuItem from '@material-ui/core/MenuItem';
-import styles from './SecretComponentTheme';
+import styles from './ContainerComponentTheme';
 
 class ContainerComponent extends React.Component {
     constructor(props) {
@@ -28,14 +28,28 @@ class ContainerComponent extends React.Component {
         const {
             collectionState,
             componentId,
+            containerId,
             classes,
             handlers,
+            icon,
+            label,
+            itemName,
             envs,
             name,
-            type,
-            itemName,
-            icon,
-            label } = this.props;
+            image,
+            imagePullPolicy,
+            restartPolicy,
+            resourcesLimitsCpu,
+            resourcesLimitsMemory,
+            resourcesRequestsCpu,
+            resourcesRequestsMemory,
+            ports,
+            readinessProbe,
+            livenessProbe,
+            volumeMounts,
+        } = this.props;
+        const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
+        const restartPullPolicies = ['IfNotPresent', 'Always'];
         return (
             <>
                 <Divider />
@@ -44,7 +58,7 @@ class ContainerComponent extends React.Component {
                         <Typography variant="h6" className={classes.title}>
                             <span className={classes.message}>
                                 <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
-                                {itemName}: {name.charAt(0).toUpperCase()+name.substr(1)}
+                                {itemName}: {name.charAt(0).toUpperCase() + name.substr(1)}
                             </span>
                         </Typography>
                     </Grid>
@@ -52,78 +66,145 @@ class ContainerComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newEnv = Object.assign({}, env)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
+                                // const newEnv = Object.assign({}, env)
+                                // handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
                             }}
                         >
                             <Icon>nature_people</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
+                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
                     </Grid>
                 </Grid>
 
-                <Grid container justify="flex-start" className={classes.grid}>
+                <Grid item xs={12} className={classes.grid}>
+                    <TextField
+                        required
+                        id="container-name"
+                        label="Name"
+                        value={name}
+                        name={label}
+                        className={classes.textField}
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.name`)}
+                        margin="dense"
+                    />
+                </Grid>
+
+                <Grid container>
                     <Grid item xs={9} className={classes.grid}>
                         <TextField
                             required
-                            id="standard-name"
-                            label="Name"
-                            value={name}
-                            name={label}
+                            id="image"
+                            label="Image"
+                            value={image}
+                            name="image"
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.image`)}
+                            margin="dense"
+                        />
+                    </Grid>
+
+                    <Grid item xs={3} className={classes.grid}>
+                        <TextField
+                            id="image-pull-policy"
+                            select
+                            label="Image Pull Policy"
+                            className={classes.textField}
+                            value={imagePullPolicy}
+                            name="imagePullPolicy"
+                            helperText="Please select image policy"
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.imagePullPolicy`)}
+                            margin="dense"
+                        >
+                            {policiesPullImagePolicies.map((policy, i) => {
+                                return (
+                                    <MenuItem key={i} value={policy}>{policy}</MenuItem>
+                                );
+                            })}
+                        </TextField>
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={3} className={classes.grid}>
+                    <TextField
+                        id="restart-policy"
+                        select
+                        label="Restart Policy"
+                        className={classes.textField}
+                        value={restartPolicy}
+                        name="restartPloicy"
+                        helperText="Please select restart policy"
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.restartPolicy`)}
+                        margin="dense"
+                    >
+                        {restartPullPolicies.map((policy, i) => {
+                            return (
+                                <MenuItem key={i} value={policy}>{policy}</MenuItem>
+                            );
+                        })}
+                    </TextField>
+                </Grid>
+
+                <Grid container>
+                    <Grid item xs={3} className={classes.grid}>
+                    <TextField
+                            required
+                            id="resources-limits-cpu"
+                            label="Resources Limits Cpu"
+                            value={resourcesLimitsCpu}
+                            name="resourcesLimitsCpu"
+                            className={classes.textField}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsCpu`)}
                             margin="dense"
                         />
                     </Grid>
                     <Grid item xs={3} className={classes.grid}>
-                        <TextField
-                            id="standard-secretType"
-                            select
-                            label="Type"
+                    <TextField
+                            required
+                            id="resources-limits-memory"
+                            label="Resources Limits Memory"
+                            value={resourcesLimitsMemory}
+                            name="resourcesLimitsMemory"
                             className={classes.textField}
-                            value={type}
-                            name="Type"
-                            onChange={(e) => { handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.type`) }}
-                            helperText="Please select type"
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsMemory`)}
                             margin="dense"
-                        >
-
-                            {types.map((type, i) => {
-                                return (
-                                    <MenuItem key={i} value={type}>{type}</MenuItem>
-                                );
-                            })}
-
-                        </TextField>
-                    </Grid>
-
-                </Grid>
-                {
-                    map(envs, (env, index) => {
-                        return <EnvComponent
-                            key={index}
-                            envId={index}
-                            envKey={env.envKey}
-                            envValue={env.envValue}
-                            envType={env.envType}
-                            changeTextFieldHandler={handlers.changeTextFieldHandler}
-                            deleteEnvHandler={handlers.deleteComponentHandler}
-                            collectionState={collectionState}
-                            componentId={componentId}
                         />
-                    })
-                }
+                    </Grid>
+                    <Grid item xs={3} className={classes.grid}>
+                    <TextField
+                            required
+                            id="resources-requests-cpu"
+                            label="resourcesRequestsCpu"
+                            value={resourcesRequestsCpu}
+                            name="resourcesRequestsCpu"
+                            className={classes.textField}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsCpu`)}
+                            margin="dense"
+                        />
+                    </Grid>
+                    <Grid item xs={3} className={classes.grid}>
+                    <TextField
+                            required
+                            id="resources-requests-memory"
+                            label="Resources Requests Memory"
+                            value={resourcesRequestsMemory}
+                            name="resourcesRequestsMemory"
+                            className={classes.textField}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsMemory`)}
+                            margin="dense"
+                        />
+                    </Grid>
+                </Grid>
             </>
         );
     }
 }
 
-SecretComponent.propTypes = {
+ContainerComponent.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SecretComponent);
+export default withStyles(styles)(ContainerComponent);

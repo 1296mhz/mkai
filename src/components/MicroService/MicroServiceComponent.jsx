@@ -7,7 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem from '@material-ui/core/MenuItem';
+import ContainerComponent from '../Container/ContainerComponent';
 import EnvComponent from '../Env/EnvComponent';
 import { map } from 'lodash';
 import styles from './MicroServiceComponentTheme';
@@ -35,6 +36,7 @@ class MicroServiceComponent extends React.Component {
             strategy,
             maxSurge,
             maxUnavailable,
+            containers,
             ingresses,
             services,
             volumes,
@@ -42,6 +44,28 @@ class MicroServiceComponent extends React.Component {
             envs
         } = this.props;
         const strategies = ['Recreate', 'RollingUpdate'];
+        const container = {
+            handlers: {
+                addComponentHandler: handlers.addComponentHandler,
+                changeTextFieldHandler: handlers.changeTextFieldHandler,
+                deleteComponentHandler: handlers.deleteComponentHandler
+            },
+            envs: {},
+            name: "",
+            image: "",
+            imagePullPolicy: "",
+            restartPolicy: "",
+            resourcesLimitsCpu: "",
+            resourcesLimitsMemory: "",
+            resourcesRequestsCpu: "",
+            resourcesRequestsMemory: "",
+            ports: {},
+            readinessProbe: {},
+            livenessProbe: {},
+            volumeMounts: {},
+            icon: "icon/pod.svg",
+            itemName: "Container"
+        }
         return (
             <>
                 <Divider />
@@ -57,8 +81,9 @@ class MicroServiceComponent extends React.Component {
                     <Grid item container xs justify="flex-end" className={classes.grid}>
                         <IconButton onClick={() => {
                             const id = this.newId();
-                            // const newEnv = Object.assign({}, env)
-                            // handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
+                            const newContainer = Object.assign({}, container);
+
+                            handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${id}`, newContainer);
                         }}>
                             <img src="icon/pod.svg" alt="container" height="24" width="24" />
                         </IconButton>
@@ -83,18 +108,18 @@ class MicroServiceComponent extends React.Component {
                 </Grid>
 
                 <Grid container justify="flex-start" className={classes.grid}>
-                  
-                        <TextField
-                            required
-                            id="deployment-name"
-                            label="Deployment Name"
-                            value={deploymentName}
-                            name="deploymentName"
-                            className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.deploymentName`)}
-                            margin="dense"
-                        />
-                  
+
+                    <TextField
+                        required
+                        id="deployment-name"
+                        label="Deployment Name"
+                        value={deploymentName}
+                        name="deploymentName"
+                        className={classes.textField}
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.deploymentName`)}
+                        margin="dense"
+                    />
+
                 </Grid>
                 <Grid container item xs={12} justify="flex-start" >
                     <Grid item xs={3} className={classes.grid}>
@@ -144,7 +169,41 @@ class MicroServiceComponent extends React.Component {
                             </>
                             : false
                     }
+                    <Grid container item xs={12} justify="flex-start" >
+                        {
+                            map(containers, (container, index) => {
+                                return <ContainerComponent
+                                    key={index}
+                                    containerId={index}
+                                    icon={container.icon}
+                                    itemName={container.itemName}
+                                    name={container.name}
+                                    image={container.image}
+                                    imagePullPolicy={container.imagePullPolicy}
+                                    restartPolicy={container.restartPolicy}
+                                    resourcesLimitsCpu={container.resourcesLimitsCpu}
+                                    resourcesLimitsMemory={container.resourcesLimitsMemory}
+                                    resourcesRequestsCpu={container.resourcesRequestsCpu}
+                                    resourcesRequestsMemory={container.resourcesRequestsMemory}
+                                    ports={container.ports}
+                                    readinessProbe={container.readinessProbe}
+                                    livenessProbe={container.livenessProbe}
+                                    volumeMounts={container.volumeMounts}
+                                    collectionState={collectionState}
+                                    componentId={componentId}
+                                    handlers={{
+                                        addComponentHandler: handlers.addComponentHandler,
+                                        changeTextFieldHandler: handlers.changeTextFieldHandler,
+                                        deleteComponentHandler: handlers.deleteComponentHandler
+                                    }}
+                                />
+                            })
+                        }
+                    </Grid>
                 </Grid>
+
+
+
 
             </>
         );

@@ -64,6 +64,8 @@ class StackComponent extends React.Component {
     }
 
     addComponentHandler(path, value) {
+        console.log("Add component handler")
+        console.log(path, value)
         let newState = Object.assign({}, this.state);
         set(newState, path, value);
         this.setState(newState);
@@ -251,6 +253,7 @@ class StackComponent extends React.Component {
                                     label={microService.label}
                                     deploymentName={microService.deploymentName}
                                     ports={microService.ports}
+                                    containers={microService.containers}
                                     strategy={microService.strategy}
                                     ingresses={microService.ingresses}
                                     services={microService.services}
