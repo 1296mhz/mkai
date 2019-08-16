@@ -44,6 +44,7 @@ class MicroServiceComponent extends React.Component {
             envs
         } = this.props;
         const strategies = ['Recreate', 'RollingUpdate'];
+
         const container = {
             handlers: {
                 addComponentHandler: handlers.addComponentHandler,
@@ -55,10 +56,12 @@ class MicroServiceComponent extends React.Component {
             image: "",
             imagePullPolicy: "",
             restartPolicy: "",
-            resourcesLimitsCpu: "",
-            resourcesLimitsMemory: "",
-            resourcesRequestsCpu: "",
-            resourcesRequestsMemory: "",
+            resourcesLimitsCpu: 0.010,
+            resourcesLimitsMemory: "10",
+            resourcesLimitsMemorySize: "Mi",
+            resourcesRequestsCpu: 0.010,
+            resourcesRequestsMemory: "10",
+            resourcesRequestsMemorySize: "Mi",
             ports: {},
             readinessProbe: {},
             livenessProbe: {},
@@ -102,13 +105,10 @@ class MicroServiceComponent extends React.Component {
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
-
-
                     </Grid>
                 </Grid>
 
                 <Grid container justify="flex-start" className={classes.grid}>
-
                     <TextField
                         required
                         id="deployment-name"
@@ -119,7 +119,6 @@ class MicroServiceComponent extends React.Component {
                         onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.deploymentName`)}
                         margin="dense"
                     />
-
                 </Grid>
                 <Grid container item xs={12} justify="flex-start" >
                     <Grid item xs={3} className={classes.grid}>
@@ -183,8 +182,10 @@ class MicroServiceComponent extends React.Component {
                                     restartPolicy={container.restartPolicy}
                                     resourcesLimitsCpu={container.resourcesLimitsCpu}
                                     resourcesLimitsMemory={container.resourcesLimitsMemory}
+                                    resourcesLimitsMemorySize={container.resourcesLimitsMemorySize}
                                     resourcesRequestsCpu={container.resourcesRequestsCpu}
                                     resourcesRequestsMemory={container.resourcesRequestsMemory}
+                                    resourcesRequestsMemorySize={container.resourcesRequestsMemorySize}
                                     ports={container.ports}
                                     readinessProbe={container.readinessProbe}
                                     livenessProbe={container.livenessProbe}

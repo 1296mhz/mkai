@@ -17,7 +17,6 @@ class ContainerComponent extends React.Component {
         super(props);
         this.newId = this.newId.bind(this);
     }
-
     newId() {
         const d = new Date();
         const id = d.getTime();
@@ -41,8 +40,10 @@ class ContainerComponent extends React.Component {
             restartPolicy,
             resourcesLimitsCpu,
             resourcesLimitsMemory,
+            resourcesLimitsMemorySize,
             resourcesRequestsCpu,
             resourcesRequestsMemory,
+            resourcesRequestsMemorySize,
             ports,
             readinessProbe,
             livenessProbe,
@@ -50,6 +51,7 @@ class ContainerComponent extends React.Component {
         } = this.props;
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
         const restartPullPolicies = ['IfNotPresent', 'Always'];
+        const specMems = ['Ki', 'Mi', 'Gi'];
         return (
             <>
                 <Divider />
@@ -150,7 +152,7 @@ class ContainerComponent extends React.Component {
 
                 <Grid container>
                     <Grid item xs={3} className={classes.grid}>
-                    <TextField
+                        <TextField
                             required
                             id="resources-limits-cpu"
                             label="Resources Limits Cpu"
@@ -162,19 +164,42 @@ class ContainerComponent extends React.Component {
                         />
                     </Grid>
                     <Grid item xs={3} className={classes.grid}>
-                    <TextField
-                            required
-                            id="resources-limits-memory"
-                            label="Resources Limits Memory"
-                            value={resourcesLimitsMemory}
-                            name="resourcesLimitsMemory"
-                            className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsMemory`)}
-                            margin="dense"
-                        />
+                        <Grid container>
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    id="resources-limits-memory"
+                                    label="Resources Limits Memory"
+                                    value={resourcesLimitsMemory}
+                                    name="resourcesLimitsMemory"
+                                    className={classes.textField}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsMemory`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <TextField
+                                    id="resources-limits-memory-size"
+                                    select
+                                    label="Type"
+                                    className={classes.textField}
+                                    value={resourcesLimitsMemorySize}
+                                    name="resourcesLimitsMemorySize"
+                                    helperText="Please select size"
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsMemorySize`)}
+                                    margin="dense"
+                                >
+                                    {specMems.map((specMem, i) => {
+                                        return (
+                                            <MenuItem key={i} value={specMem}>{specMem}</MenuItem>
+                                        );
+                                    })}
+                                </TextField>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid item xs={3} className={classes.grid}>
-                    <TextField
+                        <TextField
                             required
                             id="resources-requests-cpu"
                             label="resourcesRequestsCpu"
@@ -186,16 +211,40 @@ class ContainerComponent extends React.Component {
                         />
                     </Grid>
                     <Grid item xs={3} className={classes.grid}>
-                    <TextField
-                            required
-                            id="resources-requests-memory"
-                            label="Resources Requests Memory"
-                            value={resourcesRequestsMemory}
-                            name="resourcesRequestsMemory"
-                            className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsMemory`)}
-                            margin="dense"
-                        />
+                        <Grid container>
+                            <Grid item xs={10}>
+                                <TextField
+                                    required
+                                    id="resources-requests-memory"
+                                    label="Resources Requests Memory"
+                                    value={resourcesRequestsMemory}
+                                    name="resourcesRequestsMemory"
+                                    className={classes.textField}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsMemory`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <TextField
+                                    id="resources-requests-memory-size"
+                                    select
+                                    label="Type"
+                                    className={classes.textField}
+                                    value={resourcesRequestsMemorySize}
+                                    name="resourcesRequestsMemorySize"
+                                    helperText="Please select size"
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsMemorySize`)}
+                                    margin="dense"
+                                >
+                                    {specMems.map((specMem, i) => {
+                                        return (
+                                            <MenuItem key={i} value={specMem}>{specMem}</MenuItem>
+                                        );
+                                    })}
+                                </TextField>
+                            </Grid>
+                        </Grid>
+
                     </Grid>
                 </Grid>
             </>
@@ -204,7 +253,11 @@ class ContainerComponent extends React.Component {
 }
 
 ContainerComponent.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    resourcesLimitsCpu: PropTypes.number.isRequired,
+    resourcesLimitsMemory: PropTypes.string.isRequired,
+    resourcesRequestsCpu: PropTypes.number.isRequired,
+    resourcesRequestsMemory: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(ContainerComponent);
