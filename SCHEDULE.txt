@@ -1,0 +1,6 @@
+Сделать компонент ports для container
+Сделать компонент probe (readinessProbe, livenessProbe) для container
+Сделать компонент volumeMounts для container
+
+Сделать компонент volumes для microservice
+Сделать компонент imagePullSecrets для microservice
