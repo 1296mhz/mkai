@@ -11,7 +11,7 @@ import EnvComponent from '../Env/EnvComponent';
 import { map } from 'lodash';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from './ContainerComponentTheme';
-
+import ContainerPortComponent from '../ContainerPort/ContainerPortComponent'
 class ContainerComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -52,6 +52,18 @@ class ContainerComponent extends React.Component {
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
         const restartPullPolicies = ['IfNotPresent', 'Always'];
         const specMems = ['Ki', 'Mi', 'Gi'];
+        const port = {
+            name: "",
+            containerPort: "",
+            hostIP: "",
+            hostPort: "",
+            protocol: "",
+            containerId: containerId,
+            componentId: componentId,
+            collectionState: collectionState,
+            changeTextFieldHandler: handlers.changeTextFieldHandler,
+            deleteComponentHandler: handlers.deleteComponentHandler
+        }
         return (
             <>
                 <Divider />
@@ -68,11 +80,11 @@ class ContainerComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                // const newEnv = Object.assign({}, env)
-                                // handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
+                                const newPort = Object.assign({}, port)
+                                handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.ports.${id}`, newPort);
                             }}
                         >
-                            <Icon>nature_people</Icon>
+                            <Icon>usb</Icon>
                         </IconButton>
                         <IconButton
                             onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}`)}
@@ -243,10 +255,29 @@ class ContainerComponent extends React.Component {
                                     })}
                                 </TextField>
                             </Grid>
+
+
                         </Grid>
 
                     </Grid>
                 </Grid>
+
+                {map(ports, (port, index) => {
+                                return <ContainerPortComponent
+                                    key={index}
+                                    componentId={port.componentId}
+                                    containerId={port.containerId}
+                                    collectionState={port.collectionState}
+                                    portId={index}
+                                    name={port.name}
+                                    containerPort={port.containerPort}
+                                    hostIP={port.hostIP}
+                                    hostPort={port.hostPort}
+                                    protocol={port.protocol}
+                                    changeTextFieldHandler={port.changeTextFieldHandler}
+                                    deleteComponentHandler={port.deleteComponentHandler}
+                                />
+                            })}
             </>
         );
     }
