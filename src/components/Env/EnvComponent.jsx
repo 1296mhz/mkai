@@ -21,6 +21,7 @@ class EnvComponent extends React.Component {
             envKey,
             envValue,
             envType,
+            extra,
             collectionState,
             changeTextFieldHandler,
             deleteEnvHandler,
@@ -37,7 +38,15 @@ class EnvComponent extends React.Component {
                             name="key"
                             value={envKey}
                             className={classes.textFieldKey}
-                            onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envKey`) }}
+                            onChange={(e) => {
+                                if (extra === null) {
+                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envKey`)
+                                } else {
+                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envKey`)
+                                }
+                            }
+                            }
+
                             margin="dense"
                         />
                     </Grid>
@@ -49,7 +58,13 @@ class EnvComponent extends React.Component {
                             name="value"
                             value={envValue}
                             className={classes.textFieldValue}
-                            onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envValue`) }}
+                            onChange={(e) => {
+                                if (extra === null) {
+                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envValue`)
+                                } else {
+                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envValue`)
+                                }
+                            }}
                             margin="dense"
                         />
                     </Grid>
@@ -62,7 +77,13 @@ class EnvComponent extends React.Component {
                             name="secretType"
                             className={classes.textField}
                             value={envType}
-                            onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envType`) }}
+                            onChange={(e) => {
+                                if (extra === null) {
+                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envType`)
+                                } else {
+                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envType`)
+                                }
+                            }}
                             helperText="Please select type"
                             margin="dense"
                         >
@@ -75,7 +96,13 @@ class EnvComponent extends React.Component {
                     </Grid>
 
                     <Grid xs={1} item className={classes.gridDelete}>
-                        <IconButton onClick={() => deleteEnvHandler(`${collectionState}.${componentId}.envs.${envId}`)}>
+                        <IconButton onClick={() => {
+                            if (extra === null) {
+                                deleteEnvHandler(`${collectionState}.${componentId}.envs.${envId}`)
+                            } else {
+                                deleteEnvHandler(`${collectionState}.${componentId}.${extra}.envs.${envId}`)
+                            }
+                        }}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
                     </Grid>

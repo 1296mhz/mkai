@@ -36,7 +36,8 @@ class ConfigMapComponent extends React.Component {
         const env = {
             envKey: "",
             envValue: "",
-            envType: ""
+            envType: "",
+            extra: null
         }
 
         return (
@@ -89,6 +90,7 @@ class ConfigMapComponent extends React.Component {
                             envKey={env.envKey}
                             envValue={env.envValue}
                             envType={env.envType}
+                            extra={env.extra}
                             changeTextFieldHandler={handlers.changeTextFieldHandler}
                             deleteEnvHandler={handlers.deleteComponentHandler}
                             collectionState={collectionState}

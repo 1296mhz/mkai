@@ -64,6 +64,13 @@ class ContainerComponent extends React.Component {
             changeTextFieldHandler: handlers.changeTextFieldHandler,
             deleteComponentHandler: handlers.deleteComponentHandler
         }
+        const extra = `containers.${containerId}`
+        const env = {
+            envKey: "",
+            envValue: "",
+            envType: "",
+            extra: extra
+        }
         return (
             <>
                 <Divider />
@@ -85,6 +92,15 @@ class ContainerComponent extends React.Component {
                             }}
                         >
                             <Icon>usb</Icon>
+                        </IconButton>
+                        <IconButton
+                            onClick={() => {
+                                const id = this.newId();
+                                const newEnv = Object.assign({}, env)
+                                handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.envs.${id}`, newEnv);
+                            }}
+                        >
+                            <Icon>nature_people</Icon>
                         </IconButton>
                         <IconButton
                             onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}`)}
@@ -263,21 +279,36 @@ class ContainerComponent extends React.Component {
                 </Grid>
 
                 {map(ports, (port, index) => {
-                                return <ContainerPortComponent
-                                    key={index}
-                                    componentId={port.componentId}
-                                    containerId={port.containerId}
-                                    collectionState={port.collectionState}
-                                    portId={index}
-                                    name={port.name}
-                                    containerPort={port.containerPort}
-                                    hostIP={port.hostIP}
-                                    hostPort={port.hostPort}
-                                    protocol={port.protocol}
-                                    changeTextFieldHandler={port.changeTextFieldHandler}
-                                    deleteComponentHandler={port.deleteComponentHandler}
-                                />
-                            })}
+                    return <ContainerPortComponent
+                        key={index}
+                        componentId={port.componentId}
+                        containerId={port.containerId}
+                        collectionState={port.collectionState}
+                        portId={index}
+                        name={port.name}
+                        containerPort={port.containerPort}
+                        hostIP={port.hostIP}
+                        hostPort={port.hostPort}
+                        protocol={port.protocol}
+                        changeTextFieldHandler={port.changeTextFieldHandler}
+                        deleteComponentHandler={port.deleteComponentHandler}
+                    />
+                })}
+                {map(envs, (env, index) => {
+                    return <EnvComponent
+                        key={index}
+                        envId={index}
+                        envKey={env.envKey}
+                        envValue={env.envValue}
+                        envType={env.envType}
+                        extra={env.extra}
+                        changeTextFieldHandler={handlers.changeTextFieldHandler}
+                        deleteEnvHandler={handlers.deleteComponentHandler}
+                        collectionState={collectionState}
+                        componentId={componentId}
+                    />
+                })
+                }
             </>
         );
     }

@@ -186,6 +186,7 @@ class MicroServiceComponent extends React.Component {
                                     resourcesRequestsCpu={container.resourcesRequestsCpu}
                                     resourcesRequestsMemory={container.resourcesRequestsMemory}
                                     resourcesRequestsMemorySize={container.resourcesRequestsMemorySize}
+                                    envs={container.envs}
                                     ports={container.ports}
                                     readinessProbe={container.readinessProbe}
                                     livenessProbe={container.livenessProbe}
