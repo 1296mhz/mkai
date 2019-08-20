@@ -63,8 +63,10 @@ class MicroServiceComponent extends React.Component {
             resourcesRequestsMemory: "10",
             resourcesRequestsMemorySize: "Mi",
             ports: {},
-            readinessProbe: {},
-            livenessProbe: {},
+            readinessProbe: "",
+            readinessProbeProtocol: "",
+            livenessProbe: "",
+            livenessProbeProtocol: "",
             volumeMounts: {},
             icon: "icon/pod.svg",
             itemName: "Container"

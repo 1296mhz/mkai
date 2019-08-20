@@ -11,7 +11,9 @@ import EnvComponent from '../Env/EnvComponent';
 import { map } from 'lodash';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from './ContainerComponentTheme';
-import ContainerPortComponent from '../ContainerPort/ContainerPortComponent'
+import ContainerPortComponent from '../ContainerPort/ContainerPortComponent';
+import ProbeComponent from '../Probe/ProbeComponent';
+// Добавить args массив
 class ContainerComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -47,6 +49,7 @@ class ContainerComponent extends React.Component {
             ports,
             readinessProbe,
             livenessProbe,
+            livenessProbeProtocol,
             volumeMounts,
         } = this.props;
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
@@ -71,6 +74,7 @@ class ContainerComponent extends React.Component {
             envType: "",
             extra: extra
         }
+        const probeProtocol = ['None', 'httpGet', 'tcpSocket', 'exec'];
         return (
             <>
                 <Divider />
@@ -277,6 +281,56 @@ class ContainerComponent extends React.Component {
 
                     </Grid>
                 </Grid>
+
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Grid item>
+                            <Typography variant="h6" className={classes.title}>
+                                <span className={classes.message}>
+                                    Liveness Probe
+                        </span>
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                id="liveness-probe-protocol"
+                                select
+                                label="Liveness Probe Protocol"
+                                className={classes.textField}
+                                value={livenessProbeProtocol}
+                                name="livenessProbeProtocol"
+                                helperText="Please select liveness"
+                                onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.livenessProbeProtocol`)}
+                                margin="dense"
+                            >
+                                {probeProtocol.map((probe, i) => {
+                                    return (
+                                        <MenuItem key={i} value={probe}>{probe}</MenuItem>
+                                    );
+                                })}
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <ProbeComponent
+                                livenessProbe={livenessProbe}
+                                changeTextFieldHandler={handlers.changeTextFieldHandler}
+                                probeProtocol={livenessProbeProtocol}
+                            />
+                        </Grid>
+                    </Grid>
+
+                    <Grid container item xs={6}>
+                        <Grid item>
+                            <Typography variant="h6" className={classes.title}>
+                                <span className={classes.message}>
+                                    Readiness Probe
+                        </span>
+                            </Typography>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+
 
                 {map(ports, (port, index) => {
                     return <ContainerPortComponent
