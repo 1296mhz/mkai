@@ -50,6 +50,11 @@ class ContainerComponent extends React.Component {
             readinessProbe,
             livenessProbe,
             livenessProbeProtocol,
+            livenessProbeHttpGet,
+            livenessProbeHttpGetPath,
+            livenessProbeHttpGetPort,
+            livenessProbeHttpGetInitialDelaySeconds,
+            livenessProbeHttpGetPeriodSeconds,
             volumeMounts,
         } = this.props;
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
@@ -291,7 +296,7 @@ class ContainerComponent extends React.Component {
                         </span>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item className={classes.grid}>
                             <TextField
                                 id="liveness-probe-protocol"
                                 select
@@ -310,11 +315,20 @@ class ContainerComponent extends React.Component {
                                 })}
                             </TextField>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <ProbeComponent
+                                componentId={componentId}
+                                containerId={containerId}
+                                collectionState={collectionState}
                                 livenessProbe={livenessProbe}
+                                livenessProbeHttpGet={livenessProbeHttpGet}
+                                livenessProbeHttpGetPort={livenessProbeHttpGetPort}
+                                livenessProbeHttpGetInitialDelaySeconds={livenessProbeHttpGetInitialDelaySeconds}
+                                livenessProbeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 probeProtocol={livenessProbeProtocol}
+                                ports={ports}
+                                handlers={handlers}
                             />
                         </Grid>
                     </Grid>
@@ -327,42 +341,53 @@ class ContainerComponent extends React.Component {
                         </span>
                             </Typography>
                         </Grid>
-
                     </Grid>
                 </Grid>
 
+                <Grid container>
+                    <Grid item className={classes.grid} xs={12}>
+                        <Typography variant="h6" className={classes.title}>
+                            Ports: {Object.keys(ports).length}
+                        </Typography>
+                    </Grid>
 
-                {map(ports, (port, index) => {
-                    return <ContainerPortComponent
-                        key={index}
-                        componentId={port.componentId}
-                        containerId={port.containerId}
-                        collectionState={port.collectionState}
-                        portId={index}
-                        name={port.name}
-                        containerPort={port.containerPort}
-                        hostIP={port.hostIP}
-                        hostPort={port.hostPort}
-                        protocol={port.protocol}
-                        changeTextFieldHandler={port.changeTextFieldHandler}
-                        deleteComponentHandler={port.deleteComponentHandler}
-                    />
-                })}
-                {map(envs, (env, index) => {
-                    return <EnvComponent
-                        key={index}
-                        envId={index}
-                        envKey={env.envKey}
-                        envValue={env.envValue}
-                        envType={env.envType}
-                        extra={env.extra}
-                        changeTextFieldHandler={handlers.changeTextFieldHandler}
-                        deleteEnvHandler={handlers.deleteComponentHandler}
-                        collectionState={collectionState}
-                        componentId={componentId}
-                    />
-                })
-                }
+                    {map(ports, (port, index) => {
+                        return <ContainerPortComponent
+                            key={index}
+                            componentId={port.componentId}
+                            containerId={port.containerId}
+                            collectionState={port.collectionState}
+                            portId={index}
+                            name={port.name}
+                            containerPort={port.containerPort}
+                            hostIP={port.hostIP}
+                            hostPort={port.hostPort}
+                            protocol={port.protocol}
+                            changeTextFieldHandler={port.changeTextFieldHandler}
+                            deleteComponentHandler={port.deleteComponentHandler}
+                        />
+                    })}
+                    <Grid item className={classes.grid} xs={12}>
+                        <Typography variant="h6" className={classes.title}>
+                            Environments: {Object.keys(envs).length}
+                        </Typography>
+                    </Grid>
+                    {map(envs, (env, index) => {
+                        return <EnvComponent
+                            key={index}
+                            envId={index}
+                            envKey={env.envKey}
+                            envValue={env.envValue}
+                            envType={env.envType}
+                            extra={env.extra}
+                            changeTextFieldHandler={handlers.changeTextFieldHandler}
+                            deleteEnvHandler={handlers.deleteComponentHandler}
+                            collectionState={collectionState}
+                            componentId={componentId}
+                        />
+                    })
+                    }
+                </Grid>
             </>
         );
     }

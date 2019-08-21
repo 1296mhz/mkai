@@ -62,6 +62,7 @@ class ContainerPortComponent extends React.Component {
                         <Grid item xs={2} className={classes.grid}>
                             <TextField
                                 id="protocol"
+                                required
                                 select
                                 label="Protocol"
                                 name="protocol"
@@ -81,7 +82,6 @@ class ContainerPortComponent extends React.Component {
 
                         <Grid item xs={2} className={classes.grid}>
                             <TextField
-                                required
                                 id="hostIP"
                                 label="HostIP"
                                 name="hostIP"
@@ -94,7 +94,6 @@ class ContainerPortComponent extends React.Component {
 
                         <Grid item xs={2} className={classes.grid}>
                             <TextField
-                                required
                                 id="hostPort"
                                 label="HostPort"
                                 name="hostPort"

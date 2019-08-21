@@ -54,8 +54,8 @@ class MicroServiceComponent extends React.Component {
             envs: {},
             name: "",
             image: "",
-            imagePullPolicy: "",
-            restartPolicy: "",
+            imagePullPolicy: "Always",
+            restartPolicy: "Always",
             resourcesLimitsCpu: 0.010,
             resourcesLimitsMemory: "10",
             resourcesLimitsMemorySize: "Mi",
@@ -66,7 +66,12 @@ class MicroServiceComponent extends React.Component {
             readinessProbe: "",
             readinessProbeProtocol: "",
             livenessProbe: "",
-            livenessProbeProtocol: "",
+            livenessProbeProtocol: "None",
+            livenessProbeHttpGet: "",
+            livenessProbeHttpGetPath: "",
+            livenessProbeHttpGetPort: "",
+            livenessProbeHttpGetInitialDelaySeconds: 160,
+            livenessProbeHttpGetPeriodSeconds: 60,
             volumeMounts: {},
             icon: "icon/pod.svg",
             itemName: "Container"
@@ -191,7 +196,14 @@ class MicroServiceComponent extends React.Component {
                                     envs={container.envs}
                                     ports={container.ports}
                                     readinessProbe={container.readinessProbe}
+                                    readinessProbeProtocol={container.readinessProbeProtocol}
                                     livenessProbe={container.livenessProbe}
+                                    livenessProbeProtocol={container.livenessProbeProtocol}
+                                    livenessProbeHttpGet={container.livenessProbeHttpGet}
+                                    livenessProbeHttpGetPath={container.livenessProbeHttpGetPath}
+                                    livenessProbeHttpGetPort={container.livenessProbeHttpGetPort}
+                                    livenessProbeHttpGetInitialDelaySeconds={container.livenessProbeHttpGetInitialDelaySeconds}
+                                    livenessProbeHttpGetPeriodSeconds={container.livenessProbeHttpGetPeriodSeconds}
                                     volumeMounts={container.volumeMounts}
                                     collectionState={collectionState}
                                     componentId={componentId}
@@ -205,10 +217,6 @@ class MicroServiceComponent extends React.Component {
                         }
                     </Grid>
                 </Grid>
-
-
-
-
             </>
         );
     }

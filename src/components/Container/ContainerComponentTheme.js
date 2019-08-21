@@ -13,7 +13,7 @@ export default theme => ({
         padding: 0
     },
     title: {
-        marginTop: theme.spacing(1)
+        marginTop: theme.spacing(3)
     },
     grid: {
         padding: theme.spacing(1)
