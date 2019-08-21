@@ -51,6 +51,33 @@ class ProbeComponent extends React.Component {
             probeHttpGetPeriodSecondsName,
             probeHttpGetPeriodSecondsHelperText,
 
+            probeHttpGetHttpHeaders,
+            probeHttpGetHttpHeadersId,
+            probeHttpGetHttpHeadersField,
+            probeHttpGetHttpHeadersLabel,
+            probeHttpGetHttpHeadersName,
+            probeHttpGetHttpHeadersHelperText,
+
+            probeHttpGetScheme,
+            probeHttpGetSchemeId,
+            probeHttpGetSchemeField,
+            probeHttpGetSchemeLabel,
+            probeHttpGetSchemeName,
+            probeHttpGetSchemeHelperText,
+
+            probeHttpGetSuccessThreshold,
+            probeHttpGetSuccessThresholdId,
+            probeHttpGetSuccessThresholdField,
+            probeHttpGetSuccessThresholdLabel,
+            probeHttpGetSuccessThresholdName,
+            probeHttpGetSuccessThresholdHelperText,
+
+            probeHttpGetFailureThreshold,
+            probeHttpGetFailureThresholdId,
+            probeHttpGetFailureThresholdField,
+            probeHttpGetFailureThresholdLabel,
+            probeHttpGetFailureThresholdName,
+            probeHttpGetFailureThresholdHelperText,
 
             ports,
             handlers
@@ -97,6 +124,22 @@ class ProbeComponent extends React.Component {
                         </Grid>
 
                         <Grid container item xs={12} >
+                        <Grid item xs={6} className={classes.grid}>
+                            <TextField
+                                required
+                                id={probeHttpGetHttpHeadersId}
+                                label={probeHttpGetHttpHeadersLabel}
+                                value={probeHttpGetHttpHeaders}
+                                name={probeHttpGetHttpHeadersName}
+                                className={classes.textField}
+                                helperText={probeHttpGetHttpHeadersHelperText}
+                                onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}`)}
+                                margin="dense"
+                            />
+                            </Grid>
+                        </Grid>
+
+                        <Grid container item xs={12} >
                             <Grid item xs={6} className={classes.grid}>
                                 <TextField
                                     required
@@ -137,15 +180,11 @@ class ProbeComponent extends React.Component {
     }
 
     render() {
-
-
-
         return (
             <>
                 {
                     this.onlyOne()
                 }
-
             </>
         );
     }

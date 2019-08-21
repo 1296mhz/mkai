@@ -47,7 +47,6 @@ class ContainerComponent extends React.Component {
             resourcesRequestsMemory,
             resourcesRequestsMemorySize,
             ports,
-
             readinessProbe,
             readinessProbeProtocol,
             readinessProbeHttpGet,
@@ -55,7 +54,10 @@ class ContainerComponent extends React.Component {
             readinessProbeHttpGetPort,
             readinessProbeHttpGetInitialDelaySeconds,
             readinessProbeHttpGetPeriodSeconds,
-
+            readinessProbeHttpGetSuccessThreshold,
+            readinessProbeHttpGetFailureThreshold,
+            readinessProbeHttpGetHttpHeaders,
+            readinessProbeHttpGetScheme,
             livenessProbe,
             livenessProbeProtocol,
             livenessProbeHttpGet,
@@ -63,6 +65,10 @@ class ContainerComponent extends React.Component {
             livenessProbeHttpGetPort,
             livenessProbeHttpGetInitialDelaySeconds,
             livenessProbeHttpGetPeriodSeconds,
+            livenessProbeHttpGetSuccessThreshold,
+            livenessProbeHttpGetFailureThreshold,
+            livenessProbeHttpGetHttpHeaders,
+            livenessProbeHttpGetScheme,
             volumeMounts,
         } = this.props;
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
@@ -355,10 +361,38 @@ class ContainerComponent extends React.Component {
 
                                 probeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
                                 probeHttpGetPeriodSecondsId="liveness-probe-HttpGet-period-seconds"
-                                probeHttpGetPeriodSecondsField="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsField="livenessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsLabel="Period Seconds"
-                                probeHttpGetPeriodSecondsName="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsName="livenessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsHelperText="Please input period"
+
+                                probeHttpGetSuccessThreshold={livenessProbeHttpGetSuccessThreshold}
+                                probeHttpGetSuccessThresholdId="liveness-probe-httpGet-success-threshold"
+                                probeHttpGetSuccessThresholdField="livenessProbeHttpGetSuccessThreshold"
+                                probeHttpGetSuccessThresholdLabel="Success Threshold"
+                                probeHttpGetSuccessThresholdName="livenessProbeHttpGetSuccessThreshold"
+                                probeHttpGetSuccessThresholdHelperText="Please input success threshold"
+
+                                probeHttpGetFailureThreshold={livenessProbeHttpGetFailureThreshold}
+                                probeHttpGetFailureThresholdId="liveness-probe-httpGet-failure-threshold"
+                                probeHttpGetFailureThresholdField="livenessProbeHttpGetFailureThreshold"
+                                probeHttpGetFailureThresholdLabel="Failure Threshold"
+                                probeHttpGetFailureThresholdName="livenessProbeHttpGetFailureThreshold"
+                                probeHttpGetFailureThresholdHelperText="Please input failure threshold"
+
+                                probeHttpGetHttpHeaders={livenessProbeHttpGetHttpHeaders}
+                                probeHttpGetHttpHeadersId="liveness-probe-httpGet-http-headers"
+                                probeHttpGetHttpHeadersField="livenessProbeHttpGetHttpHeaders"
+                                probeHttpGetHttpHeadersLabel="Http Headers"
+                                probeHttpGetHttpHeadersName="livenessProbeHttpGetHttpHeaders"
+                                probeHttpGetHttpHeadersHelperText="Please input http headers"
+
+                                probeHttpGetScheme={livenessProbeHttpGetScheme}
+                                probeHttpGetSchemeId="liveness-probe-HttpGet-scheme"
+                                probeHttpGetSchemeField="livenessProbeHttpGetScheme"
+                                probeHttpGetSchemeLabel="Scheme"
+                                probeHttpGetSchemeName="livenessProbeHttpGetScheme"
+                                probeHttpGetSchemeHelperText="Please select scheme"
 
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 probeProtocol={livenessProbeProtocol}
@@ -427,10 +461,38 @@ class ContainerComponent extends React.Component {
 
                                 probeHttpGetPeriodSeconds={readinessProbeHttpGetPeriodSeconds}
                                 probeHttpGetPeriodSecondsId="readiness-probe-HttpGet-period-seconds"
-                                probeHttpGetPeriodSecondsField="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsField="readinessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsLabel="Period Seconds"
-                                probeHttpGetPeriodSecondsName="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsName="readinessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsHelperText="Please input period"
+
+                                probeHttpGetSuccessThreshold={readinessProbeHttpGetSuccessThreshold}
+                                probeHttpGetSuccessThresholdId="readiness-probe-httpGet-success-threshold"
+                                probeHttpGetSuccessThresholdField="readinessProbeHttpGetSuccessThreshold"
+                                probeHttpGetSuccessThresholdLabel="Success Threshold"
+                                probeHttpGetSuccessThresholdName="readinessProbeHttpGetSuccessThreshold"
+                                probeHttpGetSuccessThresholdHelperText="Please input success threshold"
+
+                                probeHttpGetFailureThreshold={readinessProbeHttpGetFailureThreshold}
+                                probeHttpGetFailureThresholdId="readiness-probe-httpGet-failure-threshold"
+                                probeHttpGetFailureThresholdField="readinessProbeHttpGetFailureThreshold"
+                                probeHttpGetFailureThresholdLabel="Failure Threshold"
+                                probeHttpGetFailureThresholdName="readinessProbeHttpGetFailureThreshold"
+                                probeHttpGetFailureThresholdHelperText="Please input failure threshold"
+
+                                probeHttpGetHttpHeaders={readinessProbeHttpGetHttpHeaders}
+                                probeHttpGetHttpHeadersId="readiness-probe-httpGet-http-headers"
+                                probeHttpGetHttpHeadersField="readinessProbeHttpGetHttpHeaders"
+                                probeHttpGetHttpHeadersLabel="Https Headers"
+                                probeHttpGetHttpHeadersName="readinessProbeHttpGetHttpHeaders"
+                                probeHttpGetHttpHeadersHelperText="Please input http headers"
+
+                                probeHttpGetScheme={readinessProbeHttpGetScheme}
+                                probeHttpGetSchemeId="readiness-probe-HttpGet-scheme"
+                                probeHttpGetSchemeField="readinessProbeHttpGetScheme"
+                                probeHttpGetSchemeLabel="Scheme"
+                                probeHttpGetSchemeName="readinessProbeHttpGetScheme"
+                                probeHttpGetSchemeHelperText="Please select scheme"
 
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 probeProtocol={readinessProbeProtocol}
