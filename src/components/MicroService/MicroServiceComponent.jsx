@@ -64,12 +64,17 @@ class MicroServiceComponent extends React.Component {
             resourcesRequestsMemorySize: "Mi",
             ports: {},
             readinessProbe: "",
-            readinessProbeProtocol: "",
+            readinessProbeProtocol: "None",
+            readinessProbeHttpGet: "",
+            readinessProbeHttpGetPath: "",
+            readinessProbeHttpGetPort: 3000,
+            readinessProbeHttpGetInitialDelaySeconds: 160,
+            readinessProbeHttpGetPeriodSeconds: 60,
             livenessProbe: "",
             livenessProbeProtocol: "None",
             livenessProbeHttpGet: "",
             livenessProbeHttpGetPath: "",
-            livenessProbeHttpGetPort: "",
+            livenessProbeHttpGetPort: 3000,
             livenessProbeHttpGetInitialDelaySeconds: 160,
             livenessProbeHttpGetPeriodSeconds: 60,
             volumeMounts: {},
@@ -197,6 +202,11 @@ class MicroServiceComponent extends React.Component {
                                     ports={container.ports}
                                     readinessProbe={container.readinessProbe}
                                     readinessProbeProtocol={container.readinessProbeProtocol}
+                                    readinessProbeHttpGet={container.readinessProbeHttpGet}
+                                    readinessProbeHttpGetPath={container.readinessProbeHttpGetPath}
+                                    readinessProbeHttpGetPort={container.readinessProbeHttpGetPort}
+                                    readinessProbeHttpGetInitialDelaySeconds={container.readinessProbeHttpGetInitialDelaySeconds}
+                                    readinessProbeHttpGetPeriodSeconds={container.readinessProbeHttpGetPeriodSeconds}
                                     livenessProbe={container.livenessProbe}
                                     livenessProbeProtocol={container.livenessProbeProtocol}
                                     livenessProbeHttpGet={container.livenessProbeHttpGet}

@@ -22,11 +22,36 @@ class ProbeComponent extends React.Component {
             containerId,
             collectionState,
             probeProtocol,
-            livenessProbeHttpGet,
-            livenessProbeHttpGetPath,
-            livenessProbeHttpGetPort,
-            livenessProbeHttpGetInitialDelaySeconds,
-            livenessProbeHttpGetPeriodSeconds,
+
+            probeHttpGetPort,
+            probeHttpGetPortField,
+            probeHttpGetPortId,
+            probeHttpGetPortLabel,
+            probeHttpGetPortName,
+            probeHttpGetPortHelperText,
+
+            probeHttpGetPath,
+            probeHttpGetPathField,
+            probeHttpGetPathId,
+            probeHttpGetPathLabel,
+            probeHttpGetPathName,
+            probeHttpGetPathHelperText,
+
+            probeHttpGetInitialDelaySeconds,
+            probeHttpGetInitialDelaySecondsField,
+            probeHttpGetInitialDelaySecondsId,
+            probeHttpGetInitialDelaySecondsLabel,
+            probeHttpGetInitialDelaySecondsName,
+            probeHttpGetInitialDelaySecondsHelperText,
+
+            probeHttpGetPeriodSeconds,
+            probeHttpGetPeriodSecondsField,
+            probeHttpGetPeriodSecondsId,
+            probeHttpGetPeriodSecondsLabel,
+            probeHttpGetPeriodSecondsName,
+            probeHttpGetPeriodSecondsHelperText,
+
+
             ports,
             handlers
         } = this.props;
@@ -34,18 +59,18 @@ class ProbeComponent extends React.Component {
         switch (probeProtocol) {
             case 'httpGet':
                 return <>
-                    <Grid container className={classes.grid}>
-                        <Grid container item xs={6} className={classes.grid}>
-                            <Grid item xs={12}>
+                    <Grid container >
+                        <Grid container item xs={12}>
+                            <Grid item xs={6} className={classes.grid}>
                                 <TextField
-                                    id="liveness-probe-http-get-port"
+                                    id={probeHttpGetPortId}
                                     select
-                                    label="Port"
+                                    label={probeHttpGetPortLabel}
                                     className={classes.textField}
-                                    value={livenessProbeHttpGetPort}
-                                    name="livenessProbeHttpGetPort"
-                                    helperText="Please select port"
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.livenessProbeHttpGetPort`)}
+                                    value={probeHttpGetPort}
+                                    name={probeHttpGetPortName}
+                                    helperText={probeHttpGetPortHelperText}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetPortField}`)}
                                     margin="dense"
                                 >
                                     {map(ports, (port, index) => {
@@ -56,46 +81,49 @@ class ProbeComponent extends React.Component {
 
                                 </TextField>
                             </Grid>
-                            <Grid item xs={12} >
+                            <Grid item xs={6} className={classes.grid}>
                                 <TextField
                                     required
-                                    id="livenessProbeHttpGetPath"
-                                    label="Probe Path"
-                                    value={livenessProbeHttpGetPath}
-                                    name="livenessProbeHttpGetPath"
+                                    id={probeHttpGetPathId}
+                                    label={probeHttpGetPathLabel}
+                                    value={probeHttpGetPath}
+                                    name={probeHttpGetPathName}
                                     className={classes.textField}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.livenessProbeHttpGetPath`)}
-                                    margin="dense"
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container item xs={6} className={classes.grid}>
-                            <Grid item xs={12} >
-                                <TextField
-                                    required
-                                    id="livenessProbeHttpGetPath"
-                                    label="Probe Path"
-                                    value={livenessProbeHttpGetPath}
-                                    name="livenessProbeHttpGetPath"
-                                    className={classes.textField}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.livenessProbeHttpGetPath`)}
-                                    margin="dense"
-                                />
-                            </Grid>
-                            <Grid item xs={12} >
-                                <TextField
-                                    required
-                                    id="livenessProbeHttpGetPath"
-                                    label="Probe Path"
-                                    value={livenessProbeHttpGetPath}
-                                    name="livenessProbeHttpGetPath"
-                                    className={classes.textField}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.livenessProbeHttpGetPath`)}
+                                    helperText={probeHttpGetPathHelperText}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetPathField}`)}
                                     margin="dense"
                                 />
                             </Grid>
                         </Grid>
 
+                        <Grid container item xs={12} >
+                            <Grid item xs={6} className={classes.grid}>
+                                <TextField
+                                    required
+                                    id={probeHttpGetInitialDelaySecondsId}
+                                    label={probeHttpGetInitialDelaySecondsLabel}
+                                    value={probeHttpGetInitialDelaySeconds}
+                                    name={probeHttpGetInitialDelaySecondsName}
+                                    className={classes.textField}
+                                    helperText={probeHttpGetInitialDelaySecondsHelperText}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetInitialDelaySecondsField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                            <Grid item xs={6} className={classes.grid}>
+                                <TextField
+                                    required
+                                    id={probeHttpGetPeriodSecondsId}
+                                    label={probeHttpGetPeriodSecondsLabel}
+                                    value={probeHttpGetPeriodSeconds}
+                                    name={probeHttpGetPeriodSecondsName}
+                                    className={classes.textField}
+                                    helperText={probeHttpGetPeriodSecondsHelperText}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetPeriodSecondsField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </>
                 break;

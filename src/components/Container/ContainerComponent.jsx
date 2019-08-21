@@ -47,7 +47,15 @@ class ContainerComponent extends React.Component {
             resourcesRequestsMemory,
             resourcesRequestsMemorySize,
             ports,
+
             readinessProbe,
+            readinessProbeProtocol,
+            readinessProbeHttpGet,
+            readinessProbeHttpGetPath,
+            readinessProbeHttpGetPort,
+            readinessProbeHttpGetInitialDelaySeconds,
+            readinessProbeHttpGetPeriodSeconds,
+
             livenessProbe,
             livenessProbeProtocol,
             livenessProbeHttpGet,
@@ -293,7 +301,7 @@ class ContainerComponent extends React.Component {
                             <Typography variant="h6" className={classes.title}>
                                 <span className={classes.message}>
                                     Liveness Probe
-                        </span>
+                                </span>
                             </Typography>
                         </Grid>
                         <Grid item className={classes.grid}>
@@ -320,11 +328,38 @@ class ContainerComponent extends React.Component {
                                 componentId={componentId}
                                 containerId={containerId}
                                 collectionState={collectionState}
-                                livenessProbe={livenessProbe}
-                                livenessProbeHttpGet={livenessProbeHttpGet}
-                                livenessProbeHttpGetPort={livenessProbeHttpGetPort}
-                                livenessProbeHttpGetInitialDelaySeconds={livenessProbeHttpGetInitialDelaySeconds}
-                                livenessProbeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
+                                probe={livenessProbe}
+                                probeProtocol={livenessProbeProtocol}
+                                probeHttpGet={livenessProbeHttpGet}
+
+                                probeHttpGetPort={livenessProbeHttpGetPort}
+                                probeHttpGetPortId="liveness-probe"
+                                probeHttpGetPortField="livenessProbeHttpGetPort"
+                                probeHttpGetPortName="livenessProbeHttpGetPort"
+                                probeHttpGetPortLabel="Port"
+                                probeHttpGetPortHelperText="Please select port"
+
+                                probeHttpGetPath={livenessProbeHttpGetPath}
+                                probeHttpGetPathId="liveness-probe-httpGet-port"
+                                probeHttpGetPathField="livenessProbeHttpGetPath"
+                                probeHttpGetPathLabel="Probe Path"
+                                probeHttpGetPathName="livenessProbeHttpGetPath"
+                                probeHttpGetPathHelperText="Please input path"
+
+                                probeHttpGetInitialDelaySeconds={livenessProbeHttpGetInitialDelaySeconds}
+                                probeHttpGetInitialDelaySecondsId="liveness-probe-initial-delay-seconds"
+                                probeHttpGetInitialDelaySecondsField="livenessProbeHttpGetInitialDelaySeconds"
+                                probeHttpGetInitialDelaySecondsLabel="Initial Delay Seconds"
+                                probeHttpGetInitialDelaySecondsName="livenessProbeHttpGetInitialDelaySeconds"
+                                probeHttpGetInitialDelaySecondsHelperText="Please input delay"
+
+                                probeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
+                                probeHttpGetPeriodSecondsId="liveness-probe-HttpGet-period-seconds"
+                                probeHttpGetPeriodSecondsField="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsLabel="Period Seconds"
+                                probeHttpGetPeriodSecondsName="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsHelperText="Please input period"
+
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 probeProtocol={livenessProbeProtocol}
                                 ports={ports}
@@ -333,13 +368,75 @@ class ContainerComponent extends React.Component {
                         </Grid>
                     </Grid>
 
-                    <Grid container item xs={6}>
+                    <Grid item xs={6}>
                         <Grid item>
                             <Typography variant="h6" className={classes.title}>
                                 <span className={classes.message}>
                                     Readiness Probe
-                        </span>
+                                </span>
                             </Typography>
+                        </Grid>
+                        <Grid item className={classes.grid}>
+                            <TextField
+                                id="readiness-probe-protocol"
+                                select
+                                label="Readiness Probe Protocol"
+                                className={classes.textField}
+                                value={readinessProbeProtocol}
+                                name="readinessProbeProtocol"
+                                helperText="Please select readiness"
+                                onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.readinessProbeProtocol`)}
+                                margin="dense"
+                            >
+                                {probeProtocol.map((probe, i) => {
+                                    return (
+                                        <MenuItem key={i} value={probe}>{probe}</MenuItem>
+                                    );
+                                })}
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <ProbeComponent
+                                componentId={componentId}
+                                containerId={containerId}
+                                collectionState={collectionState}
+                                probe={readinessProbe}
+                                probeProtocol={readinessProbeProtocol}
+                                probeHttpGet={readinessProbeHttpGet}
+
+                                probeHttpGetPort={readinessProbeHttpGetPort}
+                                probeHttpGetPortId="readiness-probe"
+                                probeHttpGetPortField="readinessProbeHttpGetPort"
+                                probeHttpGetPortName="readinessProbeHttpGetPort"
+                                probeHttpGetPortLabel="Port"
+                                probeHttpGetPortHelperText="Please select port"
+
+                                probeHttpGetPath={readinessProbeHttpGetPath}
+                                probeHttpGetPathId="readiness-probe-httpGet-port"
+                                probeHttpGetPathField="readinessProbeHttpGetPath"
+                                probeHttpGetPathLabel="Probe Path"
+                                probeHttpGetPathName="readinessProbeHttpGetPath"
+                                probeHttpGetPathHelperText="Please input path"
+
+                                probeHttpGetInitialDelaySeconds={readinessProbeHttpGetInitialDelaySeconds}
+                                probeHttpGetInitialDelaySecondsId="readiness-probe-initial-delay-seconds"
+                                probeHttpGetInitialDelaySecondsField="readinessProbeHttpGetInitialDelaySeconds"
+                                probeHttpGetInitialDelaySecondsLabel="Initial Delay Seconds"
+                                probeHttpGetInitialDelaySecondsName="readinessProbeHttpGetInitialDelaySeconds"
+                                probeHttpGetInitialDelaySecondsHelperText="Please input delay"
+
+                                probeHttpGetPeriodSeconds={readinessProbeHttpGetPeriodSeconds}
+                                probeHttpGetPeriodSecondsId="readiness-probe-HttpGet-period-seconds"
+                                probeHttpGetPeriodSecondsField="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsLabel="Period Seconds"
+                                probeHttpGetPeriodSecondsName="probeHttpGetPeriodSeconds"
+                                probeHttpGetPeriodSecondsHelperText="Please input period"
+
+                                changeTextFieldHandler={handlers.changeTextFieldHandler}
+                                probeProtocol={readinessProbeProtocol}
+                                ports={ports}
+                                handlers={handlers}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
