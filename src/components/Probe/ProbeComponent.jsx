@@ -134,26 +134,26 @@ class ProbeComponent extends React.Component {
                             <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
                                     required
-                                    id={this.props.probeHttpGetInitialDelaySecondsId}
-                                    label={this.props.probeHttpGetInitialDelaySecondsLabel}
-                                    value={this.props.probeHttpGetInitialDelaySeconds}
-                                    name={this.props.probeHttpGetInitialDelaySecondsName}
+                                    id={this.props.probeHttpGetFailureThresholdId}
+                                    label={this.props.probeHttpGetFailureThresholdLabel}
+                                    value={this.props.probeHttpGetFailureThreshold}
+                                    name={this.props.probeHttpGetFailureThresholdsName}
                                     className={this.props.classes.textField}
-                                    helperText={this.props.probeHttpGetInitialDelaySecondsHelperText}
-                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetInitialDelaySecondsField}`)}
+                                    helperText={this.props.probeHttpGetFailureThresholdHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetFailureThresholdField}`)}
                                     margin="dense"
                                 />
                             </Grid>
                             <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
                                     required
-                                    id={this.props.probeHttpGetPeriodSecondsId}
-                                    label={this.props.probeHttpGetPeriodSecondsLabel}
-                                    value={this.props.probeHttpGetPeriodSeconds}
-                                    name={this.props.probeHttpGetPeriodSecondsName}
+                                    id={this.props.probeHttpGetSuccessThresholdId}
+                                    label={this.props.probeHttpGetSuccessThresholdLabel}
+                                    value={this.props.probeHttpGetSuccessThreshold}
+                                    name={this.props.probeHttpGetSuccessThresholdName}
                                     className={this.props.classes.textField}
-                                    helperText={this.props.probeHttpGetPeriodSecondsHelperText}
-                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPeriodSecondsField}`)}
+                                    helperText={this.props.probeHttpGetSuccessThresholdHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetSuccessThresholdField}`)}
                                     margin="dense"
                                 />
                             </Grid>
