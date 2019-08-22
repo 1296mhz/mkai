@@ -93,7 +93,6 @@ class ContainerComponent extends React.Component {
             envType: "",
             extra: extra
         }
-        const probeProtocol = ['None', 'httpGet', 'tcpSocket', 'exec'];
         return (
             <>
                 <Divider />
@@ -381,13 +380,12 @@ class ContainerComponent extends React.Component {
                                 componentId={componentId}
                                 containerId={containerId}
                                 collectionState={collectionState}
-                                id="readiness-probe-protocol"
-                                name="readinessProbeProtocol"
-                                title="Readiness Probe"
-                                helperText="Please select readiness"
                                 probe={readinessProbe}
+                                title="Readiness Probe"
+                                id="readiness-probe-protocol"
                                 label="Readiness Probe Protocol"
-                                helperText="Please select protocol type"
+                                name="readinessProbeProtocol"
+                                helperText="Please select readiness"
                                 probeProtocol={readinessProbeProtocol}
                                 probeProtocolField="readinessProbeProtocol"
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
