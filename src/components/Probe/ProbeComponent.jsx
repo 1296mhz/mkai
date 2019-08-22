@@ -33,8 +33,6 @@ class ProbeComponent extends React.Component {
             case 'httpGet':
                 return <>
                     <Grid container >
-
-
                         <Grid container item xs={12}>
                             <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
@@ -126,7 +124,7 @@ class ProbeComponent extends React.Component {
                         </Typography>
                     </Grid>
 
-                    <Grid item container xs justify="flex-end" className={this.props.classes.grid}>
+                    <Grid item container xs justify="flex-end" >
                         {
                             (this.props.probeProtocol === 'httpGet') ?
                                 <IconButton onClick={() => {
@@ -138,8 +136,6 @@ class ProbeComponent extends React.Component {
                                 </IconButton>
                                 : false
                         }
-
-
                     </Grid>
                 </Grid>
                 <Grid item xs={12} className={this.props.classes.grid}>
