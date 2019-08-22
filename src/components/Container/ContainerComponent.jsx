@@ -302,7 +302,6 @@ class ContainerComponent extends React.Component {
 
                 <Grid container>
                     <Grid container item xs={6}>
-
                         <Grid item xs={12}>
                             <ProbeComponent
                                 componentId={componentId}
@@ -368,8 +367,6 @@ class ContainerComponent extends React.Component {
                                 probeHttpGetSchemeLabel="Scheme"
                                 probeHttpGetSchemeName="livenessProbeHttpGetScheme"
                                 probeHttpGetSchemeHelperText="Please select scheme"
-
-                  
                             />
                         </Grid>
                     </Grid>
@@ -441,8 +438,6 @@ class ContainerComponent extends React.Component {
                                 probeHttpGetSchemeLabel="Scheme"
                                 probeHttpGetSchemeName="readinessProbeHttpGetScheme"
                                 probeHttpGetSchemeHelperText="Please select scheme"
-
-                             
                             />
                         </Grid>
                     </Grid>
