@@ -122,8 +122,8 @@ class ProbeComponent extends React.Component {
                     <Grid item xs>
                         <Typography variant="h6" className={this.props.classes.title}>
                             <span className={this.props.classes.message}>
-                               {this.props.title}
-                           </span>
+                                {this.props.title}
+                            </span>
                         </Typography>
                     </Grid>
 
