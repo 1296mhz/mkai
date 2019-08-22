@@ -10,6 +10,7 @@ import styles from './ProbeComponentTheme';
 import { map } from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
+import HttpHeaderComponent from '../HttpHeader/HttpHeaderComponent';
 class ProbeComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -71,6 +72,35 @@ class ProbeComponent extends React.Component {
                             </Grid>
                         </Grid>
 
+                        <Grid container item xs={12}>
+                            {
+                                console.log("this.props.probeHttpGetHttpHeaders ", this.props.probeHttpGetHttpHeaders)
+                            }
+                            {map(this.props.probeHttpGetHttpHeaders, (header, index) => {
+                                console.log(index, header)
+                                return (
+                                    <HttpHeaderComponent
+                                     key={index}
+                                     componentId={this.props.componentId}
+                                     containerId={this.props.containerId}
+                                     probeHttpGetHttpHeadersField={this.props.probeHttpGetHttpHeadersField}
+                                     httpHeaderId={index}
+                                     httpHeaderKeyId="http-header-key"
+                                     httpHeaderKey={header.headerKey}
+                                     httpHeaderKeyField="headerKey"
+                                     httpHeaderKeyLabel="Header Key"
+                                     httpHeaderValueId="http-header-value"
+                                     httpHeaderValue={header.headerValue}
+                                     httpHeaderValueField="headerValue"
+                                     httpHeaderValueLabel="Header Value"
+                                     collectionState={this.props.collectionState}
+                                     handlers={this.props.handlers}
+                                     />
+                                );
+                            })}
+
+                        </Grid>
+
                         <Grid container item xs={12} >
                             <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
@@ -99,6 +129,36 @@ class ProbeComponent extends React.Component {
                                 />
                             </Grid>
                         </Grid>
+
+                        <Grid container item xs={12} >
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    required
+                                    id={this.props.probeHttpGetInitialDelaySecondsId}
+                                    label={this.props.probeHttpGetInitialDelaySecondsLabel}
+                                    value={this.props.probeHttpGetInitialDelaySeconds}
+                                    name={this.props.probeHttpGetInitialDelaySecondsName}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeHttpGetInitialDelaySecondsHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetInitialDelaySecondsField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    required
+                                    id={this.props.probeHttpGetPeriodSecondsId}
+                                    label={this.props.probeHttpGetPeriodSecondsLabel}
+                                    value={this.props.probeHttpGetPeriodSeconds}
+                                    name={this.props.probeHttpGetPeriodSecondsName}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeHttpGetPeriodSecondsHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPeriodSecondsField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                        </Grid>
+
                     </Grid>
                 </>
                 break;

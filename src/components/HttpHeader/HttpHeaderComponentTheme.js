@@ -23,7 +23,7 @@ export default theme => ({
         paddingTop: theme.spacing(2)
     },
     gridDelete: {
-        padding: theme.spacing(1),
+        paddingTop: theme.spacing(2),
         paddingRight: theme.spacing(0),
         textAlign: 'right'
     },

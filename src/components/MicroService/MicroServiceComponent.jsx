@@ -217,6 +217,10 @@ class MicroServiceComponent extends React.Component {
                                     readinessProbeHttpGetPort={container.readinessProbeHttpGetPort}
                                     readinessProbeHttpGetInitialDelaySeconds={container.readinessProbeHttpGetInitialDelaySeconds}
                                     readinessProbeHttpGetPeriodSeconds={container.readinessProbeHttpGetPeriodSeconds}
+                                    readinessProbeHttpGetSuccessThreshold={container.readinessProbeHttpGetSuccessThreshold}
+                                    readinessProbeHttpGetFailureThreshold={container.readinessProbeHttpGetFailureThreshold}
+                                    readinessProbeHttpGetHttpHeaders={container.readinessProbeHttpGetHttpHeaders}
+                                    readinessProbeHttpGetScheme={container.readinessProbeHttpGetScheme}
                                     livenessProbe={container.livenessProbe}
                                     livenessProbeProtocol={container.livenessProbeProtocol}
                                     livenessProbeHttpGet={container.livenessProbeHttpGet}
@@ -224,6 +228,10 @@ class MicroServiceComponent extends React.Component {
                                     livenessProbeHttpGetPort={container.livenessProbeHttpGetPort}
                                     livenessProbeHttpGetInitialDelaySeconds={container.livenessProbeHttpGetInitialDelaySeconds}
                                     livenessProbeHttpGetPeriodSeconds={container.livenessProbeHttpGetPeriodSeconds}
+                                    livenessProbeHttpGetSuccessThreshold={container.livenessProbeHttpGetSuccessThreshold}
+                                    livenessProbeHttpGetFailureThreshold={container.livenessProbeHttpGetFailureThreshold}
+                                    livenessProbeHttpGetHttpHeaders={container.livenessProbeHttpGetHttpHeaders}
+                                    livenessProbeHttpGetScheme={container.livenessProbeHttpGetScheme}
                                     volumeMounts={container.volumeMounts}
                                     collectionState={collectionState}
                                     componentId={componentId}

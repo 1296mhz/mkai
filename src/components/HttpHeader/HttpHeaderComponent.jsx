@@ -18,63 +18,59 @@ class HttpHeaderComponent extends React.Component {
             classes,
             componentId,
             containerId,
-            probeField,
             httpHeaderId,
+            probeHttpGetHttpHeadersField,
+            httpHeaderKeyId,
             httpHeaderKey,
+            httpHeaderKeyField,
+            httpHeaderKeyLabel,
             httpHeaderValue,
-            httpHeaderType,
+            httpHeaderValueField,
+            httpHeaderValueLabel,
+            httpHeaderValueId,
             collectionState,
-            changeTextFieldHandler,
-            deleteComponentHandler,
+            handlers,
         } = this.props;
 
         return (
             <>
                 <Grid container justify="flex-start" >
-                    <Grid item xs={3} className={classes.grid}>
+                    <Grid item xs={6} className={classes.grid}>
                         <TextField
                             required
-                            id="http-header-key"
-                            label="Http Header Key"
-                            name="httpHeaderId"
+                            id={httpHeaderKeyId}
+                            label={httpHeaderKeyLabel}
+                            name={httpHeaderKeyField}
                             value={httpHeaderKey}
                             className={classes.textFieldKey}
                             onChange={(e) => {
-                                changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeField}`)
-                            }
-                            }
-
-                            margin="dense"
-                        />
-                    </Grid>
-                    <Grid item xs={7} className={classes.grid}>
-                        <TextField
-                            required
-                            id="env-value"
-                            label="Value"
-                            name="value"
-                            value={envValue}
-                            className={classes.textFieldValue}
-                            onChange={(e) => {
-                                if (extra === null) {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envValue`)
-                                } else {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envValue`)
-                                }
+                                handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}.${httpHeaderKeyField}`)
                             }}
                             margin="dense"
                         />
                     </Grid>
 
+                    <Grid item xs={5} className={classes.grid}>
+                        <TextField
+                            required
+                            id={httpHeaderValueId}
+                            label={httpHeaderValueLabel}
+                            name={httpHeaderValueField}
+                            value={httpHeaderValue}
+                            className={classes.textFieldKey}
+                            onChange={(e) => {
+                                handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}.${httpHeaderValueField}`)
+                            }}
+                            margin="dense"
+                        />
+                    </Grid>
+  
+
 
 
                     <Grid xs={1} item className={classes.gridDelete}>
                         <IconButton onClick={() => {
-                            if (extra === null) {
-                                deleteEnvHandler(`${collectionState}.${componentId}.envs.${envId}`)
-                            } else {
-                                deleteEnvHandler(`${collectionState}.${componentId}.${extra}.envs.${envId}`)
-                            }
+                            handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}`);
                         }}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
