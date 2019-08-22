@@ -73,7 +73,6 @@ class ProbeComponent extends React.Component {
                             </Grid>
                         </Grid>
 
-
                         <Grid container item xs={12} >
                             <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
