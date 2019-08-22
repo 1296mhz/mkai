@@ -17,6 +17,7 @@ class ProbeComponent extends React.Component {
         this.onlyOne = this.onlyOne.bind(this);
         this.newId = this.newId.bind(this);
         this.probeProtocol = ['None', 'httpGet', 'tcpSocket', 'exec'];
+        this.schemes = ['http', 'https']; 
         this.httpHeader = {
             headerKey: "",
             headerValue: ""
@@ -73,11 +74,7 @@ class ProbeComponent extends React.Component {
                         </Grid>
 
                         <Grid container item xs={12}>
-                            {
-                                console.log("this.props.probeHttpGetHttpHeaders ", this.props.probeHttpGetHttpHeaders)
-                            }
                             {map(this.props.probeHttpGetHttpHeaders, (header, index) => {
-                                console.log(index, header)
                                 return (
                                     <HttpHeaderComponent
                                      key={index}
@@ -158,6 +155,27 @@ class ProbeComponent extends React.Component {
                                 />
                             </Grid>
                         </Grid>
+
+                        <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    id={this.props.probeHttpGetSchemeId}
+                                    select
+                                    label={this.props.probeHttpGetSchemeLabel}
+                                    className={this.props.classes.textField}
+                                    value={this.props.probeHttpGetScheme}
+                                    name={this.props.probeHttpGetScheme}
+                                    helperText={this.props.probeHttpGetSchemeHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetSchemeField}`)}
+                                    margin="dense"
+                                >
+                                    {map(this.schemes, (schema, index) => {
+                                        return (
+                                            <MenuItem key={index} value={schema}>{schema}</MenuItem>
+                                        );
+                                    })}
+
+                                </TextField>
+                            </Grid>
 
                     </Grid>
                 </>
