@@ -8,99 +8,47 @@ import Icon from '@material-ui/core/Icon';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from './ProbeComponentTheme';
 import { map } from 'lodash';
+import Typography from '@material-ui/core/Typography';
+import { Divider } from '@material-ui/core';
 class ProbeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.onlyOne = this.onlyOne.bind(this);
+        this.newId = this.newId.bind(this);
+        this.probeProtocol = ['None', 'httpGet', 'tcpSocket', 'exec'];
+        this.httpHeader = {
+            headerKey: "",
+            headerValue: ""
+        }
     }
 
+    newId() {
+        const d = new Date();
+        const id = d.getTime();
+        return id
+    }
 
     onlyOne() {
-        const {
-            classes,
-            componentId,
-            containerId,
-            collectionState,
-            probeProtocol,
-
-            probeHttpGetPort,
-            probeHttpGetPortField,
-            probeHttpGetPortId,
-            probeHttpGetPortLabel,
-            probeHttpGetPortName,
-            probeHttpGetPortHelperText,
-
-            probeHttpGetPath,
-            probeHttpGetPathField,
-            probeHttpGetPathId,
-            probeHttpGetPathLabel,
-            probeHttpGetPathName,
-            probeHttpGetPathHelperText,
-
-            probeHttpGetInitialDelaySeconds,
-            probeHttpGetInitialDelaySecondsField,
-            probeHttpGetInitialDelaySecondsId,
-            probeHttpGetInitialDelaySecondsLabel,
-            probeHttpGetInitialDelaySecondsName,
-            probeHttpGetInitialDelaySecondsHelperText,
-
-            probeHttpGetPeriodSeconds,
-            probeHttpGetPeriodSecondsField,
-            probeHttpGetPeriodSecondsId,
-            probeHttpGetPeriodSecondsLabel,
-            probeHttpGetPeriodSecondsName,
-            probeHttpGetPeriodSecondsHelperText,
-
-            probeHttpGetHttpHeaders,
-            probeHttpGetHttpHeadersId,
-            probeHttpGetHttpHeadersField,
-            probeHttpGetHttpHeadersLabel,
-            probeHttpGetHttpHeadersName,
-            probeHttpGetHttpHeadersHelperText,
-
-            probeHttpGetScheme,
-            probeHttpGetSchemeId,
-            probeHttpGetSchemeField,
-            probeHttpGetSchemeLabel,
-            probeHttpGetSchemeName,
-            probeHttpGetSchemeHelperText,
-
-            probeHttpGetSuccessThreshold,
-            probeHttpGetSuccessThresholdId,
-            probeHttpGetSuccessThresholdField,
-            probeHttpGetSuccessThresholdLabel,
-            probeHttpGetSuccessThresholdName,
-            probeHttpGetSuccessThresholdHelperText,
-
-            probeHttpGetFailureThreshold,
-            probeHttpGetFailureThresholdId,
-            probeHttpGetFailureThresholdField,
-            probeHttpGetFailureThresholdLabel,
-            probeHttpGetFailureThresholdName,
-            probeHttpGetFailureThresholdHelperText,
-
-            ports,
-            handlers
-        } = this.props;
-
-        switch (probeProtocol) {
+        switch (this.props.probeProtocol) {
             case 'httpGet':
                 return <>
                     <Grid container >
+
+
                         <Grid container item xs={12}>
-                            <Grid item xs={6} className={classes.grid}>
+                            <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
-                                    id={probeHttpGetPortId}
+                                    id={this.props.probeHttpGetPortId}
                                     select
-                                    label={probeHttpGetPortLabel}
-                                    className={classes.textField}
-                                    value={probeHttpGetPort}
-                                    name={probeHttpGetPortName}
-                                    helperText={probeHttpGetPortHelperText}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetPortField}`)}
+                                    label={this.props.probeHttpGetPortLabel}
+                                    className={this.props.classes.textField}
+                                    value={this.props.probeHttpGetPort}
+                                    name={this.props.probeHttpGetPortName}
+                                    helperText={this.props.probeHttpGetPortHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPortField}`)}
                                     margin="dense"
                                 >
-                                    {map(ports, (port, index) => {
+                                    {map(this.props.ports, (port, index) => {
                                         return (
                                             <MenuItem key={index} value={port.name}>{port.name}</MenuItem>
                                         );
@@ -108,61 +56,48 @@ class ProbeComponent extends React.Component {
 
                                 </TextField>
                             </Grid>
-                            <Grid item xs={6} className={classes.grid}>
+
+
+                            <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
                                     required
-                                    id={probeHttpGetPathId}
-                                    label={probeHttpGetPathLabel}
-                                    value={probeHttpGetPath}
-                                    name={probeHttpGetPathName}
-                                    className={classes.textField}
-                                    helperText={probeHttpGetPathHelperText}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetPathField}`)}
+                                    id={this.props.probeHttpGetPathId}
+                                    label={this.props.probeHttpGetPathLabel}
+                                    value={this.props.probeHttpGetPath}
+                                    name={this.props.probeHttpGetPathName}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeHttpGetPathHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPathField}`)}
                                     margin="dense"
                                 />
                             </Grid>
                         </Grid>
 
-                        <Grid container item xs={12} >
-                        <Grid item xs={6} className={classes.grid}>
-                            <TextField
-                                required
-                                id={probeHttpGetHttpHeadersId}
-                                label={probeHttpGetHttpHeadersLabel}
-                                value={probeHttpGetHttpHeaders}
-                                name={probeHttpGetHttpHeadersName}
-                                className={classes.textField}
-                                helperText={probeHttpGetHttpHeadersHelperText}
-                                onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}`)}
-                                margin="dense"
-                            />
-                            </Grid>
-                        </Grid>
 
                         <Grid container item xs={12} >
-                            <Grid item xs={6} className={classes.grid}>
+                            <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
                                     required
-                                    id={probeHttpGetInitialDelaySecondsId}
-                                    label={probeHttpGetInitialDelaySecondsLabel}
-                                    value={probeHttpGetInitialDelaySeconds}
-                                    name={probeHttpGetInitialDelaySecondsName}
-                                    className={classes.textField}
-                                    helperText={probeHttpGetInitialDelaySecondsHelperText}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetInitialDelaySecondsField}`)}
+                                    id={this.props.probeHttpGetInitialDelaySecondsId}
+                                    label={this.props.probeHttpGetInitialDelaySecondsLabel}
+                                    value={this.props.probeHttpGetInitialDelaySeconds}
+                                    name={this.props.probeHttpGetInitialDelaySecondsName}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeHttpGetInitialDelaySecondsHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetInitialDelaySecondsField}`)}
                                     margin="dense"
                                 />
                             </Grid>
-                            <Grid item xs={6} className={classes.grid}>
+                            <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
                                     required
-                                    id={probeHttpGetPeriodSecondsId}
-                                    label={probeHttpGetPeriodSecondsLabel}
-                                    value={probeHttpGetPeriodSeconds}
-                                    name={probeHttpGetPeriodSecondsName}
-                                    className={classes.textField}
-                                    helperText={probeHttpGetPeriodSecondsHelperText}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetPeriodSecondsField}`)}
+                                    id={this.props.probeHttpGetPeriodSecondsId}
+                                    label={this.props.probeHttpGetPeriodSecondsLabel}
+                                    value={this.props.probeHttpGetPeriodSeconds}
+                                    name={this.props.probeHttpGetPeriodSecondsName}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeHttpGetPeriodSecondsHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPeriodSecondsField}`)}
                                     margin="dense"
                                 />
                             </Grid>
@@ -182,6 +117,51 @@ class ProbeComponent extends React.Component {
     render() {
         return (
             <>
+                <Grid container item xs={12}>
+
+                    <Grid item xs>
+                        <Typography variant="h6" className={this.props.classes.title}>
+                            <span className={this.props.classes.message}>
+                               {this.props.title}
+                           </span>
+                        </Typography>
+                    </Grid>
+
+                    <Grid item container xs justify="flex-end" className={this.props.classes.grid}>
+                        {
+                            (this.props.probeProtocol === 'httpGet') ?
+                                <IconButton onClick={() => {
+                                    const id = this.newId();
+                                    const newHeader = Object.assign({}, this.httpHeader)
+                                    this.props.handlers.addComponentHandler(`${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetHttpHeadersField}.${id}`, newHeader);
+                                }}>
+                                    <Icon>http</Icon>
+                                </IconButton>
+                                : false
+                        }
+
+
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} className={this.props.classes.grid}>
+                    <TextField
+                        id={this.props.id}
+                        select
+                        label={this.props.label}
+                        className={this.props.classes.textField}
+                        value={this.props.probeProtocol}
+                        name={this.props.name}
+                        helperText={this.props.helperText}
+                        onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeProtocolField}`)}
+                        margin="dense"
+                    >
+                        {this.probeProtocol.map((probe, i) => {
+                            return (
+                                <MenuItem key={i} value={probe}>{probe}</MenuItem>
+                            );
+                        })}
+                    </TextField>
+                </Grid>
                 {
                     this.onlyOne()
                 }

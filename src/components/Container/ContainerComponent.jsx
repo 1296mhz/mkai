@@ -302,91 +302,67 @@ class ContainerComponent extends React.Component {
                 </Grid>
 
                 <Grid container>
-                    <Grid item xs={6}>
-                        <Grid item>
-                            <Typography variant="h6" className={classes.title}>
-                                <span className={classes.message}>
-                                    Liveness Probe
-                                </span>
-                            </Typography>
-                        </Grid>
-                        <Grid item className={classes.grid}>
-                            <TextField
-                                id="liveness-probe-protocol"
-                                select
-                                label="Liveness Probe Protocol"
-                                className={classes.textField}
-                                value={livenessProbeProtocol}
-                                name="livenessProbeProtocol"
-                                helperText="Please select liveness"
-                                onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.livenessProbeProtocol`)}
-                                margin="dense"
-                            >
-                                {probeProtocol.map((probe, i) => {
-                                    return (
-                                        <MenuItem key={i} value={probe}>{probe}</MenuItem>
-                                    );
-                                })}
-                            </TextField>
-                        </Grid>
+                    <Grid container item xs={6}>
+
                         <Grid item xs={12}>
                             <ProbeComponent
                                 componentId={componentId}
                                 containerId={containerId}
                                 collectionState={collectionState}
                                 probe={livenessProbe}
+                                title="Liveness Probe"
+                                id="liveness-probe-protocol"
+                                label="Liveness Probe Protocol"
+                                name="livenessProbeProtocol"
+                                helperText="Please select protocol type"
                                 probeProtocol={livenessProbeProtocol}
+                                probeProtocolField="livenessProbeProtocol"
+                                changeTextFieldHandler={handlers.changeTextFieldHandler}
+                                ports={ports}
+                                handlers={handlers}
                                 probeHttpGet={livenessProbeHttpGet}
-
                                 probeHttpGetPort={livenessProbeHttpGetPort}
                                 probeHttpGetPortId="liveness-probe"
                                 probeHttpGetPortField="livenessProbeHttpGetPort"
                                 probeHttpGetPortName="livenessProbeHttpGetPort"
                                 probeHttpGetPortLabel="Port"
                                 probeHttpGetPortHelperText="Please select port"
-
                                 probeHttpGetPath={livenessProbeHttpGetPath}
                                 probeHttpGetPathId="liveness-probe-httpGet-port"
                                 probeHttpGetPathField="livenessProbeHttpGetPath"
                                 probeHttpGetPathLabel="Probe Path"
                                 probeHttpGetPathName="livenessProbeHttpGetPath"
                                 probeHttpGetPathHelperText="Please input path"
-
                                 probeHttpGetInitialDelaySeconds={livenessProbeHttpGetInitialDelaySeconds}
                                 probeHttpGetInitialDelaySecondsId="liveness-probe-initial-delay-seconds"
                                 probeHttpGetInitialDelaySecondsField="livenessProbeHttpGetInitialDelaySeconds"
                                 probeHttpGetInitialDelaySecondsLabel="Initial Delay Seconds"
                                 probeHttpGetInitialDelaySecondsName="livenessProbeHttpGetInitialDelaySeconds"
                                 probeHttpGetInitialDelaySecondsHelperText="Please input delay"
-
                                 probeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
                                 probeHttpGetPeriodSecondsId="liveness-probe-HttpGet-period-seconds"
                                 probeHttpGetPeriodSecondsField="livenessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsLabel="Period Seconds"
                                 probeHttpGetPeriodSecondsName="livenessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsHelperText="Please input period"
-
                                 probeHttpGetSuccessThreshold={livenessProbeHttpGetSuccessThreshold}
                                 probeHttpGetSuccessThresholdId="liveness-probe-httpGet-success-threshold"
                                 probeHttpGetSuccessThresholdField="livenessProbeHttpGetSuccessThreshold"
                                 probeHttpGetSuccessThresholdLabel="Success Threshold"
                                 probeHttpGetSuccessThresholdName="livenessProbeHttpGetSuccessThreshold"
                                 probeHttpGetSuccessThresholdHelperText="Please input success threshold"
-
                                 probeHttpGetFailureThreshold={livenessProbeHttpGetFailureThreshold}
                                 probeHttpGetFailureThresholdId="liveness-probe-httpGet-failure-threshold"
                                 probeHttpGetFailureThresholdField="livenessProbeHttpGetFailureThreshold"
                                 probeHttpGetFailureThresholdLabel="Failure Threshold"
                                 probeHttpGetFailureThresholdName="livenessProbeHttpGetFailureThreshold"
                                 probeHttpGetFailureThresholdHelperText="Please input failure threshold"
-
                                 probeHttpGetHttpHeaders={livenessProbeHttpGetHttpHeaders}
                                 probeHttpGetHttpHeadersId="liveness-probe-httpGet-http-headers"
                                 probeHttpGetHttpHeadersField="livenessProbeHttpGetHttpHeaders"
                                 probeHttpGetHttpHeadersLabel="Http Headers"
                                 probeHttpGetHttpHeadersName="livenessProbeHttpGetHttpHeaders"
                                 probeHttpGetHttpHeadersHelperText="Please input http headers"
-
                                 probeHttpGetScheme={livenessProbeHttpGetScheme}
                                 probeHttpGetSchemeId="liveness-probe-HttpGet-scheme"
                                 probeHttpGetSchemeField="livenessProbeHttpGetScheme"
@@ -394,99 +370,73 @@ class ContainerComponent extends React.Component {
                                 probeHttpGetSchemeName="livenessProbeHttpGetScheme"
                                 probeHttpGetSchemeHelperText="Please select scheme"
 
-                                changeTextFieldHandler={handlers.changeTextFieldHandler}
-                                probeProtocol={livenessProbeProtocol}
-                                ports={ports}
-                                handlers={handlers}
+                  
                             />
                         </Grid>
                     </Grid>
 
                     <Grid item xs={6}>
-                        <Grid item>
-                            <Typography variant="h6" className={classes.title}>
-                                <span className={classes.message}>
-                                    Readiness Probe
-                                </span>
-                            </Typography>
-                        </Grid>
-                        <Grid item className={classes.grid}>
-                            <TextField
-                                id="readiness-probe-protocol"
-                                select
-                                label="Readiness Probe Protocol"
-                                className={classes.textField}
-                                value={readinessProbeProtocol}
-                                name="readinessProbeProtocol"
-                                helperText="Please select readiness"
-                                onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.readinessProbeProtocol`)}
-                                margin="dense"
-                            >
-                                {probeProtocol.map((probe, i) => {
-                                    return (
-                                        <MenuItem key={i} value={probe}>{probe}</MenuItem>
-                                    );
-                                })}
-                            </TextField>
-                        </Grid>
                         <Grid item xs={12}>
                             <ProbeComponent
                                 componentId={componentId}
                                 containerId={containerId}
                                 collectionState={collectionState}
+                                id="readiness-probe-protocol"
+                                name="readinessProbeProtocol"
+                                title="Readiness Probe"
+                                helperText="Please select readiness"
                                 probe={readinessProbe}
+                                label="Readiness Probe Protocol"
+                                helperText="Please select protocol type"
+                                probeProtocol={readinessProbeProtocol}
+                                probeProtocolField="readinessProbeProtocol"
+                                changeTextFieldHandler={handlers.changeTextFieldHandler}
+                                ports={ports}
+                                handlers={handlers}
                                 probeProtocol={readinessProbeProtocol}
                                 probeHttpGet={readinessProbeHttpGet}
-
                                 probeHttpGetPort={readinessProbeHttpGetPort}
                                 probeHttpGetPortId="readiness-probe"
                                 probeHttpGetPortField="readinessProbeHttpGetPort"
                                 probeHttpGetPortName="readinessProbeHttpGetPort"
                                 probeHttpGetPortLabel="Port"
                                 probeHttpGetPortHelperText="Please select port"
-
                                 probeHttpGetPath={readinessProbeHttpGetPath}
                                 probeHttpGetPathId="readiness-probe-httpGet-port"
                                 probeHttpGetPathField="readinessProbeHttpGetPath"
                                 probeHttpGetPathLabel="Probe Path"
                                 probeHttpGetPathName="readinessProbeHttpGetPath"
                                 probeHttpGetPathHelperText="Please input path"
-
                                 probeHttpGetInitialDelaySeconds={readinessProbeHttpGetInitialDelaySeconds}
                                 probeHttpGetInitialDelaySecondsId="readiness-probe-initial-delay-seconds"
                                 probeHttpGetInitialDelaySecondsField="readinessProbeHttpGetInitialDelaySeconds"
                                 probeHttpGetInitialDelaySecondsLabel="Initial Delay Seconds"
                                 probeHttpGetInitialDelaySecondsName="readinessProbeHttpGetInitialDelaySeconds"
                                 probeHttpGetInitialDelaySecondsHelperText="Please input delay"
-
                                 probeHttpGetPeriodSeconds={readinessProbeHttpGetPeriodSeconds}
                                 probeHttpGetPeriodSecondsId="readiness-probe-HttpGet-period-seconds"
                                 probeHttpGetPeriodSecondsField="readinessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsLabel="Period Seconds"
                                 probeHttpGetPeriodSecondsName="readinessProbeHttpGetPeriodSeconds"
                                 probeHttpGetPeriodSecondsHelperText="Please input period"
-
                                 probeHttpGetSuccessThreshold={readinessProbeHttpGetSuccessThreshold}
                                 probeHttpGetSuccessThresholdId="readiness-probe-httpGet-success-threshold"
                                 probeHttpGetSuccessThresholdField="readinessProbeHttpGetSuccessThreshold"
                                 probeHttpGetSuccessThresholdLabel="Success Threshold"
                                 probeHttpGetSuccessThresholdName="readinessProbeHttpGetSuccessThreshold"
                                 probeHttpGetSuccessThresholdHelperText="Please input success threshold"
-
                                 probeHttpGetFailureThreshold={readinessProbeHttpGetFailureThreshold}
                                 probeHttpGetFailureThresholdId="readiness-probe-httpGet-failure-threshold"
                                 probeHttpGetFailureThresholdField="readinessProbeHttpGetFailureThreshold"
                                 probeHttpGetFailureThresholdLabel="Failure Threshold"
                                 probeHttpGetFailureThresholdName="readinessProbeHttpGetFailureThreshold"
                                 probeHttpGetFailureThresholdHelperText="Please input failure threshold"
-
                                 probeHttpGetHttpHeaders={readinessProbeHttpGetHttpHeaders}
                                 probeHttpGetHttpHeadersId="readiness-probe-httpGet-http-headers"
                                 probeHttpGetHttpHeadersField="readinessProbeHttpGetHttpHeaders"
-                                probeHttpGetHttpHeadersLabel="Https Headers"
+                                probeHttpGetHttpHeadersLabel="Http Headers"
                                 probeHttpGetHttpHeadersName="readinessProbeHttpGetHttpHeaders"
                                 probeHttpGetHttpHeadersHelperText="Please input http headers"
-
                                 probeHttpGetScheme={readinessProbeHttpGetScheme}
                                 probeHttpGetSchemeId="readiness-probe-HttpGet-scheme"
                                 probeHttpGetSchemeField="readinessProbeHttpGetScheme"
@@ -494,10 +444,7 @@ class ContainerComponent extends React.Component {
                                 probeHttpGetSchemeName="readinessProbeHttpGetScheme"
                                 probeHttpGetSchemeHelperText="Please select scheme"
 
-                                changeTextFieldHandler={handlers.changeTextFieldHandler}
-                                probeProtocol={readinessProbeProtocol}
-                                ports={ports}
-                                handlers={handlers}
+                             
                             />
                         </Grid>
                     </Grid>
