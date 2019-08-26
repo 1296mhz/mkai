@@ -81,6 +81,7 @@ class MicroServiceComponent extends React.Component {
             readinessProbeTcpSocketTimeoutSeconds: 1,
             readinessProbeTcpSocketSuccessThreshold: 1,
             readinessProbeTcpSocketFailureThreshold: 3,
+            readinessProbeExec: [],
             livenessProbe: "",
             livenessProbeProtocol: "None",
             livenessProbeHttpGet: "",
@@ -99,7 +100,7 @@ class MicroServiceComponent extends React.Component {
             livenessProbeTcpSocketTimeoutSeconds: 1,
             livenessProbeTcpSocketSuccessThreshold: 1,
             livenessProbeTcpSocketFailureThreshold: 3,
-
+            livenessProbeExec: [],
             volumeMounts: {},
             icon: "icon/pod.svg",
             itemName: "Container"
