@@ -58,6 +58,11 @@ class ContainerComponent extends React.Component {
             readinessProbeHttpGetFailureThreshold,
             readinessProbeHttpGetHttpHeaders,
             readinessProbeHttpGetScheme,
+            readinessProbeTcpSocketPort,
+            readinessProbeTcpSocketInitialDelaySeconds,
+            readinessProbeTcpSocketPeriodSeconds,
+            readinessProbeTcpSocketSuccessThreshold,
+            readinessProbeTcpSocketFailureThreshold,
             livenessProbe,
             livenessProbeProtocol,
             livenessProbeHttpGet,
@@ -69,6 +74,11 @@ class ContainerComponent extends React.Component {
             livenessProbeHttpGetFailureThreshold,
             livenessProbeHttpGetHttpHeaders,
             livenessProbeHttpGetScheme,
+            livenessProbeTcpSocketPort,
+            livenessProbeTcpSocketInitialDelaySeconds,
+            livenessProbeTcpSocketPeriodSeconds,
+            livenessProbeTcpSocketSuccessThreshold,
+            livenessProbeTcpSocketFailureThreshold,
             volumeMounts,
         } = this.props;
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
@@ -359,6 +369,36 @@ class ContainerComponent extends React.Component {
                                 probeHttpGetSchemeField="livenessProbeHttpGetScheme"
                                 probeHttpGetSchemeLabel="Scheme"
                                 probeHttpGetSchemeHelperText="Please select scheme"
+
+                                probeTcpSocketPort={livenessProbeTcpSocketPort}
+                                probeTcpSocketPortId="liveness-probe-tcpSocket-port"
+                                probeTcpSocketPortField="livenessProbeTcpSocketPort"
+                                probeTcpSocketPortLabel="TCP Port"
+                                probeTcpSocketPortHelperText="Please input TCP port"
+
+                                probeTcpSocketInitialDelaySeconds={livenessProbeTcpSocketInitialDelaySeconds}
+                                probeTcpSocketInitialDelaySecondsId="liveness-probe-tcpSocket-delay-seconds"
+                                probeTcpSocketInitialDelaySecondsField="livenessProbeTcpSocketDelaySeconds"
+                                probeTcpSocketInitialDelaySecondsLabel="Initial Delay Seconds"
+                                probeTcpSocketInitialDelaySecondsHelperText="Please input delay"
+                                
+                                probeTcpSocketPeriodSeconds={livenessProbeTcpSocketPeriodSeconds}
+                                probeTcpSocketPeriodSecondsId="liveness-probe-tcpSocket-period-seconds"
+                                probeTcpSocketPeriodSecondsField="livenessProbeTcpSocketPeriodSeconds"
+                                probeTcpSocketPeriodSecondsLabel="Period Seconds"
+                                probeTcpSocketPeriodSecondsHelperText="Please input period"
+                                
+                                probeTcpSocketSuccessThreshold={livenessProbeTcpSocketSuccessThreshold}
+                                probeTcpSocketSuccessThresholdId="liveness-probe-tcpSocket-success-threshold"
+                                probeTcpSocketSuccessThresholdField="livenessProbeTcpSocketSuccessThreshold"
+                                probeTcpSocketSuccessThresholdLabel="Success Threshold"
+                                probeTcpSocketSuccessThresholdHelperText="Please input success threshold"
+                        
+                                probeTcpSocketFailureThreshold={livenessProbeTcpSocketFailureThreshold}
+                                probeTcpSocketFailureThresholdId="liveness-probe-tcpSocket-failure-threshold"
+                                probeTcpSocketFailureThresholdField="livenessProbeTcpSocketFailureThreshold"
+                                probeTcpSocketFailureThresholdLabel="Failure Threshold"
+                                probeTcpSocketFailureThresholdHelperText="Please input failure threshold"
                             />
                         </Grid>
                     </Grid>
@@ -421,6 +461,37 @@ class ContainerComponent extends React.Component {
                                 probeHttpGetSchemeField="readinessProbeHttpGetScheme"
                                 probeHttpGetSchemeLabel="Scheme"
                                 probeHttpGetSchemeHelperText="Please select scheme"
+
+                                probeTcpSocketPort={readinessProbeTcpSocketPort}
+                                probeTcpSocketPortId="readiness-probe-tcpSocket-port"
+                                probeTcpSocketPortField="readinessProbeTcpSocketPort"
+                                probeTcpSocketPortLabel="TCP Port"
+                                probeTcpSocketPortHelperText="Please input TCP port"
+
+                                probeTcpSocketInitialDelaySeconds={readinessProbeTcpSocketInitialDelaySeconds}
+                                probeTcpSocketInitialDelaySecondsId="readiness-probe-tcpSocket-delay-seconds"
+                                probeTcpSocketInitialDelaySecondsField="readinessProbeTcpSocketDelaySeconds"
+                                probeTcpSocketInitialDelaySecondsLabel="Initial Delay Seconds"
+                                probeTcpSocketInitialDelaySecondsHelperText="Please input delay"
+                                
+                                probeTcpSocketPeriodSeconds={readinessProbeTcpSocketPeriodSeconds}
+                                probeTcpSocketPeriodSecondsId="readiness-probe-tcpSocket-period-seconds"
+                                probeTcpSocketPeriodSecondsField="readinessProbeTcpSocketPeriodSeconds"
+                                probeTcpSocketPeriodSecondsLabel="Period Seconds"
+                                probeTcpSocketPeriodSecondsHelperText="Please input period"
+                                
+                                probeTcpSocketSuccessThreshold={readinessProbeTcpSocketSuccessThreshold}
+                                probeTcpSocketSuccessThresholdId="readiness-probe-tcpSocket-success-threshold"
+                                probeTcpSocketSuccessThresholdField="readinessProbeTcpSocketSuccessThreshold"
+                                probeTcpSocketSuccessThresholdLabel="Success Threshold"
+                                probeTcpSocketSuccessThresholdHelperText="Please input success threshold"
+                        
+                                probeTcpSocketFailureThreshold={readinessProbeTcpSocketFailureThreshold}
+                                probeTcpSocketFailureThresholdId="readiness-probe-tcpSocket-failure-threshold"
+                                probeTcpSocketFailureThresholdField="readinessProbeTcpSocketFailureThreshold"
+                                probeTcpSocketFailureThresholdLabel="Failure Threshold"
+                                probeTcpSocketFailureThresholdHelperText="Please input failure threshold"
+                                
                             />
                         </Grid>
                     </Grid>

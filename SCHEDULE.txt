@@ -1,5 +1,6 @@
 Сделать компонент ports для container +
 
+Сделать args для container 
 Сделать компонент probe (readinessProbe, livenessProbe) для container 33.3 %
 Сделать компонент volumeMounts для container
 

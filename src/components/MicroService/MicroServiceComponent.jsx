@@ -75,6 +75,12 @@ class MicroServiceComponent extends React.Component {
             readinessProbeHttpGetFailureThreshold: 3,
             readinessProbeHttpGetHttpHeaders: {},
             readinessProbeHttpGetScheme: "",
+            readinessProbeTcpSocketPort: 3000,
+            readinessProbeTcpSocketInitialDelaySeconds: 160,
+            readinessProbeTcpSocketPeriodSeconds: 10,
+            readinessProbeTcpSocketTimeoutSeconds: 1,
+            readinessProbeTcpSocketSuccessThreshold: 1,
+            readinessProbeTcpSocketFailureThreshold: 3,
             livenessProbe: "",
             livenessProbeProtocol: "None",
             livenessProbeHttpGet: "",
@@ -87,6 +93,13 @@ class MicroServiceComponent extends React.Component {
             livenessProbeHttpGetFailureThreshold: 3,
             livenessProbeHttpGetHttpHeaders: {},
             livenessProbeHttpGetScheme: "",
+            livenessProbeTcpSocketPort: 3000,
+            livenessProbeTcpSocketInitialDelaySeconds: 160,
+            livenessProbeTcpSocketPeriodSeconds: 10,
+            livenessProbeTcpSocketTimeoutSeconds: 1,
+            livenessProbeTcpSocketSuccessThreshold: 1,
+            livenessProbeTcpSocketFailureThreshold: 3,
+
             volumeMounts: {},
             icon: "icon/pod.svg",
             itemName: "Container"
@@ -219,6 +232,11 @@ class MicroServiceComponent extends React.Component {
                                     readinessProbeHttpGetPeriodSeconds={container.readinessProbeHttpGetPeriodSeconds}
                                     readinessProbeHttpGetSuccessThreshold={container.readinessProbeHttpGetSuccessThreshold}
                                     readinessProbeHttpGetFailureThreshold={container.readinessProbeHttpGetFailureThreshold}
+                                    readinessProbeTcpSocketPort={container.readinessProbeTcpSocketPort}
+                                    readinessProbeTcpSocketInitialDelaySeconds={container.readinessProbeTcpSocketInitialDelaySeconds}
+                                    readinessProbeTcpSocketPeriodSeconds={container.readinessProbeTcpSocketPeriodSeconds}
+                                    readinessProbeTcpSocketSuccessThreshold={container.readinessProbeTcpSocketSuccessThreshold}
+                                    readinessProbeTcpSocketFailureThreshold={container.readinessProbeTcpSocketFailureThreshold}
                                     readinessProbeHttpGetHttpHeaders={container.readinessProbeHttpGetHttpHeaders}
                                     readinessProbeHttpGetScheme={container.readinessProbeHttpGetScheme}
                                     livenessProbe={container.livenessProbe}
@@ -232,6 +250,11 @@ class MicroServiceComponent extends React.Component {
                                     livenessProbeHttpGetFailureThreshold={container.livenessProbeHttpGetFailureThreshold}
                                     livenessProbeHttpGetHttpHeaders={container.livenessProbeHttpGetHttpHeaders}
                                     livenessProbeHttpGetScheme={container.livenessProbeHttpGetScheme}
+                                    livenessProbeTcpSocketPort={container.livenessProbeTcpSocketPort}
+                                    livenessProbeTcpSocketInitialDelaySeconds={container.livenessProbeTcpSocketInitialDelaySeconds}
+                                    livenessProbeTcpSocketPeriodSeconds={container.livenessProbeTcpSocketPeriodSeconds}
+                                    livenessProbeTcpSocketSuccessThreshold={container.livenessProbeTcpSocketSuccessThreshold}
+                                    livenessProbeTcpSocketFailureThreshold={container.livenessProbeTcpSocketFailureThreshold}
                                     volumeMounts={container.volumeMounts}
                                     collectionState={collectionState}
                                     componentId={componentId}

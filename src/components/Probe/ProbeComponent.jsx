@@ -17,7 +17,7 @@ class ProbeComponent extends React.Component {
         this.onlyOne = this.onlyOne.bind(this);
         this.newId = this.newId.bind(this);
         this.probeProtocol = ['None', 'httpGet', 'tcpSocket', 'exec'];
-        this.schemes = ['http', 'https']; 
+        this.schemes = ['http', 'https'];
         this.httpHeader = {
             headerKey: "",
             headerValue: ""
@@ -77,22 +77,22 @@ class ProbeComponent extends React.Component {
                             {map(this.props.probeHttpGetHttpHeaders, (header, index) => {
                                 return (
                                     <HttpHeaderComponent
-                                     key={index}
-                                     componentId={this.props.componentId}
-                                     containerId={this.props.containerId}
-                                     probeHttpGetHttpHeadersField={this.props.probeHttpGetHttpHeadersField}
-                                     httpHeaderId={index}
-                                     httpHeaderKeyId="http-header-key"
-                                     httpHeaderKey={header.headerKey}
-                                     httpHeaderKeyField="headerKey"
-                                     httpHeaderKeyLabel="Header Key"
-                                     httpHeaderValueId="http-header-value"
-                                     httpHeaderValue={header.headerValue}
-                                     httpHeaderValueField="headerValue"
-                                     httpHeaderValueLabel="Header Value"
-                                     collectionState={this.props.collectionState}
-                                     handlers={this.props.handlers}
-                                     />
+                                        key={index}
+                                        componentId={this.props.componentId}
+                                        containerId={this.props.containerId}
+                                        probeHttpGetHttpHeadersField={this.props.probeHttpGetHttpHeadersField}
+                                        httpHeaderId={index}
+                                        httpHeaderKeyId="http-header-key"
+                                        httpHeaderKey={header.headerKey}
+                                        httpHeaderKeyField="headerKey"
+                                        httpHeaderKeyLabel="Header Key"
+                                        httpHeaderValueId="http-header-value"
+                                        httpHeaderValue={header.headerValue}
+                                        httpHeaderValueField="headerValue"
+                                        httpHeaderValueLabel="Header Value"
+                                        collectionState={this.props.collectionState}
+                                        handlers={this.props.handlers}
+                                    />
                                 );
                             })}
 
@@ -157,30 +157,111 @@ class ProbeComponent extends React.Component {
                         </Grid>
 
                         <Grid item xs={6} className={this.props.classes.grid}>
-                                <TextField
-                                    id={this.props.probeHttpGetSchemeId}
-                                    select
-                                    label={this.props.probeHttpGetSchemeLabel}
-                                    className={this.props.classes.textField}
-                                    value={this.props.probeHttpGetScheme}
-                                    name={this.props.probeHttpGetSchemeField}
-                                    helperText={this.props.probeHttpGetSchemeHelperText}
-                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetSchemeField}`)}
-                                    margin="dense"
-                                >
-                                    {map(this.schemes, (schema, index) => {
-                                        return (
-                                            <MenuItem key={index} value={schema}>{schema}</MenuItem>
-                                        );
-                                    })}
+                            <TextField
+                                id={this.props.probeHttpGetSchemeId}
+                                select
+                                label={this.props.probeHttpGetSchemeLabel}
+                                className={this.props.classes.textField}
+                                value={this.props.probeHttpGetScheme}
+                                name={this.props.probeHttpGetSchemeField}
+                                helperText={this.props.probeHttpGetSchemeHelperText}
+                                onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetSchemeField}`)}
+                                margin="dense"
+                            >
+                                {map(this.schemes, (schema, index) => {
+                                    return (
+                                        <MenuItem key={index} value={schema}>{schema}</MenuItem>
+                                    );
+                                })}
 
-                                </TextField>
-                            </Grid>
+                            </TextField>
+                        </Grid>
 
                     </Grid>
                 </>
                 break;
             case 'tcpSocket':
+                return <>
+                    <Grid container >
+                        <Grid container item xs={12}>
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                            <TextField
+                                    required
+                                    id={this.props.probeTcpSocketPortId}
+                                    label={this.props.probeTcpSocketPortLabel}
+                                    value={this.props.probeTcpSocketPort}
+                                    name={this.props.probeTcpSocketPortField}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeTcpSocketPortHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeTcpSocketPortField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+
+
+                        </Grid>
+
+
+                        <Grid container item xs={12} >
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    required
+                                    id={this.props.probeTcpSocketInitialDelaySecondsId}
+                                    label={this.props.probeTcpSocketInitialDelaySecondsLabel}
+                                    value={this.props.probeTcpSocketInitialDelaySeconds}
+                                    name={this.props.probeTcpSocketInitialDelaySecondsField}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeTcpSocketInitialDelaySecondsHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeTcpSocketInitialDelaySecondsField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    required
+                                    id={this.props.probeTcpSocketPeriodSecondsId}
+                                    label={this.props.probeTcpSocketPeriodSecondsLabel}
+                                    value={this.props.probeTcpSocketPeriodSeconds}
+                                    name={this.props.probeTcpSocketPeriodSecondsField}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeTcpSocketPeriodSecondsHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeTcpSocketPeriodSecondsField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Grid container item xs={12} >
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    required
+                                    id={this.props.probeTcpSocketFailureThresholdId}
+                                    label={this.props.probeTcpSocketFailureThresholdLabel}
+                                    value={this.props.probeTcpSocketFailureThreshold}
+                                    name={this.props.probeTcpSocketFailureThresholdField}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeTcpSocketFailureThresholdHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeTcpSocketFailureThresholdField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                            <Grid item xs={6} className={this.props.classes.grid}>
+                                <TextField
+                                    required
+                                    id={this.props.probeTcpSocketSuccessThresholdId}
+                                    label={this.props.probeTcpSocketSuccessThresholdLabel}
+                                    value={this.props.probeTcpSocketSuccessThreshold}
+                                    name={this.props.probeTcpSocketSuccessThresholdField}
+                                    className={this.props.classes.textField}
+                                    helperText={this.props.probeTcpSocketSuccessThresholdHelperText}
+                                    onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeTcpSocketSuccessThresholdField}`)}
+                                    margin="dense"
+                                />
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                </>
                 break;
             case 'exec':
                 break;
