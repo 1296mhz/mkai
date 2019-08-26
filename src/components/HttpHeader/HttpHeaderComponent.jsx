@@ -65,9 +65,6 @@ class HttpHeaderComponent extends React.Component {
                         />
                     </Grid>
   
-
-
-
                     <Grid xs={1} item className={classes.gridDelete}>
                         <IconButton onClick={() => {
                             handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}`);

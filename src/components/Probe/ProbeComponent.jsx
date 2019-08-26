@@ -9,8 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import styles from './ProbeComponentTheme';
 import { map } from 'lodash';
 import Typography from '@material-ui/core/Typography';
-import { Divider } from '@material-ui/core';
 import HttpHeaderComponent from '../HttpHeader/HttpHeaderComponent';
+import ExecCommandComponent from '../ExecCommand/ExecCommandComponent';
 class ProbeComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -21,7 +21,10 @@ class ProbeComponent extends React.Component {
         this.httpHeader = {
             headerKey: "",
             headerValue: ""
-        }
+        };
+        this.command = {
+            value: ""
+        };
     }
 
     newId() {
@@ -179,7 +182,7 @@ class ProbeComponent extends React.Component {
 
                     </Grid>
                 </>
-                break;
+
             case 'tcpSocket':
                 return <>
                     <Grid container >
@@ -197,8 +200,6 @@ class ProbeComponent extends React.Component {
                                     margin="dense"
                                 />
                             </Grid>
-
-
                         </Grid>
 
 
@@ -262,14 +263,30 @@ class ProbeComponent extends React.Component {
 
                     </Grid>
                 </>
-                break;
             case 'exec':
                 return <>
-                 <Grid container >
-                     
-                 </Grid>
+                  <Grid container item xs={12}>
+                        {map(this.props.probeExecCommand, (execCommand, index) => {
+                            return (
+                                <ExecCommandComponent
+                                    key={index}
+                                    componentId={this.props.componentId}
+                                    collectionState={this.props.collectionState}
+                                    containerId={this.props.containerId}
+                                    probeExecCommandField={this.props.probeExecCommandField}
+                                    valueId={index}
+                                    value={execCommand.value}
+                                    extra={`containers.${this.props.containerId}.${this.props.probeExecCommandField}`}
+                                    changeTextFieldHandler={this.props.handlers.changeTextFieldHandler}
+                                    deleteComponentHandler={this.props.handlers.deleteComponentHandler}
+                                />
+                            )
+                        })}
+</Grid>
+
+
+              
                 </>
-                break;
             default:
                 break;
         }
@@ -304,8 +321,8 @@ class ProbeComponent extends React.Component {
                             (this.props.probeProtocol === 'exec') ?
                                 <IconButton onClick={() => {
                                     const id = this.newId();
-                                    const newHeader = Object.assign({}, this.httpHeader)
-                                    this.props.handlers.addComponentHandler(`${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetHttpHeadersField}.${id}`, newHeader);
+                                    const newCommand = Object.assign({}, this.command)
+                                    this.props.handlers.addComponentHandler(`${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeExecCommandField}.${id}`, newCommand);
                                 }}>
                                     <Icon>input</Icon>
                                 </IconButton>
