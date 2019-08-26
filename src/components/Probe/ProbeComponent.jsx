@@ -185,7 +185,7 @@ class ProbeComponent extends React.Component {
                     <Grid container >
                         <Grid container item xs={12}>
                             <Grid item xs={6} className={this.props.classes.grid}>
-                            <TextField
+                                <TextField
                                     required
                                     id={this.props.probeTcpSocketPortId}
                                     label={this.props.probeTcpSocketPortLabel}
@@ -264,6 +264,11 @@ class ProbeComponent extends React.Component {
                 </>
                 break;
             case 'exec':
+                return <>
+                 <Grid container >
+                     
+                 </Grid>
+                </>
                 break;
             default:
                 break;
@@ -292,6 +297,17 @@ class ProbeComponent extends React.Component {
                                     this.props.handlers.addComponentHandler(`${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetHttpHeadersField}.${id}`, newHeader);
                                 }}>
                                     <Icon>http</Icon>
+                                </IconButton>
+                                : false
+                        }
+                        {
+                            (this.props.probeProtocol === 'exec') ?
+                                <IconButton onClick={() => {
+                                    const id = this.newId();
+                                    const newHeader = Object.assign({}, this.httpHeader)
+                                    this.props.handlers.addComponentHandler(`${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetHttpHeadersField}.${id}`, newHeader);
+                                }}>
+                                    <Icon>input</Icon>
                                 </IconButton>
                                 : false
                         }
