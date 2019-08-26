@@ -43,7 +43,7 @@ class ProbeComponent extends React.Component {
                                     label={this.props.probeHttpGetPortLabel}
                                     className={this.props.classes.textField}
                                     value={this.props.probeHttpGetPort}
-                                    name={this.props.probeHttpGetPortName}
+                                    name={this.props.probeHttpGetPortField}
                                     helperText={this.props.probeHttpGetPortHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPortField}`)}
                                     margin="dense"
@@ -64,7 +64,7 @@ class ProbeComponent extends React.Component {
                                     id={this.props.probeHttpGetPathId}
                                     label={this.props.probeHttpGetPathLabel}
                                     value={this.props.probeHttpGetPath}
-                                    name={this.props.probeHttpGetPathName}
+                                    name={this.props.probeHttpGetPathField}
                                     className={this.props.classes.textField}
                                     helperText={this.props.probeHttpGetPathHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPathField}`)}
@@ -105,7 +105,7 @@ class ProbeComponent extends React.Component {
                                     id={this.props.probeHttpGetInitialDelaySecondsId}
                                     label={this.props.probeHttpGetInitialDelaySecondsLabel}
                                     value={this.props.probeHttpGetInitialDelaySeconds}
-                                    name={this.props.probeHttpGetInitialDelaySecondsName}
+                                    name={this.props.probeHttpGetInitialDelaySecondsField}
                                     className={this.props.classes.textField}
                                     helperText={this.props.probeHttpGetInitialDelaySecondsHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetInitialDelaySecondsField}`)}
@@ -118,7 +118,7 @@ class ProbeComponent extends React.Component {
                                     id={this.props.probeHttpGetPeriodSecondsId}
                                     label={this.props.probeHttpGetPeriodSecondsLabel}
                                     value={this.props.probeHttpGetPeriodSeconds}
-                                    name={this.props.probeHttpGetPeriodSecondsName}
+                                    name={this.props.probeHttpGetPeriodSecondsField}
                                     className={this.props.classes.textField}
                                     helperText={this.props.probeHttpGetPeriodSecondsHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetPeriodSecondsField}`)}
@@ -134,7 +134,7 @@ class ProbeComponent extends React.Component {
                                     id={this.props.probeHttpGetFailureThresholdId}
                                     label={this.props.probeHttpGetFailureThresholdLabel}
                                     value={this.props.probeHttpGetFailureThreshold}
-                                    name={this.props.probeHttpGetFailureThresholdsName}
+                                    name={this.props.probeHttpGetFailureThresholdField}
                                     className={this.props.classes.textField}
                                     helperText={this.props.probeHttpGetFailureThresholdHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetFailureThresholdField}`)}
@@ -147,7 +147,7 @@ class ProbeComponent extends React.Component {
                                     id={this.props.probeHttpGetSuccessThresholdId}
                                     label={this.props.probeHttpGetSuccessThresholdLabel}
                                     value={this.props.probeHttpGetSuccessThreshold}
-                                    name={this.props.probeHttpGetSuccessThresholdName}
+                                    name={this.props.probeHttpGetSuccessThresholdField}
                                     className={this.props.classes.textField}
                                     helperText={this.props.probeHttpGetSuccessThresholdHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetSuccessThresholdField}`)}
@@ -163,7 +163,7 @@ class ProbeComponent extends React.Component {
                                     label={this.props.probeHttpGetSchemeLabel}
                                     className={this.props.classes.textField}
                                     value={this.props.probeHttpGetScheme}
-                                    name={this.props.probeHttpGetScheme}
+                                    name={this.props.probeHttpGetSchemeField}
                                     helperText={this.props.probeHttpGetSchemeHelperText}
                                     onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeHttpGetSchemeField}`)}
                                     margin="dense"
@@ -223,7 +223,7 @@ class ProbeComponent extends React.Component {
                         label={this.props.label}
                         className={this.props.classes.textField}
                         value={this.props.probeProtocol}
-                        name={this.props.name}
+                        name={this.props.probeProtocolField}
                         helperText={this.props.helperText}
                         onChange={(e) => this.props.handlers.changeTextFieldHandler(e, `${this.props.collectionState}.${this.props.componentId}.containers.${this.props.containerId}.${this.props.probeProtocolField}`)}
                         margin="dense"
