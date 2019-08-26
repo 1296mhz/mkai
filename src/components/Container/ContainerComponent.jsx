@@ -63,6 +63,7 @@ class ContainerComponent extends React.Component {
             readinessProbeTcpSocketPeriodSeconds,
             readinessProbeTcpSocketSuccessThreshold,
             readinessProbeTcpSocketFailureThreshold,
+            readinessProbeExecCommand,
             livenessProbe,
             livenessProbeProtocol,
             livenessProbeHttpGet,
@@ -79,6 +80,7 @@ class ContainerComponent extends React.Component {
             livenessProbeTcpSocketPeriodSeconds,
             livenessProbeTcpSocketSuccessThreshold,
             livenessProbeTcpSocketFailureThreshold,
+            livenessProbeExecCommand,
             volumeMounts,
         } = this.props;
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
