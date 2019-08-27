@@ -265,7 +265,7 @@ class ProbeComponent extends React.Component {
                 </>
             case 'exec':
                 return <>
-                  <Grid container item xs={12}>
+                    <Grid container item xs={12}>
                         {map(this.props.probeExecCommand, (execCommand, index) => {
                             return (
                                 <ExecCommandComponent
@@ -282,10 +282,10 @@ class ProbeComponent extends React.Component {
                                 />
                             )
                         })}
-</Grid>
+                    </Grid>
 
 
-              
+
                 </>
             default:
                 break;

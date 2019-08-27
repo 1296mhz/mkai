@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import MenuItem from '@material-ui/core/MenuItem';
 import styles from './HttpHeaderComponentTheme';
 
 class HttpHeaderComponent extends React.Component {

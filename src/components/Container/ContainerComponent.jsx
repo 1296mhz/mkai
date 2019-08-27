@@ -13,11 +13,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import styles from './ContainerComponentTheme';
 import ContainerPortComponent from '../ContainerPort/ContainerPortComponent';
 import ProbeComponent from '../Probe/ProbeComponent';
+import ArgsComponent from '../ExecCommand/ExecCommandComponent';
 // Добавить args массив
+
 class ContainerComponent extends React.Component {
     constructor(props) {
         super(props);
         this.newId = this.newId.bind(this);
+        this.arg = {
+            value: ""
+        };
     }
     newId() {
         const d = new Date();
@@ -47,6 +52,7 @@ class ContainerComponent extends React.Component {
             resourcesRequestsMemory,
             resourcesRequestsMemorySize,
             ports,
+            args,
             readinessProbe,
             readinessProbeProtocol,
             readinessProbeHttpGet,
@@ -135,6 +141,15 @@ class ContainerComponent extends React.Component {
                             }}
                         >
                             <Icon>nature_people</Icon>
+                        </IconButton>
+                        <IconButton
+                            onClick={() => {
+                                const id = this.newId();
+                                const newArg = Object.assign({}, this.arg)
+                                handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.args.${id}`, newArg);
+                            }}
+                        >
+                            <Icon>label</Icon>
                         </IconButton>
                         <IconButton
                             onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}`)}
@@ -487,13 +502,38 @@ class ContainerComponent extends React.Component {
                                 probeTcpSocketFailureThresholdHelperText="Please input failure threshold"
                                 probeExecCommandField="readinessProbeExecCommand"
                                 probeExecCommand={readinessProbeExecCommand}
-                                
+
                             />
                         </Grid>
                     </Grid>
                 </Grid>
 
                 <Grid container>
+
+                    <Grid item className={classes.grid} xs={12}>
+                        <Typography variant="h6" className={classes.title}>
+                            Args: {Object.keys(args).length}
+                        </Typography>
+                    </Grid>
+
+                    {map(args, (arg, index) => {
+                        return (
+                            <ArgsComponent
+                                key={index}
+                                componentId={componentId}
+                                collectionState={collectionState}
+                                containerId={containerId}
+                                probeExecCommandField="123"
+                                valueId={index}
+                                value={arg.value}
+                                extra={`containers.${containerId}.args`}
+                                changeTextFieldHandler={this.props.handlers.changeTextFieldHandler}
+                                deleteComponentHandler={this.props.handlers.deleteComponentHandler}
+                            />
+                        )
+                    })}
+
+
                     <Grid item className={classes.grid} xs={12}>
                         <Typography variant="h6" className={classes.title}>
                             Ports: {Object.keys(ports).length}
@@ -516,11 +556,13 @@ class ContainerComponent extends React.Component {
                             deleteComponentHandler={port.deleteComponentHandler}
                         />
                     })}
+
                     <Grid item className={classes.grid} xs={12}>
                         <Typography variant="h6" className={classes.title}>
                             Environments: {Object.keys(envs).length}
                         </Typography>
                     </Grid>
+
                     {map(envs, (env, index) => {
                         return <EnvComponent
                             key={index}

@@ -55,6 +55,7 @@ class MicroServiceComponent extends React.Component {
             name: "",
             image: "",
             imagePullPolicy: "Always",
+            args: {},
             restartPolicy: "Always",
             resourcesLimitsCpu: 0.010,
             resourcesLimitsMemory: "10",
@@ -224,6 +225,7 @@ class MicroServiceComponent extends React.Component {
                                     resourcesRequestsMemorySize={container.resourcesRequestsMemorySize}
                                     envs={container.envs}
                                     ports={container.ports}
+                                    args={container.args}
                                     readinessProbe={container.readinessProbe}
                                     readinessProbeProtocol={container.readinessProbeProtocol}
                                     readinessProbeHttpGet={container.readinessProbeHttpGet}
