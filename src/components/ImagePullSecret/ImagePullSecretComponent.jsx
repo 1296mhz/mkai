@@ -1,10 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-
-import Grid from "@material-ui/core/Grid";
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import styles from './ImagePullSecretComponentTheme';
 import MenuItem from '@material-ui/core/MenuItem';
 import { map } from 'lodash';

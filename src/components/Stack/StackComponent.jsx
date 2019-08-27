@@ -11,6 +11,7 @@ import ConfigMapComponent from '../ConfigMap/ConfigMapComponent';
 import SecretComponent from '../Secret/SecretComponent';
 import EndPointComponent from '../EndPoint/EndPointComponent';
 import MicroServiceComponent from '../MicroService/MicroServiceComponent';
+import DrawerTree from '../DrawerTree/DrawerTreeComponent';
 import styles from './StackComponentTheme';
 import { set, unset, map } from 'lodash';
 
@@ -48,7 +49,6 @@ class StackComponent extends React.Component {
         //Shelf handlers
 
         this.saveStateHandler = this.saveStateHandler.bind(this);
-
     }
 
     saveStateHandler() {
@@ -82,6 +82,14 @@ class StackComponent extends React.Component {
         const { classes } = this.props;
         return (
             <>
+                <DrawerTree
+                    tree={this.state}
+                    handlers={{
+                        addComponentHandler: this.addComponentHandler,
+                        changeTextFieldHandler: this.changeTextFieldHandler,
+                        deleteComponentHandler: this.deleteComponentHandler,
+                    }}
+                />
                 <Paper className={classes.paper}>
                     <Grid item >
                         <Grid item xs>
@@ -244,7 +252,7 @@ class StackComponent extends React.Component {
                                 />
                             })
                         }
-                                                {
+                        {
                             map(this.state.microServices, (microService, index) => {
                                 console.log(microService)
                                 return <MicroServiceComponent
