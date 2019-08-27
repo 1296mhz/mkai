@@ -14,6 +14,7 @@ import styles from './ContainerComponentTheme';
 import ContainerPortComponent from '../ContainerPort/ContainerPortComponent';
 import ProbeComponent from '../Probe/ProbeComponent';
 import ArgsComponent from '../ExecCommand/ExecCommandComponent';
+import ImagePullSecretComponent from '../ImagePullSecret/ImagePullSecretComponent';
 // Добавить args массив
 
 class ContainerComponent extends React.Component {

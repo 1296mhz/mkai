@@ -9,9 +9,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import MenuItem from '@material-ui/core/MenuItem';
 import ContainerComponent from '../Container/ContainerComponent';
+import ImagePullSecretComponent from '../ImagePullSecret/ImagePullSecretComponent';
 import EnvComponent from '../Env/EnvComponent';
 import { map } from 'lodash';
 import styles from './MicroServiceComponentTheme';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
 
 class MicroServiceComponent extends React.Component {
     constructor(props) {
@@ -40,11 +48,15 @@ class MicroServiceComponent extends React.Component {
             ingresses,
             services,
             volumes,
+            secrets,
             imagePullSecrets,
             envs
         } = this.props;
         const strategies = ['Recreate', 'RollingUpdate'];
-
+        const imagePullSecret = {
+            value: "",
+            stateDialog: true
+        }
         const container = {
             handlers: {
                 addComponentHandler: handlers.addComponentHandler,
@@ -55,7 +67,9 @@ class MicroServiceComponent extends React.Component {
             name: "",
             image: "",
             imagePullPolicy: "Always",
+            imagePullSecrets: {},
             args: {},
+            secrets: secrets,
             restartPolicy: "Always",
             resourcesLimitsCpu: 0.010,
             resourcesLimitsMemory: "10",
@@ -122,10 +136,16 @@ class MicroServiceComponent extends React.Component {
                         <IconButton onClick={() => {
                             const id = this.newId();
                             const newContainer = Object.assign({}, container);
-
                             handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${id}`, newContainer);
                         }}>
                             <img src="icon/pod.svg" alt="container" height="24" width="24" />
+                        </IconButton>
+                        <IconButton onClick={() => {
+                            const id = this.newId();
+                            const newImagePullSecret = Object.assign({}, imagePullSecret);
+                            handlers.addComponentHandler(`${collectionState}.${componentId}.imagePullSecrets.${id}`, newImagePullSecret);
+                        }}>
+                            <img src="icon/sc.svg" alt="container" height="24" width="24" />
                         </IconButton>
                         <IconButton>
                             <img src="icon/vol.svg" alt="container" height="24" width="24" />
@@ -207,6 +227,50 @@ class MicroServiceComponent extends React.Component {
                     }
                     <Grid container item xs={12} justify="flex-start" >
                         {
+                            map(imagePullSecrets, (imagePullSecret, index) => {
+                                return <ImagePullSecretComponent
+                                    key={index}
+                                    imagePullSecretId={index}
+                                    componentId={componentId}
+                                    collectionState={collectionState}
+                                    value={imagePullSecret.value}
+                                    stateDialog={imagePullSecret.stateDialog}
+                                    secrets={secrets}
+                                    changeTextFieldHandler={this.props.handlers.changeTextFieldHandler}
+                                    deleteComponentHandler={this.props.handlers.deleteComponentHandler}
+                                />
+                            })
+                        }
+
+                    </Grid>
+                    <Grid container item xs={12} justify="flex-start" >
+                        <Grid item xs>
+                            <Typography variant="h6" className={classes.title}>
+                                <span className={classes.message}>
+                                    <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
+                                    Image Pull Secrets: {Object.keys(imagePullSecrets).length}
+                                </span>
+                            </Typography>
+                        </Grid>
+                        <ListItemLink href="#image-pull-secrets">
+                            {
+                                map(imagePullSecrets, (imagePullSecret, index) => {
+                                    return <>
+                                        <ListItemText primary={imagePullSecret.value} />
+                                        <ListItemSecondaryAction onClick={
+                                            () => handlers.deleteComponentHandler(`${collectionState}.${componentId}.imagePullSecrets.${index}`)
+                                        }>
+                                            <IconButton edge="end" aria-label="delete">
+                                                <Icon>delete</Icon>
+                                            </IconButton>
+                                        </ListItemSecondaryAction>
+                                    </>
+                                })
+                            }
+                        </ListItemLink>
+                    </Grid>
+                    <Grid container item xs={12} justify="flex-start" >
+                        {
                             map(containers, (container, index) => {
                                 return <ContainerComponent
                                     key={index}
@@ -215,8 +279,9 @@ class MicroServiceComponent extends React.Component {
                                     itemName={container.itemName}
                                     name={container.name}
                                     image={container.image}
-                                    imagePullPolicy={container.imagePullPolicy}probeExecCommand
+                                    imagePullPolicy={container.imagePullPolicy} probeExecCommand
                                     restartPolicy={container.restartPolicy}
+                                    imagePullSecrets={container.imagePullSecrets}
                                     resourcesLimitsCpu={container.resourcesLimitsCpu}
                                     resourcesLimitsMemory={container.resourcesLimitsMemory}
                                     resourcesLimitsMemorySize={container.resourcesLimitsMemorySize}

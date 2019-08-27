@@ -246,6 +246,7 @@ class StackComponent extends React.Component {
                         }
                                                 {
                             map(this.state.microServices, (microService, index) => {
+                                console.log(microService)
                                 return <MicroServiceComponent
                                     key={index}
                                     componentId={index}
@@ -260,6 +261,7 @@ class StackComponent extends React.Component {
                                     volumes={microService.volumes}
                                     imagePullSecrets={microService.imagePullSecrets}
                                     envs={microService.envs}
+                                    secrets={this.state.secrets}
                                     itemName={microService.itemName}
                                     maxSurge={microService.maxSurge}
                                     maxUnavailable={microService.maxUnavailable}

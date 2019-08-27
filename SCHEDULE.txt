@@ -1,7 +1,7 @@
 Сделать компонент ports для container +
 
 Сделать args для container +
-Сделать компонент probe (readinessProbe, livenessProbe) для container 100 %
+Сделать компонент probe (readinessProbe, livenessProbe) для container 100 % +
 Сделать компонент volumeMounts для container
 
 Сделать компонент volumes для microservice
