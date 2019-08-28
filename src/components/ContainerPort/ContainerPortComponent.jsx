@@ -16,9 +16,7 @@ class ContainerPortComponent extends React.Component {
     render() {
         const {
             classes,
-            componentId,
-            containerId,
-            collectionState,
+            componentPath,
             portId,
             name,
             containerPort,
@@ -40,7 +38,7 @@ class ContainerPortComponent extends React.Component {
                                 label="Name"
                                 name="name"
                                 value={name}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.ports.${portId}.name`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.name`) }}
                                 className={classes.textFieldKey}
                                 margin="dense"
                             />
@@ -53,7 +51,7 @@ class ContainerPortComponent extends React.Component {
                                 label="ContainerPort"
                                 name="containerPort"
                                 value={containerPort}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.ports.${portId}.containerPort`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.containerPort`) }}
                                 className={classes.textFieldKey}
                                 margin="dense"
                             />
@@ -68,7 +66,7 @@ class ContainerPortComponent extends React.Component {
                                 name="protocol"
                                 className={classes.textField}
                                 value={protocol}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.ports.${portId}.protocol`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.protocol`) }}
                                 helperText="Please select protocol"
                                 margin="dense"
                             >
@@ -86,7 +84,7 @@ class ContainerPortComponent extends React.Component {
                                 label="HostIP"
                                 name="hostIP"
                                 value={hostIP}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.ports.${portId}.hostIP`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.hostIP`) }}
                                 className={classes.textFieldKey}
                                 margin="dense"
                             />
@@ -98,14 +96,14 @@ class ContainerPortComponent extends React.Component {
                                 label="HostPort"
                                 name="hostPort"
                                 value={hostPort}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.ports.${portId}.hostPort`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.hostPort`) }}
                                 className={classes.textFieldKey}
                                 margin="dense"
                             />
                         </Grid>
                     </Grid>
                     <Grid xs={1} item className={classes.gridDelete}>
-                        <IconButton onClick={() => deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.ports.${portId}`)}>
+                        <IconButton onClick={() => deleteComponentHandler(`${componentPath}`)}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
                     </Grid>

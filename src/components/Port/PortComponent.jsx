@@ -17,9 +17,6 @@ class PortComponent extends React.Component {
         const {
             classes,
             componentPath,
-            componentId,
-            collectionState,
-            portId,
             name,
             protocol,
             port,
@@ -28,6 +25,7 @@ class PortComponent extends React.Component {
             deleteComponentHandler
         } = this.props;
         const protocols = ['TCP', 'UDP', 'HTTP'];
+        console.log("componentPath: ", componentPath)
         return (
             <>
                 <Grid container >

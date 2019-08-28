@@ -13,16 +13,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import styles from './ContainerComponentTheme';
 import ContainerPortComponent from '../ContainerPort/ContainerPortComponent';
 import ProbeComponent from '../Probe/ProbeComponent';
-import ArgsComponent from '../ExecCommand/ExecCommandComponent';
+import ExecCommandComponent from '../ExecCommand/ExecCommandComponent';
 // Добавить args массив
 
 class ContainerComponent extends React.Component {
     constructor(props) {
         super(props);
         this.newId = this.newId.bind(this);
-        this.arg = {
-            value: ""
-        };
+
     }
     newId() {
         const d = new Date();
@@ -33,9 +31,6 @@ class ContainerComponent extends React.Component {
     render() {
         const {
             container,
-            collectionState,
-            componentId,
-            containerId,
             classes,
             handlers,
             icon,
@@ -105,7 +100,12 @@ class ContainerComponent extends React.Component {
             envValue: "",
             envType: "",
         }
-        console.log("container: ", container.componentPath)
+
+        const arg = {
+            value: ""
+        };
+
+        const probes = ['liveness', 'readiness'];
         return (
             <>
                 <Divider />
@@ -122,10 +122,11 @@ class ContainerComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newPort = Object.assign({}, {
+                                const newPort = {
                                     ...port,
                                     componentPath: `${container.componentPath}.ports.${id}`
-                                })
+                                }
+                                console.log("componentPath: ", `${container.componentPath}.ports.${id}`)
                                 handlers.addComponentHandler(newPort.componentPath, newPort);
                             }}
                         >
@@ -134,8 +135,11 @@ class ContainerComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newEnv = Object.assign({}, env)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.envs.${id}`, newEnv);
+                                const newEnv = {
+                                    ...env,
+                                    componentPath: `${container.componentPath}.envs.${id}`
+                                }
+                                handlers.addComponentHandler(newEnv.componentPath, newEnv);
                             }}
                         >
                             <Icon>nature_people</Icon>
@@ -143,14 +147,17 @@ class ContainerComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newArg = Object.assign({}, this.arg)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.args.${id}`, newArg);
+                                const newArg = {
+                                    ...arg,
+                                    componentPath: `${container.componentPath}.args.${id}`
+                                }
+                                handlers.addComponentHandler(`${container.componentPath}.args.${id}`, newArg);
                             }}
                         >
                             <Icon>label</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}`)}
+                            onClick={() => handlers.deleteComponentHandler(`${container.componentPath}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -165,7 +172,7 @@ class ContainerComponent extends React.Component {
                         value={name}
                         name={label}
                         className={classes.textField}
-                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.name`)}
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.name`)}
                         margin="dense"
                     />
                 </Grid>
@@ -179,7 +186,7 @@ class ContainerComponent extends React.Component {
                             value={image}
                             name="image"
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.image`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.image`)}
                             margin="dense"
                         />
                     </Grid>
@@ -193,7 +200,7 @@ class ContainerComponent extends React.Component {
                             value={imagePullPolicy}
                             name="imagePullPolicy"
                             helperText="Please select image policy"
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.imagePullPolicy`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.imagePullPolicy`)}
                             margin="dense"
                         >
                             {policiesPullImagePolicies.map((policy, i) => {
@@ -214,7 +221,7 @@ class ContainerComponent extends React.Component {
                         value={restartPolicy}
                         name="restartPloicy"
                         helperText="Please select restart policy"
-                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.restartPolicy`)}
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.restartPolicy`)}
                         margin="dense"
                     >
                         {restartPullPolicies.map((policy, i) => {
@@ -234,7 +241,7 @@ class ContainerComponent extends React.Component {
                             value={resourcesLimitsCpu}
                             name="resourcesLimitsCpu"
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsCpu`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.resourcesLimitsCpu`)}
                             margin="dense"
                         />
                     </Grid>
@@ -248,7 +255,7 @@ class ContainerComponent extends React.Component {
                                     value={resourcesLimitsMemory}
                                     name="resourcesLimitsMemory"
                                     className={classes.textField}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsMemory`)}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.resourcesLimitsMemory`)}
                                     margin="dense"
                                 />
                             </Grid>
@@ -261,7 +268,7 @@ class ContainerComponent extends React.Component {
                                     value={resourcesLimitsMemorySize}
                                     name="resourcesLimitsMemorySize"
                                     helperText="Please select size"
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesLimitsMemorySize`)}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.resourcesLimitsMemorySize`)}
                                     margin="dense"
                                 >
                                     {specMems.map((specMem, i) => {
@@ -281,7 +288,7 @@ class ContainerComponent extends React.Component {
                             value={resourcesRequestsCpu}
                             name="resourcesRequestsCpu"
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsCpu`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.resourcesRequestsCpu`)}
                             margin="dense"
                         />
                     </Grid>
@@ -295,7 +302,7 @@ class ContainerComponent extends React.Component {
                                     value={resourcesRequestsMemory}
                                     name="resourcesRequestsMemory"
                                     className={classes.textField}
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsMemory`)}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.resourcesRequestsMemory`)}
                                     margin="dense"
                                 />
                             </Grid>
@@ -308,7 +315,7 @@ class ContainerComponent extends React.Component {
                                     value={resourcesRequestsMemorySize}
                                     name="resourcesRequestsMemorySize"
                                     helperText="Please select size"
-                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.resourcesRequestsMemorySize`)}
+                                    onChange={(e) => handlers.changeTextFieldHandler(e, `${container.componentPath}.resourcesRequestsMemorySize`)}
                                     margin="dense"
                                 >
                                     {specMems.map((specMem, i) => {
@@ -329,9 +336,7 @@ class ContainerComponent extends React.Component {
                     <Grid container item xs={6}>
                         <Grid item xs={12}>
                             <ProbeComponent
-                                componentId={componentId}
-                                containerId={containerId}
-                                collectionState={collectionState}
+                                container={container}
                                 probe="liveness"
                                 probeProtocol={livenessProbeProtocol}
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
@@ -358,10 +363,8 @@ class ContainerComponent extends React.Component {
                     <Grid item xs={6}>
                         <Grid item xs={12}>
                             <ProbeComponent
-                                componentId={componentId}
-                                containerId={containerId}
-                                collectionState={collectionState}
                                 probe="readiness"
+                                container={container}
                                 probeProtocol={readinessProbeProtocol}
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 ports={ports}
@@ -380,7 +383,6 @@ class ContainerComponent extends React.Component {
                                 probeTcpSocketSuccessThreshold={readinessProbeTcpSocketSuccessThreshold}
                                 probeTcpSocketFailureThreshold={readinessProbeTcpSocketFailureThreshold}
                                 probeExecCommand={readinessProbeExecCommand}
-
                             />
                         </Grid>
                     </Grid>
@@ -396,21 +398,15 @@ class ContainerComponent extends React.Component {
 
                     {map(args, (arg, index) => {
                         return (
-                            <ArgsComponent
+                            <ExecCommandComponent
                                 key={index}
-                                componentId={componentId}
-                                collectionState={collectionState}
-                                containerId={containerId}
-                                probeExecCommandField="123"
-                                valueId={index}
+                                componentPath={arg.componentPath}
                                 value={arg.value}
-                                extra={`containers.${containerId}.args`}
                                 changeTextFieldHandler={this.props.handlers.changeTextFieldHandler}
                                 deleteComponentHandler={this.props.handlers.deleteComponentHandler}
                             />
                         )
                     })}
-
 
                     <Grid item className={classes.grid} xs={12}>
                         <Typography variant="h6" className={classes.title}>
@@ -421,9 +417,7 @@ class ContainerComponent extends React.Component {
                     {map(ports, (port, index) => {
                         return <ContainerPortComponent
                             key={index}
-                            componentId={port.componentId}
-                            containerId={port.containerId}
-                            collectionState={port.collectionState}
+                            componentPath={port.componentPath}
                             portId={index}
                             name={port.name}
                             containerPort={port.containerPort}
@@ -444,15 +438,13 @@ class ContainerComponent extends React.Component {
                     {map(envs, (env, index) => {
                         return <EnvComponent
                             key={index}
+                            componentPath={env.componentPath}
                             envId={index}
                             envKey={env.envKey}
                             envValue={env.envValue}
                             envType={env.envType}
-                            extra={env.extra}
                             changeTextFieldHandler={handlers.changeTextFieldHandler}
-                            deleteEnvHandler={handlers.deleteComponentHandler}
-                            collectionState={collectionState}
-                            componentId={componentId}
+                            deleteComponentHandler={handlers.deleteComponentHandler}
                         />
                     })
                     }

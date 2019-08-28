@@ -15,12 +15,8 @@ class ExecCommandComponent extends React.Component {
     render() {
         const {
             classes,
-            componentId,
-            containerId,
-            valueId,
+            componentPath,
             value,
-            extra,
-            collectionState,
             changeTextFieldHandler,
             deleteComponentHandler,
         } = this.props;
@@ -31,13 +27,13 @@ class ExecCommandComponent extends React.Component {
                     <Grid item xs={11} className={classes.grid}>
                         <TextField
                             required
-                            id={valueId}
+                            id="arg-id"
                             label="Command or args"
                             name="value"
                             value={value}
                             className={this.props.classes.textField}
                             onChange={(e) => {
-                                changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.${valueId}.value`)
+                                changeTextFieldHandler(e, `${componentPath}.value`)
                             }
                             }
                             margin="dense"
@@ -46,7 +42,7 @@ class ExecCommandComponent extends React.Component {
 
                     <Grid xs={1} item className={classes.gridDelete}>
                         <IconButton onClick={() => {
-                            deleteComponentHandler(`${collectionState}.${componentId}.${extra}.${valueId}`)
+                            deleteComponentHandler(`${componentPath}`)
                         }}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
