@@ -24,8 +24,7 @@ class EndPointComponent extends React.Component {
     }
     render() {
         const {
-            collectionState,
-            componentId,
+            componentPath,
             classes,
             handlers,
             name,
@@ -41,6 +40,7 @@ class EndPointComponent extends React.Component {
             targetPort: '',
             protocol: '',
         };
+        console.log("componentPath: ", componentPath)
         return (
             <>
                 <Divider />
@@ -57,14 +57,17 @@ class EndPointComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newEnv = Object.assign({}, port)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.ports.${id}`, newEnv);
+                                const newEnv = Object.assign({}, {
+                                    ...port,
+                                    componentPath: `${componentPath}.ports.${id}`
+                                });
+                                handlers.addComponentHandler(`${componentPath}.ports.${id}`, newEnv);
                             }}
                         >
                             <Icon>usb</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
+                            onClick={() => handlers.deleteComponentHandler(`${componentPath}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -80,7 +83,7 @@ class EndPointComponent extends React.Component {
                             value={name}
                             name="endpoint-name"
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.name`)}
                             margin="dense"
                         />
                         <TextField
@@ -90,7 +93,7 @@ class EndPointComponent extends React.Component {
                             value={externalName}
                             name="external-name"
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.externalName`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.externalName`)}
                             margin="dense"
                         />
                     </Grid>
@@ -98,9 +101,7 @@ class EndPointComponent extends React.Component {
                         map(ports, (port, index) => {
                             return <PortComponent
                                 key={index}
-                                componentId={componentId}
-                                portId={index}
-                                collectionState={collectionState}
+                                componentPath={port.componentPath}
                                 name={port.name}
                                 port={port.port}
                                 targetPort={port.targetPort}

@@ -23,7 +23,10 @@ class ControlShelfComponent extends React.Component {
           <React.Fragment key={item.id}>
             <IconButton onClick={() => {
               const id = this.newId();
-              item.handlers.addComponentHandler(`${item.command}.${id}`, item.item)
+              item.handlers.addComponentHandler(`${item.command}.${id}`, {
+                ...item.item,
+                componentPath: `${item.command}.${id}`
+              })
             }}>
               <img src={item.icon} alt={item.command} height="24" width="24" />
             </IconButton>

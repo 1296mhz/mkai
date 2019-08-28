@@ -16,15 +16,12 @@ class EnvComponent extends React.Component {
     render() {
         const {
             classes,
-            componentId,
-            envId,
+            componentPath,
             envKey,
             envValue,
             envType,
-            extra,
-            collectionState,
             changeTextFieldHandler,
-            deleteEnvHandler,
+            deleteComponentHandler,
         } = this.props;
         const types = ['string', 'base64'];
         return (
@@ -38,15 +35,7 @@ class EnvComponent extends React.Component {
                             name="key"
                             value={envKey}
                             className={classes.textFieldKey}
-                            onChange={(e) => {
-                                if (extra === null) {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envKey`)
-                                } else {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envKey`)
-                                }
-                            }
-                            }
-
+                            onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.envKey`) }}
                             margin="dense"
                         />
                     </Grid>
@@ -58,13 +47,7 @@ class EnvComponent extends React.Component {
                             name="value"
                             value={envValue}
                             className={classes.textFieldValue}
-                            onChange={(e) => {
-                                if (extra === null) {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envValue`)
-                                } else {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envValue`)
-                                }
-                            }}
+                            onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.envValue`) }}
                             margin="dense"
                         />
                     </Grid>
@@ -77,13 +60,7 @@ class EnvComponent extends React.Component {
                             name="secretType"
                             className={classes.textField}
                             value={envType}
-                            onChange={(e) => {
-                                if (extra === null) {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.envs.${envId}.envType`)
-                                } else {
-                                    changeTextFieldHandler(e, `${collectionState}.${componentId}.${extra}.envs.${envId}.envType`)
-                                }
-                            }}
+                            onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.envType`) }}
                             helperText="Please select type"
                             margin="dense"
                         >
@@ -96,13 +73,7 @@ class EnvComponent extends React.Component {
                     </Grid>
 
                     <Grid xs={1} item className={classes.gridDelete}>
-                        <IconButton onClick={() => {
-                            if (extra === null) {
-                                deleteEnvHandler(`${collectionState}.${componentId}.envs.${envId}`)
-                            } else {
-                                deleteEnvHandler(`${collectionState}.${componentId}.${extra}.envs.${envId}`)
-                            }
-                        }}>
+                        <IconButton onClick={(e) => { deleteComponentHandler(`${componentPath}`) }} >
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
                     </Grid>

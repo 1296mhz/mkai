@@ -20,13 +20,10 @@ class ImagePullSecretComponent extends React.Component {
     render() {
         const {
             classes,
-            componentId,
+            componentPath,
             imagePullSecretId,
-            containerId,
-            valueId,
             stateDialog,
             value,
-            collectionState,
             secrets,
             changeTextFieldHandler,
             deleteComponentHandler,
@@ -37,8 +34,7 @@ class ImagePullSecretComponent extends React.Component {
                     <DialogTitle id="form-dialog-title">Choose one</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send updates
-                            occasionally.
+                        Choose the map config that contains image pull secret.
                   </DialogContentText>
                         <TextField
                             id="image-pull-secret"
@@ -48,7 +44,7 @@ class ImagePullSecretComponent extends React.Component {
                             value={value}
                             name="imagePullSecret"
                             helperText="Please select"
-                            onChange={(e) => changeTextFieldHandler(e, `${collectionState}.${componentId}.imagePullSecrets.${imagePullSecretId}.value`)}
+                            onChange={(e) => changeTextFieldHandler(e, `${componentPath}.value`)}
                             margin="dense"
                         >
                             {map(secrets, (secret, i) => {
@@ -61,14 +57,14 @@ class ImagePullSecretComponent extends React.Component {
                     </DialogContent>
                     <DialogActions>
                         <Button color="primary" onClick={
-                            () => deleteComponentHandler(`${collectionState}.${componentId}.imagePullSecrets.${imagePullSecretId}`)
+                            () => deleteComponentHandler(`${componentPath}`)
                         }>
                             Cancel
                   </Button>
                         <Button color="primary" onClick={
                             (e) => {
                                 e.target.value = false
-                                changeTextFieldHandler(e, `${collectionState}.${componentId}.imagePullSecrets.${imagePullSecretId}.stateDialog`)
+                                changeTextFieldHandler(e, `${componentPath}.stateDialog`)
                             }
                         }>
                             Add

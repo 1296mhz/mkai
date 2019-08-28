@@ -16,6 +16,7 @@ class PortComponent extends React.Component {
     render() {
         const {
             classes,
+            componentPath,
             componentId,
             collectionState,
             portId,
@@ -40,7 +41,7 @@ class PortComponent extends React.Component {
                                 name="portName"
                                 className={classes.textFieldKey}
                                 value={name}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.ports.${portId}.name`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.name`) }}
                                 margin="dense"
                             />
                         </Grid>
@@ -53,7 +54,7 @@ class PortComponent extends React.Component {
                                 name="protocol"
                                 className={classes.textField}
                                 value={protocol}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.ports.${portId}.protocol`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.protocol`) }}
                                 helperText="Please select protocol"
                                 margin="dense"
                             >
@@ -63,9 +64,7 @@ class PortComponent extends React.Component {
                                     );
                                 })}
                             </TextField>
-Type
-​
-
+                            Type
                         </Grid>
 
                         <Grid item xs={2} className={classes.grid}>
@@ -75,7 +74,7 @@ Type
                                 label="Port"
                                 name="port"
                                 value={port}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.ports.${portId}.port`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.port`) }}
                                 className={classes.textFieldKey}
                                 margin="dense"
                             />
@@ -88,14 +87,14 @@ Type
                                 label="Target Port"
                                 name="targetport"
                                 value={targetPort}
-                                onChange={(e) => { changeTextFieldHandler(e, `${collectionState}.${componentId}.ports.${portId}.targetPort`) }}
+                                onChange={(e) => { changeTextFieldHandler(e, `${componentPath}.targetPort`) }}
                                 className={classes.textFieldKey}
                                 margin="dense"
                             />
                         </Grid>
                     </Grid>
                     <Grid xs={1} item className={classes.gridDelete}>
-                        <IconButton onClick={() => deleteComponentHandler(`${collectionState}.${componentId}.ports.${portId}`)}>
+                        <IconButton onClick={() => deleteComponentHandler(`${componentPath}`)}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
                     </Grid>

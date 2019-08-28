@@ -25,8 +25,7 @@ class SecretComponent extends React.Component {
     }
     render() {
         const {
-            collectionState,
-            componentId,
+            componentPath,
             classes,
             handlers,
             envs,
@@ -35,11 +34,11 @@ class SecretComponent extends React.Component {
             itemName,
             icon,
             label } = this.props;
+
         const env = {
             envKey: "",
             envValue: "",
-            envType: "",
-            extra: null
+            envType: ""
         }
         const types = ['Opaque', 'kubernetes.io/service-account-token', 'kubernetes.io/dockercfg', 'kubernetes.io/dockerconfigjson'];
         return (
@@ -58,14 +57,17 @@ class SecretComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newEnv = Object.assign({}, env)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.envs.${id}`, newEnv);
+                                const newEnv = Object.assign({}, {
+                                    ...env,
+                                    componentPath: `${componentPath}.envs.${id}`
+                                })
+                                handlers.addComponentHandler(`${componentPath}.envs.${id}`, newEnv);
                             }}
                         >
                             <Icon>nature_people</Icon>
                         </IconButton>
                         <IconButton
-                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
+                            onClick={() => handlers.deleteComponentHandler(`${componentPath}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -81,7 +83,7 @@ class SecretComponent extends React.Component {
                             value={name}
                             name={label}
                             className={classes.textField}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.name`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.name`)}
                             margin="dense"
                         />
                     </Grid>
@@ -93,7 +95,7 @@ class SecretComponent extends React.Component {
                             className={classes.textField}
                             value={type}
                             name="Type"
-                            onChange={(e) => { handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.type`) }}
+                            onChange={(e) => { handlers.changeTextFieldHandler(e, `${componentPath}.type`) }}
                             helperText="Please select type"
                             margin="dense"
                         >
@@ -110,15 +112,12 @@ class SecretComponent extends React.Component {
                     map(envs, (env, index) => {
                         return <EnvComponent
                             key={index}
-                            envId={index}
+                            componentPath={env.componentPath}
                             envKey={env.envKey}
                             envValue={env.envValue}
                             envType={env.envType}
-                            extra={env.extra}
                             changeTextFieldHandler={handlers.changeTextFieldHandler}
-                            deleteEnvHandler={handlers.deleteComponentHandler}
-                            collectionState={collectionState}
-                            componentId={componentId}
+                            deleteComponentHandler={handlers.deleteComponentHandler}
                         />
                     })
                 }

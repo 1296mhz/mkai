@@ -108,9 +108,8 @@ class StackComponent extends React.Component {
                                             itemName: 'Config Map',
                                             icon: 'icon/cm.svg',
                                             name: "",
-                                            envs: {
-                                            },
-                                            collectionState: 'configMaps',
+                                            envs: {},
+                                            componentPath: ""
                                         },
                                         handlers: {
                                             addComponentHandler: this.addComponentHandler,
@@ -130,7 +129,7 @@ class StackComponent extends React.Component {
                                             nameLabel: "",
                                             envs: {
                                             },
-                                            collectionState: 'secrets',
+                                            componentPath: ""
                                         },
                                         handlers: {
                                             addComponentHandler: this.addComponentHandler,
@@ -148,9 +147,8 @@ class StackComponent extends React.Component {
                                             name: "",
                                             type: "",
                                             externalName: "",
-                                            ports: {
-                                            },
-                                            collectionState: 'endPoints',
+                                            ports: {},
+                                            componentPath: ""
                                         },
                                         handlers: {
                                             addComponentHandler: this.addComponentHandler,
@@ -176,7 +174,7 @@ class StackComponent extends React.Component {
                                             volumes: {},
                                             imagePullSecrets: {},
                                             envs: {},
-                                            collectionState: 'microServices',
+                                            componentPath: ""
                                         },
                                         handlers: {
                                             addComponentHandler: this.addComponentHandler,
@@ -191,14 +189,13 @@ class StackComponent extends React.Component {
 
                         <BaseFieldsComponent
                             fields={this.state.mainFields}
-                            collection="mainFields"
+                            componentPath="mainFields"
                             handlers={{ changeTextFieldHandler: this.changeTextFieldHandler }} />
                         {
                             map(this.state.configMaps, (configMap, index) => {
                                 return <ConfigMapComponent
                                     key={index}
-                                    componentId={index}
-                                    collectionState={configMap.collectionState}
+                                    componentPath={configMap.componentPath}
                                     label={configMap.label}
                                     name={configMap.name}
                                     envs={configMap.envs}
@@ -216,8 +213,7 @@ class StackComponent extends React.Component {
                             map(this.state.secrets, (secret, index) => {
                                 return <SecretComponent
                                     key={index}
-                                    componentId={index}
-                                    collectionState={secret.collectionState}
+                                    componentPath={secret.componentPath}
                                     label={secret.label}
                                     name={secret.name}
                                     type={secret.type}
@@ -236,8 +232,7 @@ class StackComponent extends React.Component {
                             map(this.state.endPoints, (endpoint, index) => {
                                 return <EndPointComponent
                                     key={index}
-                                    componentId={index}
-                                    collectionState={endpoint.collectionState}
+                                    componentPath={endpoint.componentPath}
                                     label={endpoint.label}
                                     name={endpoint.name}
                                     type={endpoint.type}
@@ -254,9 +249,9 @@ class StackComponent extends React.Component {
                         }
                         {
                             map(this.state.microServices, (microService, index) => {
-                                console.log(microService)
                                 return <MicroServiceComponent
                                     key={index}
+                                    componentPath={microService.componentPath}
                                     componentId={index}
                                     collectionState={microService.collectionState}
                                     label={microService.label}
@@ -269,11 +264,11 @@ class StackComponent extends React.Component {
                                     volumes={microService.volumes}
                                     imagePullSecrets={microService.imagePullSecrets}
                                     envs={microService.envs}
-                                    secrets={this.state.secrets}
                                     itemName={microService.itemName}
                                     maxSurge={microService.maxSurge}
                                     maxUnavailable={microService.maxUnavailable}
                                     icon={microService.icon}
+                                    secrets={this.state.secrets}
                                     handlers={{
                                         addComponentHandler: this.addComponentHandler,
                                         changeTextFieldHandler: this.changeTextFieldHandler,

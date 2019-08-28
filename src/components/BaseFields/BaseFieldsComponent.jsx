@@ -8,7 +8,7 @@ import styles from './BaseFieldsComponentTheme';
 class BaseFields extends React.Component {
 
   render() {
-    const { classes, collection, handlers, fields } = this.props;
+    const { classes, componentPath, handlers, fields } = this.props;
 
     return <Grid container>
       {map(fields, (field, index) => {
@@ -20,7 +20,7 @@ class BaseFields extends React.Component {
             label={field.label}
             className={classes.textField}
             value={field.value}
-            onChange={(e) => handlers.changeTextFieldHandler(e, `${collection}.${index}.value`)}
+            onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.${index}.value`)}
             margin="dense"
           />
         </Grid>

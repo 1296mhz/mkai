@@ -14,7 +14,6 @@ import styles from './ContainerComponentTheme';
 import ContainerPortComponent from '../ContainerPort/ContainerPortComponent';
 import ProbeComponent from '../Probe/ProbeComponent';
 import ArgsComponent from '../ExecCommand/ExecCommandComponent';
-import ImagePullSecretComponent from '../ImagePullSecret/ImagePullSecretComponent';
 // Добавить args массив
 
 class ContainerComponent extends React.Component {
@@ -33,6 +32,7 @@ class ContainerComponent extends React.Component {
 
     render() {
         const {
+            container,
             collectionState,
             componentId,
             containerId,
@@ -54,9 +54,7 @@ class ContainerComponent extends React.Component {
             resourcesRequestsMemorySize,
             ports,
             args,
-            readinessProbe,
             readinessProbeProtocol,
-            readinessProbeHttpGet,
             readinessProbeHttpGetPath,
             readinessProbeHttpGetPort,
             readinessProbeHttpGetInitialDelaySeconds,
@@ -71,9 +69,7 @@ class ContainerComponent extends React.Component {
             readinessProbeTcpSocketSuccessThreshold,
             readinessProbeTcpSocketFailureThreshold,
             readinessProbeExecCommand,
-            livenessProbe,
             livenessProbeProtocol,
-            livenessProbeHttpGet,
             livenessProbeHttpGetPath,
             livenessProbeHttpGetPort,
             livenessProbeHttpGetInitialDelaySeconds,
@@ -93,25 +89,23 @@ class ContainerComponent extends React.Component {
         const policiesPullImagePolicies = ['Always', 'OnFailure', 'Never'];
         const restartPullPolicies = ['IfNotPresent', 'Always'];
         const specMems = ['Ki', 'Mi', 'Gi'];
+
         const port = {
             name: "",
             containerPort: "",
             hostIP: "",
             hostPort: "",
             protocol: "",
-            containerId: containerId,
-            componentId: componentId,
-            collectionState: collectionState,
             changeTextFieldHandler: handlers.changeTextFieldHandler,
             deleteComponentHandler: handlers.deleteComponentHandler
         }
-        const extra = `containers.${containerId}`
+
         const env = {
             envKey: "",
             envValue: "",
             envType: "",
-            extra: extra
         }
+        console.log("container: ", container.componentPath)
         return (
             <>
                 <Divider />
@@ -120,7 +114,7 @@ class ContainerComponent extends React.Component {
                         <Typography variant="h6" className={classes.title}>
                             <span className={classes.message}>
                                 <img className={classes.icon} src={icon} alt="container" height="24" width="24" />
-                                {itemName}: {name.charAt(0).toUpperCase() + name.substr(1)}
+                                {container.itemName}: {container.name.charAt(0).toUpperCase() + container.name.substr(1)}
                             </span>
                         </Typography>
                     </Grid>
@@ -128,8 +122,11 @@ class ContainerComponent extends React.Component {
                         <IconButton
                             onClick={() => {
                                 const id = this.newId();
-                                const newPort = Object.assign({}, port)
-                                handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.ports.${id}`, newPort);
+                                const newPort = Object.assign({}, {
+                                    ...port,
+                                    componentPath: `${container.componentPath}.ports.${id}`
+                                })
+                                handlers.addComponentHandler(newPort.componentPath, newPort);
                             }}
                         >
                             <Icon>usb</Icon>
@@ -335,84 +332,24 @@ class ContainerComponent extends React.Component {
                                 componentId={componentId}
                                 containerId={containerId}
                                 collectionState={collectionState}
-                                probe={livenessProbe}
-                                title="Liveness Probe"
-                                id="liveness-probe-protocol"
-                                label="Liveness Probe Protocol"
-                                name="livenessProbeProtocol"
-                                helperText="Please select protocol type"
+                                probe="liveness"
                                 probeProtocol={livenessProbeProtocol}
-                                probeProtocolField="livenessProbeProtocol"
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 ports={ports}
                                 handlers={handlers}
-                                probeHttpGet={livenessProbeHttpGet}
                                 probeHttpGetPort={livenessProbeHttpGetPort}
-                                probeHttpGetPortId="liveness-probe"
-                                probeHttpGetPortField="livenessProbeHttpGetPort"
-                                probeHttpGetPortLabel="Port"
-                                probeHttpGetPortHelperText="Please select port"
                                 probeHttpGetPath={livenessProbeHttpGetPath}
-                                probeHttpGetPathId="liveness-probe-httpGet-port"
-                                probeHttpGetPathField="livenessProbeHttpGetPath"
-                                probeHttpGetPathLabel="Probe Path"
-                                probeHttpGetPathHelperText="Please input path"
                                 probeHttpGetInitialDelaySeconds={livenessProbeHttpGetInitialDelaySeconds}
-                                probeHttpGetInitialDelaySecondsId="liveness-probe-initial-delay-seconds"
-                                probeHttpGetInitialDelaySecondsField="livenessProbeHttpGetInitialDelaySeconds"
-                                probeHttpGetInitialDelaySecondsLabel="Initial Delay Seconds"
-                                probeHttpGetInitialDelaySecondsHelperText="Please input delay"
                                 probeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
-                                probeHttpGetPeriodSecondsId="liveness-probe-HttpGet-period-seconds"
-                                probeHttpGetPeriodSecondsField="livenessProbeHttpGetPeriodSeconds"
-                                probeHttpGetPeriodSecondsLabel="Period Seconds"
-                                probeHttpGetPeriodSecondsHelperText="Please input period"
                                 probeHttpGetSuccessThreshold={livenessProbeHttpGetSuccessThreshold}
-                                probeHttpGetSuccessThresholdId="liveness-probe-httpGet-success-threshold"
-                                probeHttpGetSuccessThresholdField="livenessProbeHttpGetSuccessThreshold"
-                                probeHttpGetSuccessThresholdLabel="Success Threshold"
-                                probeHttpGetSuccessThresholdHelperText="Please input success threshold"
                                 probeHttpGetFailureThreshold={livenessProbeHttpGetFailureThreshold}
-                                probeHttpGetFailureThresholdId="liveness-probe-httpGet-failure-threshold"
-                                probeHttpGetFailureThresholdField="livenessProbeHttpGetFailureThreshold"
-                                probeHttpGetFailureThresholdLabel="Failure Threshold"
-                                probeHttpGetFailureThresholdHelperText="Please input failure threshold"
                                 probeHttpGetHttpHeaders={livenessProbeHttpGetHttpHeaders}
-                                probeHttpGetHttpHeadersId="liveness-probe-httpGet-http-headers"
-                                probeHttpGetHttpHeadersField="livenessProbeHttpGetHttpHeaders"
-                                probeHttpGetHttpHeadersLabel="Http Headers"
-                                probeHttpGetHttpHeadersHelperText="Please input http headers"
                                 probeHttpGetScheme={livenessProbeHttpGetScheme}
-                                probeHttpGetSchemeId="liveness-probe-HttpGet-scheme"
-                                probeHttpGetSchemeField="livenessProbeHttpGetScheme"
-                                probeHttpGetSchemeLabel="Scheme"
-                                probeHttpGetSchemeHelperText="Please select scheme"
                                 probeTcpSocketPort={livenessProbeTcpSocketPort}
-                                probeTcpSocketPortId="liveness-probe-tcpSocket-port"
-                                probeTcpSocketPortField="livenessProbeTcpSocketPort"
-                                probeTcpSocketPortLabel="TCP Port"
-                                probeTcpSocketPortHelperText="Please input TCP port"
                                 probeTcpSocketInitialDelaySeconds={livenessProbeTcpSocketInitialDelaySeconds}
-                                probeTcpSocketInitialDelaySecondsId="liveness-probe-tcpSocket-delay-seconds"
-                                probeTcpSocketInitialDelaySecondsField="livenessProbeTcpSocketDelaySeconds"
-                                probeTcpSocketInitialDelaySecondsLabel="Initial Delay Seconds"
-                                probeTcpSocketInitialDelaySecondsHelperText="Please input delay"
                                 probeTcpSocketPeriodSeconds={livenessProbeTcpSocketPeriodSeconds}
-                                probeTcpSocketPeriodSecondsId="liveness-probe-tcpSocket-period-seconds"
-                                probeTcpSocketPeriodSecondsField="livenessProbeTcpSocketPeriodSeconds"
-                                probeTcpSocketPeriodSecondsLabel="Period Seconds"
-                                probeTcpSocketPeriodSecondsHelperText="Please input period"
                                 probeTcpSocketSuccessThreshold={livenessProbeTcpSocketSuccessThreshold}
-                                probeTcpSocketSuccessThresholdId="liveness-probe-tcpSocket-success-threshold"
-                                probeTcpSocketSuccessThresholdField="livenessProbeTcpSocketSuccessThreshold"
-                                probeTcpSocketSuccessThresholdLabel="Success Threshold"
-                                probeTcpSocketSuccessThresholdHelperText="Please input success threshold"
                                 probeTcpSocketFailureThreshold={livenessProbeTcpSocketFailureThreshold}
-                                probeTcpSocketFailureThresholdId="liveness-probe-tcpSocket-failure-threshold"
-                                probeTcpSocketFailureThresholdField="livenessProbeTcpSocketFailureThreshold"
-                                probeTcpSocketFailureThresholdLabel="Failure Threshold"
-                                probeTcpSocketFailureThresholdHelperText="Please input failure threshold"
-                                probeExecCommandField="livenessProbeExecCommand"
                                 probeExecCommand={livenessProbeExecCommand}
                             />
                         </Grid>
@@ -424,84 +361,24 @@ class ContainerComponent extends React.Component {
                                 componentId={componentId}
                                 containerId={containerId}
                                 collectionState={collectionState}
-                                probe={readinessProbe}
-                                title="Readiness Probe"
-                                id="readiness-probe-protocol"
-                                label="Readiness Probe Protocol"
-                                helperText="Please select readiness"
+                                probe="readiness"
                                 probeProtocol={readinessProbeProtocol}
-                                probeProtocolField="readinessProbeProtocol"
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 ports={ports}
                                 handlers={handlers}
-                                probeProtocol={readinessProbeProtocol}
-                                probeHttpGet={readinessProbeHttpGet}
                                 probeHttpGetPort={readinessProbeHttpGetPort}
-                                probeHttpGetPortId="readiness-probe"
-                                probeHttpGetPortField="readinessProbeHttpGetPort"
-                                probeHttpGetPortLabel="Port"
-                                probeHttpGetPortHelperText="Please select port"
                                 probeHttpGetPath={readinessProbeHttpGetPath}
-                                probeHttpGetPathId="readiness-probe-httpGet-port"
-                                probeHttpGetPathField="readinessProbeHttpGetPath"
-                                probeHttpGetPathLabel="Probe Path"
-                                probeHttpGetPathHelperText="Please input path"
                                 probeHttpGetInitialDelaySeconds={readinessProbeHttpGetInitialDelaySeconds}
-                                probeHttpGetInitialDelaySecondsId="readiness-probe-initial-delay-seconds"
-                                probeHttpGetInitialDelaySecondsField="readinessProbeHttpGetInitialDelaySeconds"
-                                probeHttpGetInitialDelaySecondsLabel="Initial Delay Seconds"
-                                probeHttpGetInitialDelaySecondsHelperText="Please input delay"
                                 probeHttpGetPeriodSeconds={readinessProbeHttpGetPeriodSeconds}
-                                probeHttpGetPeriodSecondsId="readiness-probe-HttpGet-period-seconds"
-                                probeHttpGetPeriodSecondsField="readinessProbeHttpGetPeriodSeconds"
-                                probeHttpGetPeriodSecondsLabel="Period Seconds"
-                                probeHttpGetPeriodSecondsHelperText="Please input period"
                                 probeHttpGetSuccessThreshold={readinessProbeHttpGetSuccessThreshold}
-                                probeHttpGetSuccessThresholdId="readiness-probe-httpGet-success-threshold"
-                                probeHttpGetSuccessThresholdField="readinessProbeHttpGetSuccessThreshold"
-                                probeHttpGetSuccessThresholdLabel="Success Threshold"
-                                probeHttpGetSuccessThresholdHelperText="Please input success threshold"
                                 probeHttpGetFailureThreshold={readinessProbeHttpGetFailureThreshold}
-                                probeHttpGetFailureThresholdId="readiness-probe-httpGet-failure-threshold"
-                                probeHttpGetFailureThresholdField="readinessProbeHttpGetFailureThreshold"
-                                probeHttpGetFailureThresholdLabel="Failure Threshold"
-                                probeHttpGetFailureThresholdHelperText="Please input failure threshold"
                                 probeHttpGetHttpHeaders={readinessProbeHttpGetHttpHeaders}
-                                probeHttpGetHttpHeadersId="readiness-probe-httpGet-http-headers"
-                                probeHttpGetHttpHeadersField="readinessProbeHttpGetHttpHeaders"
-                                probeHttpGetHttpHeadersLabel="Http Headers"
-                                probeHttpGetHttpHeadersHelperText="Please input http headers"
                                 probeHttpGetScheme={readinessProbeHttpGetScheme}
-                                probeHttpGetSchemeId="readiness-probe-HttpGet-scheme"
-                                probeHttpGetSchemeField="readinessProbeHttpGetScheme"
-                                probeHttpGetSchemeLabel="Scheme"
-                                probeHttpGetSchemeHelperText="Please select scheme"
                                 probeTcpSocketPort={readinessProbeTcpSocketPort}
-                                probeTcpSocketPortId="readiness-probe-tcpSocket-port"
-                                probeTcpSocketPortField="readinessProbeTcpSocketPort"
-                                probeTcpSocketPortLabel="TCP Port"
-                                probeTcpSocketPortHelperText="Please input TCP port"
                                 probeTcpSocketInitialDelaySeconds={readinessProbeTcpSocketInitialDelaySeconds}
-                                probeTcpSocketInitialDelaySecondsId="readiness-probe-tcpSocket-delay-seconds"
-                                probeTcpSocketInitialDelaySecondsField="readinessProbeTcpSocketDelaySeconds"
-                                probeTcpSocketInitialDelaySecondsLabel="Initial Delay Seconds"
-                                probeTcpSocketInitialDelaySecondsHelperText="Please input delay"
                                 probeTcpSocketPeriodSeconds={readinessProbeTcpSocketPeriodSeconds}
-                                probeTcpSocketPeriodSecondsId="readiness-probe-tcpSocket-period-seconds"
-                                probeTcpSocketPeriodSecondsField="readinessProbeTcpSocketPeriodSeconds"
-                                probeTcpSocketPeriodSecondsLabel="Period Seconds"
-                                probeTcpSocketPeriodSecondsHelperText="Please input period"
                                 probeTcpSocketSuccessThreshold={readinessProbeTcpSocketSuccessThreshold}
-                                probeTcpSocketSuccessThresholdId="readiness-probe-tcpSocket-success-threshold"
-                                probeTcpSocketSuccessThresholdField="readinessProbeTcpSocketSuccessThreshold"
-                                probeTcpSocketSuccessThresholdLabel="Success Threshold"
-                                probeTcpSocketSuccessThresholdHelperText="Please input success threshold"
                                 probeTcpSocketFailureThreshold={readinessProbeTcpSocketFailureThreshold}
-                                probeTcpSocketFailureThresholdId="readiness-probe-tcpSocket-failure-threshold"
-                                probeTcpSocketFailureThresholdField="readinessProbeTcpSocketFailureThreshold"
-                                probeTcpSocketFailureThresholdLabel="Failure Threshold"
-                                probeTcpSocketFailureThresholdHelperText="Please input failure threshold"
-                                probeExecCommandField="readinessProbeExecCommand"
                                 probeExecCommand={readinessProbeExecCommand}
 
                             />

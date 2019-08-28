@@ -34,6 +34,7 @@ class MicroServiceComponent extends React.Component {
     }
     render() {
         const {
+            componentPath,
             collectionState,
             componentId,
             classes,
@@ -135,15 +136,21 @@ class MicroServiceComponent extends React.Component {
                     <Grid item container xs justify="flex-end" className={classes.grid}>
                         <IconButton onClick={() => {
                             const id = this.newId();
-                            const newContainer = Object.assign({}, container);
-                            handlers.addComponentHandler(`${collectionState}.${componentId}.containers.${id}`, newContainer);
+                            const newContainer = Object.assign({}, {
+                                ...container,
+                                componentPath: `${componentPath}.containers.${id}`
+                            });
+                            handlers.addComponentHandler(`${componentPath}.containers.${id}`, newContainer);
                         }}>
                             <img src="icon/pod.svg" alt="container" height="24" width="24" />
                         </IconButton>
                         <IconButton onClick={() => {
                             const id = this.newId();
-                            const newImagePullSecret = Object.assign({}, imagePullSecret);
-                            handlers.addComponentHandler(`${collectionState}.${componentId}.imagePullSecrets.${id}`, newImagePullSecret);
+                            const newImagePullSecret = Object.assign({}, {
+                                ...imagePullSecret,
+                                componentPath: `${componentPath}.imagePullSecrets.${id}`
+                            });
+                            handlers.addComponentHandler(`${componentPath}.imagePullSecrets.${id}`, newImagePullSecret);
                         }}>
                             <img src="icon/sc.svg" alt="container" height="24" width="24" />
                         </IconButton>
@@ -158,7 +165,7 @@ class MicroServiceComponent extends React.Component {
                         </IconButton>
 
                         <IconButton
-                            onClick={() => handlers.deleteComponentHandler(`${collectionState}.${componentId}`)}
+                            onClick={() => handlers.deleteComponentHandler(`${componentPath}`)}
                         >
                             <Icon>delete_forever</Icon>
                         </IconButton>
@@ -173,7 +180,7 @@ class MicroServiceComponent extends React.Component {
                         value={deploymentName}
                         name="deploymentName"
                         className={classes.textField}
-                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.deploymentName`)}
+                        onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.deploymentName`)}
                         margin="dense"
                     />
                 </Grid>
@@ -185,7 +192,7 @@ class MicroServiceComponent extends React.Component {
                             label="Strategy"
                             className={classes.textField}
                             value={strategy}
-                            onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.strategy`)}
+                            onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.strategy`)}
                             helperText="Please select update strategy"
                             margin="dense"
                         >
@@ -207,7 +214,7 @@ class MicroServiceComponent extends React.Component {
                                         label="maxSurge"
                                         value={maxSurge}
                                         className={classes.textField}
-                                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.maxSurge`)}
+                                        onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.maxSurge`)}
                                         margin="dense"
                                     />
                                 </Grid>
@@ -218,7 +225,7 @@ class MicroServiceComponent extends React.Component {
                                         label="maxUnavailable"
                                         value={maxUnavailable}
                                         className={classes.textField}
-                                        onChange={(e) => handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.maxUnavailable`)}
+                                        onChange={(e) => handlers.changeTextFieldHandler(e, `${componentPath}.maxUnavailable`)}
                                         margin="dense"
                                     />
                                 </Grid>
@@ -230,6 +237,7 @@ class MicroServiceComponent extends React.Component {
                             map(imagePullSecrets, (imagePullSecret, index) => {
                                 return <ImagePullSecretComponent
                                     key={index}
+                                    componentPath={imagePullSecret.componentPath}
                                     imagePullSecretId={index}
                                     componentId={componentId}
                                     collectionState={collectionState}
@@ -256,9 +264,9 @@ class MicroServiceComponent extends React.Component {
                             {
                                 map(imagePullSecrets, (imagePullSecret, index) => {
                                     return <>
-                                        <ListItemText primary={imagePullSecret.value} />
+                                        <ListItemText key={index} primary={imagePullSecret.value} />
                                         <ListItemSecondaryAction onClick={
-                                            () => handlers.deleteComponentHandler(`${collectionState}.${componentId}.imagePullSecrets.${index}`)
+                                            () => handlers.deleteComponentHandler(`${componentPath}.imagePullSecrets.${index}`)
                                         }>
                                             <IconButton edge="end" aria-label="delete">
                                                 <Icon>delete</Icon>
@@ -274,11 +282,13 @@ class MicroServiceComponent extends React.Component {
                             map(containers, (container, index) => {
                                 return <ContainerComponent
                                     key={index}
+                                    componentPath={container.componentPath}
                                     containerId={index}
                                     icon={container.icon}
                                     itemName={container.itemName}
                                     name={container.name}
                                     image={container.image}
+                                    container={container}
                                     imagePullPolicy={container.imagePullPolicy} probeExecCommand
                                     restartPolicy={container.restartPolicy}
                                     imagePullSecrets={container.imagePullSecrets}
