@@ -89,7 +89,7 @@ class ProbeComponent extends React.Component {
 
         // TcpSocketInitialDelaySeconds
         this.probeTcpSocketInitialDelaySecondsId = `${this.probe}-tcp-socket-delay-seconds`
-        this.probeTcpSocketInitialDelaySecondsField = `${this.props.probe}ProbeTcpSocketDelaySeconds`
+        this.probeTcpSocketInitialDelaySecondsField = `${this.props.probe}ProbeTcpSocketInitialDelaySeconds`
         this.probeTcpSocketInitialDelaySecondsLabel = "Initial Delay Seconds"
         this.probeTcpSocketInitialDelaySecondsHelperText = "Please input delay"
 
@@ -155,7 +155,7 @@ class ProbeComponent extends React.Component {
                                     required
                                     id={this.probeHttpGetPathId}
                                     label={this.probeHttpGetPathLabel}
-                                    value={this.props.container[this.probeHttpGetPath]}
+                                    value={this.props.container[this.probeHttpGetPathField]}
                                     name={this.probeHttpGetPathField}
                                     className={this.props.classes.textField}
                                     helperText={this.helperTextPath}
