@@ -12,16 +12,53 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { map } from 'lodash';
+import { map, mapValues } from 'lodash';
 import styles from './DrawerTreeComponentTheme';
-import ControlShelfComponent from '../ControlShelf/ControlShelfComponent';
+
+function TreeModify(tree) {
+    const t = mapValues(tree, (stacks, stacksIndex) => {
+        return stacks
+    })
+
+    const a = mapValues(t, (stacks, stacksIndex) => {
+        return stacks
+    })
+    console.log("f ", a)
+    
+}
+
 class PermanentDrawerLeft extends React.Component {
     constructor(props) {
         super(props);
+        this.stack = {
+            mainFields: {
+                1: {
+                    label: "Hostname",
+                    name: "namespace",
+                    value: ""
+                },
+                2: {
+                    label: "Namespace",
+                    name: "namespace",
+                    value: ""
+                },
+                3: {
+                    label: "Branch",
+                    name: "branch",
+                    value: ""
+                }
+            },
+            configMaps: {},
+            secrets: {},
+            endPoints: {},
+            microServices: {},
+        }
     }
     render() {
         const { classes } = this.props;
@@ -32,7 +69,7 @@ class PermanentDrawerLeft extends React.Component {
                     <Toolbar>
                         <Typography variant="h6" noWrap>
                             Kubernetes Application Integrate
-                  </Typography>
+                    </Typography>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -43,101 +80,24 @@ class PermanentDrawerLeft extends React.Component {
                     }}
                     anchor="left"
                 >
-                    <div className={classes.toolbar} >
-                    <ControlShelfComponent
-                                shelf={[
-                                    {
-                                        id: 1,
-                                        icon: 'icon/cm.svg',
-                                        command: 'configMaps',
-                                        item: {
-                                            itemName: 'Config Map',
-                                            icon: 'icon/cm.svg',
-                                            name: "",
-                                            envs: {
-                                            },
-                                            collectionState: 'configMaps',
-                                        },
-                                        handlers: {
-                                            addComponentHandler: this.props.handlers.addComponentHandler,
-                                            changeTextFieldHandler: this.props.handlers.changeTextFieldHandler,
-                                            deleteComponentHandler: this.props.handlers.deleteComponentHandler,
-                                        }
-                                    },
-                                    {
-                                        id: 2,
-                                        icon: 'icon/secret.svg',
-                                        command: 'secrets',
-                                        item: {
-                                            itemName: 'Secrets',
-                                            icon: 'icon/secret.svg',
-                                            name: "",
-                                            type: "",
-                                            nameLabel: "",
-                                            envs: {
-                                            },
-                                            collectionState: 'secrets',
-                                        },
-                                        handlers: {
-                                            addComponentHandler: this.props.handlers.addComponentHandler,
-                                            changeTextFieldHandler: this.props.handlers.changeTextFieldHandler,
-                                            deleteComponentHandler: this.props.handlers.deleteComponentHandler,
-                                        }
-                                    },
-                                    {
-                                        id: 3,
-                                        icon: 'icon/ep.svg',
-                                        command: 'endPoints',
-                                        item: {
-                                            itemName: 'End Point',
-                                            icon: 'icon/ep.svg',
-                                            name: "",
-                                            type: "",
-                                            externalName: "",
-                                            ports: {
-                                            },
-                                            collectionState: 'endPoints',
-                                        },
-                                        handlers: {
-                                            addComponentHandler: this.props.handlers.addComponentHandler,
-                                            changeTextFieldHandler: this.props.handlers.changeTextFieldHandler,
-                                            deleteComponentHandler: this.props.handlers.deleteComponentHandler,
-                                        }
-                                    },
-                                    {
-                                        id: 4,
-                                        icon: 'icon/deploy.svg',
-                                        command: 'microServices',
-                                        item: {
-                                            itemName: 'Micro Service',
-                                            icon: 'icon/deploy.svg',
-                                            deploymentName: "",
-                                            strategy: "",
-                                            maxUnavailable: "1",
-                                            maxSurge: "1",
-                                            services: {},
-                                            ingresses: {},
-                                            ports: {},
-                                            containers: {},
-                                            volumes: {},
-                                            imagePullSecrets: {},
-                                            envs: {},
-                                            collectionState: 'microServices',
-                                        },
-                                        handlers: {
-                                            addComponentHandler: this.props.handlers.addComponentHandler,
-                                            changeTextFieldHandler: this.props.handlers.changeTextFieldHandler,
-                                            deleteComponentHandler: this.props.handlers.deleteComponentHandler,
-                                        }
+                    <div className={classes.toolbar}>
+                        <Toolbar>
+                            <Typography variant="h6" noWrap>
+                                <IconButton onClick={() => {
+                                    const id = this.props.handlers.newId();
+                                    const newStack = {
+                                        ...this.stack,
+                                        componentPath: `${id}`
                                     }
-                                ]}
-                            />
+                                    this.props.handlers.addComponentHandler(newStack.componentPath, newStack);
+
+                                }}>
+                                    <Icon>playlist_add</Icon>
+                                </IconButton>
+                            </Typography>
+                        </Toolbar>
                     </div>
 
-                    <Divider />
-                    <List>
-                        {map()}
-                    </List>
                     <Divider />
                     <List>
                         <TreeView
@@ -145,23 +105,14 @@ class PermanentDrawerLeft extends React.Component {
                             defaultCollapseIcon={<ExpandMoreIcon />}
                             defaultExpandIcon={<ChevronRightIcon />}
                         >
-                            <TreeItem nodeId="1" label="Applications.com.com">
-                                <TreeItem nodeId="2" label="Calendar" />
-                                <TreeItem nodeId="3" label="Chrome" />
-                                <TreeItem nodeId="4" label="Webstorm" />
-                            </TreeItem>
-                            <TreeItem nodeId="5" label="Documents">
-                                <TreeItem nodeId="6" label="Material-UI">
-                                    <TreeItem nodeId="7" label="src">
-                                        <TreeItem nodeId="8" label="index.js" />
-                                        <TreeItem nodeId="9" label="tree-view.js" />
-                                    </TreeItem>
-                                </TreeItem>
-                            </TreeItem>
+
                         </TreeView>
                     </List>
-                </Drawer>
 
+                </Drawer>
+                {
+                    TreeModify(this.props.tree)
+                }
             </div>
         );
     }

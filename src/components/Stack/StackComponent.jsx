@@ -46,8 +46,6 @@ class StackComponent extends React.Component {
         this.addComponentHandler = this.addComponentHandler.bind(this);
         this.deleteComponentHandler = this.deleteComponentHandler.bind(this);
         this.changeTextFieldHandler = this.changeTextFieldHandler.bind(this);
-        //Shelf handlers
-
         this.saveStateHandler = this.saveStateHandler.bind(this);
     }
 
@@ -94,7 +92,7 @@ class StackComponent extends React.Component {
                     <Grid item >
                         <Grid item xs>
                             <Typography variant="h6" gutterBottom>
-                                Kubernetes Application Integrate
+                                Stack name: 
                                 </Typography>
                         </Grid>
                         <Grid container item xs>
@@ -282,7 +280,6 @@ class StackComponent extends React.Component {
                     <Button onClick={this.saveStateHandler} color="primary" className={classes.buttonStyle}>
                         Save
                     </Button>
-
                 </Paper>
             </>
         )

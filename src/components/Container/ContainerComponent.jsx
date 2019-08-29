@@ -35,7 +35,6 @@ class ContainerComponent extends React.Component {
             handlers,
             icon,
             label,
-            itemName,
             envs,
             name,
             image,
@@ -50,34 +49,8 @@ class ContainerComponent extends React.Component {
             ports,
             args,
             readinessProbeProtocol,
-            readinessProbeHttpGetPath,
-            readinessProbeHttpGetPort,
-            readinessProbeHttpGetInitialDelaySeconds,
-            readinessProbeHttpGetPeriodSeconds,
-            readinessProbeHttpGetSuccessThreshold,
-            readinessProbeHttpGetFailureThreshold,
-            readinessProbeHttpGetHttpHeaders,
-            readinessProbeHttpGetScheme,
-            readinessProbeTcpSocketPort,
-            readinessProbeTcpSocketInitialDelaySeconds,
-            readinessProbeTcpSocketPeriodSeconds,
-            readinessProbeTcpSocketSuccessThreshold,
-            readinessProbeTcpSocketFailureThreshold,
             readinessProbeExecCommand,
             livenessProbeProtocol,
-            livenessProbeHttpGetPath,
-            livenessProbeHttpGetPort,
-            livenessProbeHttpGetInitialDelaySeconds,
-            livenessProbeHttpGetPeriodSeconds,
-            livenessProbeHttpGetSuccessThreshold,
-            livenessProbeHttpGetFailureThreshold,
-            livenessProbeHttpGetHttpHeaders,
-            livenessProbeHttpGetScheme,
-            livenessProbeTcpSocketPort,
-            livenessProbeTcpSocketInitialDelaySeconds,
-            livenessProbeTcpSocketPeriodSeconds,
-            livenessProbeTcpSocketSuccessThreshold,
-            livenessProbeTcpSocketFailureThreshold,
             livenessProbeExecCommand,
             volumeMounts,
         } = this.props;
@@ -325,8 +298,6 @@ class ContainerComponent extends React.Component {
                                     })}
                                 </TextField>
                             </Grid>
-
-
                         </Grid>
 
                     </Grid>

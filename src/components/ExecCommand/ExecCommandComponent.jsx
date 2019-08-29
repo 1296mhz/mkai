@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import styles from './ExecCommandComponentTheme';
-
 class ExecCommandComponent extends React.Component {
     constructor(props) {
         super(props);
