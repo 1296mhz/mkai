@@ -28,7 +28,7 @@ class ProbeComponent extends React.Component {
         this.probe = `${this.probe}-probe`
 
         // Title
-        this.title = `${this.props.probe.charAt(0).toUpperCase()+this.props.probe.substr(1)} Probe`
+        this.title = `${this.props.probe.charAt(0).toUpperCase() + this.props.probe.substr(1)} Probe`
         this.probeProtocolId = `${this.probe}-protocol-id`;
         this.probeProtocolField = `${this.props.probe}ProbeProtocol`
         this.probeProtocolLabel = `Proto`
@@ -113,7 +113,7 @@ class ProbeComponent extends React.Component {
 
         // ExecCommand
         this.probeExecCommandField = `${this.props.probe}ProbeExecCommand`
-      
+
     }
 
     newId() {
@@ -148,7 +148,6 @@ class ProbeComponent extends React.Component {
 
                                 </TextField>
                             </Grid>
-
 
                             <Grid item xs={6} className={this.props.classes.grid}>
                                 <TextField
@@ -353,29 +352,19 @@ class ProbeComponent extends React.Component {
                     </Grid>
                 </>
             case 'exec':
-                return <>
-                    <Grid container item xs={12}>
-                        {map(this.props.probeExecCommand, (execCommand, index) => {
-                            return (
-                                <ExecCommandComponent
-                                    key={index}
-                                    componentId={this.props.componentId}
-                                    collectionState={this.props.collectionState}
-                                    containerId={this.props.containerId}
-                                    probeExecCommandField={this.probeExecCommandField}
-                                    valueId={index}
-                                    value={execCommand.value}
-                                    extra={`containers.${this.props.containerId}.${this.probeExecCommandField}`}
-                                    changeTextFieldHandler={this.props.handlers.changeTextFieldHandler}
-                                    deleteComponentHandler={this.props.handlers.deleteComponentHandler}
-                                />
-                            )
-                        })}
-                    </Grid>
+                return <Grid container item xs={12}>
+                    {map(this.props.container[this.probeExecCommandField], (execCommand, index) => {
+                        return <ExecCommandComponent
+                            key={index}
+                            componentPath={execCommand.componentPath}
+                            probeExecCommandField={this.probeExecCommandField}
+                            value={execCommand.value}
+                            changeTextFieldHandler={this.props.handlers.changeTextFieldHandler}
+                            deleteComponentHandler={this.props.handlers.deleteComponentHandler}
+                        />
+                    })}
+                </Grid>
 
-
-
-                </>
             default:
                 break;
         }
@@ -410,8 +399,13 @@ class ProbeComponent extends React.Component {
                             (this.props.probeProtocol === 'exec') ?
                                 <IconButton onClick={() => {
                                     const id = this.newId();
-                                    const newCommand = Object.assign({}, this.command)
-                                    this.props.handlers.addComponentHandler(`${this.props.container.componentPath}.${this.probeExecCommandField}.${id}`, newCommand);
+                                    // const newCommand = Object.assign({}, this.command)
+
+                                    const newCommand = {
+                                        ...this.command,
+                                        componentPath: `${this.props.container.componentPath}.${this.probeExecCommandField}.${id}`
+                                    }
+                                    this.props.handlers.addComponentHandler(newCommand.componentPath, newCommand);
                                 }}>
                                     <Icon>input</Icon>
                                 </IconButton>

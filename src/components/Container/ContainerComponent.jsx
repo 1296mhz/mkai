@@ -336,8 +336,8 @@ class ContainerComponent extends React.Component {
                     <Grid container item xs={6}>
                         <Grid item xs={12}>
                             <ProbeComponent
-                                container={container}
                                 probe="liveness"
+                                container={container}
                                 probeProtocol={livenessProbeProtocol}
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 ports={ports}
@@ -437,14 +437,14 @@ class ContainerComponent extends React.Component {
 
                     {map(envs, (env, index) => {
                         return <EnvComponent
-                            key={index}
-                            componentPath={env.componentPath}
-                            envId={index}
-                            envKey={env.envKey}
-                            envValue={env.envValue}
-                            envType={env.envType}
-                            changeTextFieldHandler={handlers.changeTextFieldHandler}
-                            deleteComponentHandler={handlers.deleteComponentHandler}
+                        key={index}
+                        componentPath={env.componentPath}
+                        envId={index}
+                        envKey={env.envKey}
+                        envValue={env.envValue}
+                        envType={env.envType}
+                        changeTextFieldHandler={handlers.changeTextFieldHandler}
+                        deleteComponentHandler={handlers.deleteComponentHandler}
                         />
                     })
                     }
