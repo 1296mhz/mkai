@@ -15,19 +15,9 @@ class HttpHeaderComponent extends React.Component {
     render() {
         const {
             classes,
-            componentId,
-            containerId,
-            httpHeaderId,
-            probeHttpGetHttpHeadersField,
-            httpHeaderKeyId,
+            componentPath,
             httpHeaderKey,
-            httpHeaderKeyField,
-            httpHeaderKeyLabel,
             httpHeaderValue,
-            httpHeaderValueField,
-            httpHeaderValueLabel,
-            httpHeaderValueId,
-            collectionState,
             handlers,
         } = this.props;
 
@@ -37,13 +27,13 @@ class HttpHeaderComponent extends React.Component {
                     <Grid item xs={6} className={classes.grid}>
                         <TextField
                             required
-                            id={httpHeaderKeyId}
-                            label={httpHeaderKeyLabel}
-                            name={httpHeaderKeyField}
+                            id="http-header-key"
+                            label="Header Key"
+                            name="httpHeaderKey"
                             value={httpHeaderKey}
                             className={classes.textFieldKey}
                             onChange={(e) => {
-                                handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}.${httpHeaderKeyField}`)
+                                handlers.changeTextFieldHandler(e, `${componentPath}.headerKey`)
                             }}
                             margin="dense"
                         />
@@ -52,13 +42,13 @@ class HttpHeaderComponent extends React.Component {
                     <Grid item xs={5} className={classes.grid}>
                         <TextField
                             required
-                            id={httpHeaderValueId}
-                            label={httpHeaderValueLabel}
-                            name={httpHeaderValueField}
+                            id="http-header-value"
+                            label="Header Value"
+                            name="httpHeaderValue"
                             value={httpHeaderValue}
                             className={classes.textFieldKey}
                             onChange={(e) => {
-                                handlers.changeTextFieldHandler(e, `${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}.${httpHeaderValueField}`)
+                                handlers.changeTextFieldHandler(e, `${componentPath}.headerValue`)
                             }}
                             margin="dense"
                         />
@@ -66,7 +56,7 @@ class HttpHeaderComponent extends React.Component {
   
                     <Grid xs={1} item className={classes.gridDelete}>
                         <IconButton onClick={() => {
-                            handlers.deleteComponentHandler(`${collectionState}.${componentId}.containers.${containerId}.${probeHttpGetHttpHeadersField}.${httpHeaderId}`);
+                            handlers.deleteComponentHandler(`${componentPath}`);
                         }}>
                             <Icon>remove_circle_outline</Icon>
                         </IconButton>
