@@ -342,19 +342,6 @@ class ContainerComponent extends React.Component {
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 ports={ports}
                                 handlers={handlers}
-                                probeHttpGetPort={livenessProbeHttpGetPort}
-                                probeHttpGetPath={livenessProbeHttpGetPath}
-                                probeHttpGetInitialDelaySeconds={livenessProbeHttpGetInitialDelaySeconds}
-                                probeHttpGetPeriodSeconds={livenessProbeHttpGetPeriodSeconds}
-                                probeHttpGetSuccessThreshold={livenessProbeHttpGetSuccessThreshold}
-                                probeHttpGetFailureThreshold={livenessProbeHttpGetFailureThreshold}
-                                probeHttpGetHttpHeaders={livenessProbeHttpGetHttpHeaders}
-                                probeHttpGetScheme={livenessProbeHttpGetScheme}
-                                probeTcpSocketPort={livenessProbeTcpSocketPort}
-                                probeTcpSocketInitialDelaySeconds={livenessProbeTcpSocketInitialDelaySeconds}
-                                probeTcpSocketPeriodSeconds={livenessProbeTcpSocketPeriodSeconds}
-                                probeTcpSocketSuccessThreshold={livenessProbeTcpSocketSuccessThreshold}
-                                probeTcpSocketFailureThreshold={livenessProbeTcpSocketFailureThreshold}
                                 probeExecCommand={livenessProbeExecCommand}
                             />
                         </Grid>
@@ -369,19 +356,6 @@ class ContainerComponent extends React.Component {
                                 changeTextFieldHandler={handlers.changeTextFieldHandler}
                                 ports={ports}
                                 handlers={handlers}
-                                probeHttpGetPort={readinessProbeHttpGetPort}
-                                probeHttpGetPath={readinessProbeHttpGetPath}
-                                probeHttpGetInitialDelaySeconds={readinessProbeHttpGetInitialDelaySeconds}
-                                probeHttpGetPeriodSeconds={readinessProbeHttpGetPeriodSeconds}
-                                probeHttpGetSuccessThreshold={readinessProbeHttpGetSuccessThreshold}
-                                probeHttpGetFailureThreshold={readinessProbeHttpGetFailureThreshold}
-                                probeHttpGetHttpHeaders={readinessProbeHttpGetHttpHeaders}
-                                probeHttpGetScheme={readinessProbeHttpGetScheme}
-                                probeTcpSocketPort={readinessProbeTcpSocketPort}
-                                probeTcpSocketInitialDelaySeconds={readinessProbeTcpSocketInitialDelaySeconds}
-                                probeTcpSocketPeriodSeconds={readinessProbeTcpSocketPeriodSeconds}
-                                probeTcpSocketSuccessThreshold={readinessProbeTcpSocketSuccessThreshold}
-                                probeTcpSocketFailureThreshold={readinessProbeTcpSocketFailureThreshold}
                                 probeExecCommand={readinessProbeExecCommand}
                             />
                         </Grid>
