@@ -20,7 +20,6 @@ class ContainerComponent extends React.Component {
     constructor(props) {
         super(props);
         this.newId = this.newId.bind(this);
-
     }
     newId() {
         const d = new Date();
@@ -99,7 +98,6 @@ class ContainerComponent extends React.Component {
                                     ...port,
                                     componentPath: `${container.componentPath}.ports.${id}`
                                 }
-                                console.log("componentPath: ", `${container.componentPath}.ports.${id}`)
                                 handlers.addComponentHandler(newPort.componentPath, newPort);
                             }}
                         >

@@ -58,7 +58,6 @@ class NewStackComponent extends React.Component {
                   </Button>
                         <Button color="primary" onClick={
                             (e) => {
-                                console.log(`${componentPath}.stateDialog`)
                                 e.target.value = false;
                                 changeTextFieldHandler(e, `${componentPath}.stateDialog`)
                             }
