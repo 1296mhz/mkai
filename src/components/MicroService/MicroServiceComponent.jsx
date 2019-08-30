@@ -146,10 +146,10 @@ class MicroServiceComponent extends React.Component {
                         </IconButton>
                         <IconButton onClick={() => {
                             const id = this.newId();
-                            const newImagePullSecret = Object.assign({}, {
+                            const newImagePullSecret = {
                                 ...imagePullSecret,
                                 componentPath: `${componentPath}.imagePullSecrets.${id}`
-                            });
+                            };
                             handlers.addComponentHandler(`${componentPath}.imagePullSecrets.${id}`, newImagePullSecret);
                         }}>
                             <img src="icon/sc.svg" alt="container" height="24" width="24" />

@@ -7,36 +7,48 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { map, mapValues } from 'lodash';
+import { map, mapValues, values, filter, unset } from 'lodash';
 import styles from './DrawerTreeComponentTheme';
 
 function TreeModify(tree) {
-    const t = mapValues(tree, (stacks, stacksIndex) => {
-        return stacks
-    })
+    return mapValues(tree, (stacks, stacksIndex) => {
+        const newStacks = {
+            name: stacks.name,
+            stacks: {
+                ...stacks,
+                ConfigMaps: stacks.configMaps,
+                EndPoints: stacks.endPoints,
+                MicroServices: stacks.microServices,
+                Secrets: stacks.secrets
+            }
+        }
 
-    const a = mapValues(t, (stacks, stacksIndex) => {
-        return stacks
+        unset(newStacks, 'stacks.name')
+        unset(newStacks, 'stacks.stateDialog')
+        unset(newStacks, 'stacks.mainFields')
+        unset(newStacks, 'stacks.componentPath')
+        unset(newStacks, 'stacks.configMaps')
+        unset(newStacks, 'stacks.endPoints')
+        unset(newStacks, 'stacks.microServices')
+        unset(newStacks, 'stacks.secrets')
+
+        return newStacks
     })
-    console.log("f ", a)
-    
 }
 
 class PermanentDrawerLeft extends React.Component {
     constructor(props) {
         super(props);
+
         this.stack = {
+            name: "",
+            stateDialog: true,
             mainFields: {
                 1: {
                     label: "Hostname",
@@ -87,6 +99,7 @@ class PermanentDrawerLeft extends React.Component {
                                     const id = this.props.handlers.newId();
                                     const newStack = {
                                         ...this.stack,
+                                        stateDialog: true,
                                         componentPath: `${id}`
                                     }
                                     this.props.handlers.addComponentHandler(newStack.componentPath, newStack);
@@ -105,14 +118,22 @@ class PermanentDrawerLeft extends React.Component {
                             defaultCollapseIcon={<ExpandMoreIcon />}
                             defaultExpandIcon={<ChevronRightIcon />}
                         >
-
+                            {
+                                map(TreeModify(this.props.tree), (stack, index) => {
+                                    return <TreeItem key={index} nodeId={index} label={stack.name} >
+                                        {
+                                             map(stack.stacks, (a, i) => {
+                                                    return  <TreeItem key={i} nodeId={i} label={i + " " + Object.keys(a).length}/>
+                                             })
+                                        }
+                                        </TreeItem>
+                                })
+                            }
                         </TreeView>
                     </List>
 
                 </Drawer>
-                {
-                    TreeModify(this.props.tree)
-                }
+
             </div>
         );
     }
