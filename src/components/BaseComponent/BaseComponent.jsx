@@ -45,7 +45,7 @@ class BaseComponent extends React.Component {
         let newState = {
             ...this.state
         }
-        set(newState, "items."+path, value);
+        set(newState, "items." + path, value);
         this.setState(newState);
     }
 
@@ -54,7 +54,7 @@ class BaseComponent extends React.Component {
         const newState = {
             ...this.state
         };
-        unset(newState, "items."+item);
+        unset(newState, "items." + item);
         this.setState(newState, () => {
             console.log("after delete ", this)
         });
@@ -80,18 +80,19 @@ class BaseComponent extends React.Component {
                     }}
                 />
                 <Grid container item xs={12} justify="flex-start" >
-                        {
-                            map(this.state.items, (state, index) => {
-                                return <NewStackComponent
-                                    key={index}
-                                    stateDialog={state.stateDialog}
-                                    componentPath={state.componentPath}
-                                    changeTextFieldHandler={this.changeTextFieldHandler}
-                                    deleteComponentHandler={this.deleteComponentHandler}
-                                />
-                            })
-                        }
-                    </Grid>
+                    {
+                        map(this.state.items, (state, index) => {
+                            return <NewStackComponent
+                                key={index}
+                                stateDialog={state.stateDialog}
+                                componentPath={state.componentPath}
+                                changeTextFieldHandler={this.changeTextFieldHandler}
+                                deleteComponentHandler={this.deleteComponentHandler}
+                            />
+                        })
+                    }
+                </Grid>
+
             </>
         )
     }

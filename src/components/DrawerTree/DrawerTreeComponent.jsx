@@ -123,7 +123,7 @@ class PermanentDrawerLeft extends React.Component {
                                     return <TreeItem key={index} nodeId={index} label={stack.name} >
                                         {
                                              map(stack.stacks, (a, i) => {
-                                                    return  <TreeItem key={i} nodeId={i} label={i + " " + Object.keys(a).length}/>
+                                                    return  <TreeItem key={i} nodeId={i} label={i.replace(/([a-z])([A-Z])/g, '$1 $2') + " " + Object.keys(a).length}/>
                                              })
                                         }
                                         </TreeItem>
@@ -131,7 +131,6 @@ class PermanentDrawerLeft extends React.Component {
                             }
                         </TreeView>
                     </List>
-
                 </Drawer>
 
             </div>
