@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Status from './components/Status/Status';
 
 function MainRouter() {
   return (
     <Router>
       <div>
-        <Route exact path="/" component={Status} />
+        <Route exact path="/" render={props => <Status {...props} />}/>
       </div>
     </Router>
   );

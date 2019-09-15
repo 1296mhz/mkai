@@ -22,6 +22,23 @@ import { Icon } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import MainRouter from '../../MainRouter';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+function ListItemLinkShorthand(props) {
+    const { primary, to } = props;
+    return (
+        <li>
+            <ListItem button component={Link} to={to}>
+                <ListItemText primary={primary} />
+            </ListItem>
+        </li>
+    );
+}
+
+ListItemLinkShorthand.propTypes = {
+    primary: PropTypes.node.isRequired,
+    to: PropTypes.string.isRequired,
+};
 
 // import { set, unset, map } from 'lodash';
 class LayoutComponent extends React.Component {
@@ -34,7 +51,7 @@ class LayoutComponent extends React.Component {
                 {
                     id: 0,
                     title: 'Status',
-                    link: '/',
+                    link: '/status',
                     icon: 'dashboard',
                 },
                 {
@@ -73,10 +90,7 @@ class LayoutComponent extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const CreateLink = React.forwardRef((props, ref) => (
-            <Link innerRef={ref} to="/" {...props} />
-        ));
-
+  
         return (
             <>
                 <div className={classes.root}>
@@ -119,10 +133,7 @@ class LayoutComponent extends React.Component {
                         <Divider />
                         <List>
                             {this.state.leftMenu.map((text, index) => (
-                                <ListItem button key={text.id} component={<Link to={text.link} />}>
-                                    <ListItemIcon><Icon>{text.icon}</Icon></ListItemIcon>
-                                    <ListItemText primary={text.title} />
-                                </ListItem>
+                                <ListItemLinkShorthand key={index} to={text.link} primary={text.title} />
                             ))}
                         </List>
                         <Divider />
