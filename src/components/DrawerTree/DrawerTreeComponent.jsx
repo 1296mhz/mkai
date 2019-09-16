@@ -71,19 +71,31 @@ class PermanentDrawerLeft extends React.Component {
             endPoints: {},
             microServices: {},
         }
+
+                this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
+        this.handleDrawerClose = this.handleDrawerClose.bind(this);
     }
+
+    handleDrawerOpen() {
+        let newState = {
+            ...this.state,
+            drawerOpen: true
+        };
+        this.setState(newState);
+    }
+
+    handleDrawerClose() {
+        let newState = {
+            ...this.state,
+            drawerOpen: false
+        };
+        this.setState(newState);
+    }
+
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <Typography variant="h6" noWrap>
-                            Kubernetes Application Integrate
-                    </Typography>
-                    </Toolbar>
-                </AppBar>
+            <div >
                 <Drawer
                     className={classes.drawer}
                     variant="permanent"
@@ -132,7 +144,6 @@ class PermanentDrawerLeft extends React.Component {
                         </TreeView>
                     </List>
                 </Drawer>
-
             </div>
         );
     }

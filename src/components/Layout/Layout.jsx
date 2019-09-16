@@ -20,25 +20,11 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Icon } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import MainRouter from '../../MainRouter';
-import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
-
-function ListItemLinkShorthand(props) {
-    const { primary, to } = props;
-    return (
-        <li>
-            <ListItem button component={Link} to={to}>
-                <ListItemText primary={primary} />
-            </ListItem>
-        </li>
-    );
-}
-
-ListItemLinkShorthand.propTypes = {
-    primary: PropTypes.node.isRequired,
-    to: PropTypes.string.isRequired,
-};
+import Status from '../Status/Status';
+import DrawerTree from '../DrawerTree/DrawerTreeComponent';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 // import { set, unset, map } from 'lodash';
 class LayoutComponent extends React.Component {
@@ -47,26 +33,7 @@ class LayoutComponent extends React.Component {
 
         this.state = {
             drawerOpen: false,
-            leftMenu: [
-                {
-                    id: 0,
-                    title: 'Status',
-                    link: '/status',
-                    icon: 'dashboard',
-                },
-                {
-                    id: 1,
-                    title: 'Stacks',
-                    link: '/stacks',
-                    icon: 'list',
-                },
-                {
-                    id: 2,
-                    title: 'Settings',
-                    link: '/settings',
-                    icon: 'settings_applications',
-                }
-            ]
+
         }
         this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
         this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -88,74 +55,90 @@ class LayoutComponent extends React.Component {
         this.setState(newState);
     }
 
+
     render() {
         const { classes } = this.props;
-  
+
         return (
             <>
                 <div className={classes.root}>
                     <CssBaseline />
-                    <AppBar
-                        position="fixed"
-                        className={clsx(classes.appBar, {
-                            [classes.appBarShift]: this.state.drawerOpen,
-                        })}
-                    >
-                        <Toolbar>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={this.handleDrawerOpen}
-                                edge="start"
-                                className={clsx(classes.menuButton, this.state.drawerOpen && classes.hide)}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography variant="h6" noWrap>
-                                Kubernetes Application Integrate
+                    <Router>
+                        <AppBar
+                            position="fixed"
+                            className={clsx(classes.appBar, {
+                                [classes.appBarShift]: this.state.drawerOpen,
+                            })}
+                        >
+                            <Toolbar>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    onClick={this.handleDrawerOpen}
+                                    edge="start"
+                                    className={clsx(classes.menuButton, this.state.drawerOpen && classes.hide)}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                                <Typography variant="h6" noWrap>
+                                    Kubernetes Application Integrate
                             </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="persistent"
-                        anchor="left"
-                        open={this.state.drawerOpen}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                    >
-                        <div className={classes.drawerHeader}>
-                            <IconButton onClick={this.handleDrawerClose}>
-                                {classes.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                            </IconButton>
-                        </div>
-                        <Divider />
-                        <List>
-                            {this.state.leftMenu.map((text, index) => (
-                                <ListItemLinkShorthand key={index} to={text.link} primary={text.title} />
-                            ))}
-                        </List>
-                        <Divider />
-                        <List>
-                            {['About'].map((text, index) => (
-                                <ListItem button key={text}>
-                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                    <ListItemText primary={text} />
+                            </Toolbar>
+                        </AppBar>
+                        <Drawer
+                            className={classes.drawer}
+                            variant="persistent"
+                            anchor="left"
+                            open={this.state.drawerOpen}
+                            classes={{
+                                paper: classes.drawerPaper,
+                            }}
+                        >
+                            <div className={classes.drawerHeader}>
+                                <IconButton onClick={this.handleDrawerClose}>
+                                    {classes.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                                </IconButton>
+                            </div>
+                            <Divider />
+
+                            <List>
+                                
+                                <ListItem button component={Link} to="/">
+                                    <ListItemIcon><InboxIcon /> </ListItemIcon>
+                                    <ListItemText primary="Status" />
                                 </ListItem>
-                            ))}
-                        </List>
-                    </Drawer>
-                    <main
-                        className={clsx(classes.content, {
-                            [classes.contentShift]: this.state.drawerOpen,
-                        })}
-                    >
-                        <div className={classes.drawerHeader} />
-                        <Container className={classes.container} maxWidth='lg'>
-                            <MainRouter />
-                        </Container>
-                    </main>
+                                
+                                <ListItem button component={Link} to="/stacks">
+                                    <ListItemIcon><InboxIcon /> </ListItemIcon>
+                                    <ListItemText primary="Stacks" />
+                                </ListItem>
+                             
+                            </List>
+
+                            <Divider />
+                            <List>
+                                {['About'].map((text, index) => (
+                                    <ListItem button key={text}>
+                                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                        <ListItemText primary={text} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Drawer>
+                        <main
+                            className={clsx(classes.content, {
+                                [classes.contentShift]: this.state.drawerOpen,
+                            })}
+                        >
+                            <div className={classes.drawerHeader} />
+                            <Container className={classes.container} maxWidth='lg'>
+                                <Switch>
+                                    <Route exact path="/" component={Status} />
+                                    <Route path="/stacks" component={DrawerTree} />
+                                </Switch>
+                            </Container>
+                        </main>
+                    </Router>
                 </div>
             </>
         )

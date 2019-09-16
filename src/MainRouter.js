@@ -1,12 +1,30 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Status from './components/Status/Status';
+// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import List from '@material-ui/core/List';
 
 function MainRouter() {
   return (
     <Router>
       <div>
-        <Route exact path="/" render={props => <Status {...props} />}/>
+        <List>
+        <ListItem button component={Link} to="/">
+                <ListItemIcon><InboxIcon /> </ListItemIcon>
+                <ListItemText primary="Status" />
+          </ListItem>
+
+          <ListItem button component={Link} to="/stacks">
+                <ListItemIcon><InboxIcon /> </ListItemIcon>
+                <ListItemText primary="Stacks" />
+          </ListItem>
+          </List>
+ 
+         
       </div>
     </Router>
   );
