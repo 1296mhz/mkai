@@ -23,6 +23,7 @@ import Container from '@material-ui/core/Container';
 
 import PropTypes from 'prop-types';
 import Status from '../Status/Status';
+import ItemsTree from '../ItemsTree/ItemsTreeComponent'
 import DrawerTree from '../DrawerTree/DrawerTreeComponent';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -134,7 +135,7 @@ class LayoutComponent extends React.Component {
                             <Container className={classes.container} maxWidth='lg'>
                                 <Switch>
                                     <Route exact path="/" component={Status} />
-                                    <Route path="/stacks" component={DrawerTree} />
+                                    <Route path="/stacks" component={ItemsTree} />
                                 </Switch>
                             </Container>
                         </main>
